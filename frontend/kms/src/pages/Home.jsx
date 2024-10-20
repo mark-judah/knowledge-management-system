@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import QuickLinks from "../components/QuickLinks";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -14,6 +15,7 @@ const Home = () => {
 
     return (
         <div>
+            <QuickLinks/>
         </div>
     );
 }
