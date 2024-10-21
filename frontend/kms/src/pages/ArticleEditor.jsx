@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import ReactBlockText, { headerPlugin, imagePlugin, listPlugin, quotePlugin, todoPlugin } from 'react-block-text'
 import draftIcon from "../assets/draft.svg"
-
-
+import deleteIcon from "../assets/delete.svg"
 
 const ArticleEditor = () => {
     const [value, setValue] = useState('')
     const fileHandler = () => { }
     const urlHandler = () => { }
     const downloadHandler = () => { }
+    const [tag, setTag] = useState('');
+    const [tags, setTags] = useState([]);
+
+    const newTag = () => {
+        console.log(tag)
+        if (tag !== "") {
+            setTags([...tags, tag]);
+        }
+    }
+
+    const removeTag = (dep) => {
+        console.log(dep)
+        const newList = tags.filter((dept) => dept !== dep);
+        setTags(newList);
+    }
 
     const plugins = [
         ...headerPlugin(),
@@ -27,13 +41,20 @@ const ArticleEditor = () => {
         <div class="flex justify-center items-center w-full">
             <div class="mt-5 bg-white rounded-lg shadow w-[90vh]">
                 <div class="mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1">
-                    <span class="text-sm text-slate-600 font-medium">
+                    <span class="text-2xl text-black font-bold">
                         Contribute to the Knowledge Hub
                     </span>
                 </div>
                 <div class="px-5 pb-5">
-                    <input placeholder="Article title" class="mt-5 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
-                    <select id="countries" class="mt-5 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                        Title
+                    </label>
+                    <input placeholder="Article title" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+
+                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                        Department
+                    </label>
+                    <select id="departments" class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                         <option selected>Choose a department</option>
                         <option value="US">Finance</option>
                         <option value="CA">Human Resources</option>
@@ -41,7 +62,39 @@ const ArticleEditor = () => {
                         <option value="DE">Marketing</option>
                     </select>
 
-                    <div className="min-h-[600px] w-[80vh] text-wrap mt-5 text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                        Tags
+                    </label>
+                    <div class="relative mt-2">
+                        <input onChange={(e) => setTag(e.target.value)} type="text" class="text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" placeholder="Enter a tag" />
+                        <button onClick={newTag} class="absolute right-1 top-2 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                            Add
+                        </button>
+                    </div>
+
+                    {tags.length > 0 ? (
+                        <div className="flex justify-center items-center mt-3 flex-wrap p-4">
+                            {tags.map((dep) => (
+                            <div className="p-2">
+                                <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                    <div>
+                                        <p>{dep}</p>
+                                    </div>
+                                    <div>
+                                        <img onClick={() => removeTag(dep)} src={deleteIcon} className="h-5" />
+                                    </div>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+
+                    ) : ('')}
+
+
+                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                        Article content
+                    </label>
+                    <div className="mt-2 min-h-[600px] w-[80vh] text-wrap text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
                         <ReactBlockText id="content"
                             value={value}
                             onChange={setValue}
