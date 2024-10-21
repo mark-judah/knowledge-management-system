@@ -3,6 +3,7 @@ import departmentIcon from "../assets/department.svg"
 import articlesIcon from "../assets/articles.svg"
 import helpdeskIcon from "../assets/helpdesk.svg"
 import faqIcon from "../assets/faq.svg"
+import { Link } from "react-router-dom";
 
 const QuickLinks = () => {
     const cards = [
@@ -10,29 +11,33 @@ const QuickLinks = () => {
             "image": departmentIcon,
             "title": "Departments",
             "caption": "Department-Specific Resources",
+            "link":"/departments"
         },
         {
             "image": articlesIcon,
             "title": "Articles",
             "caption": "Tutorials / Guides",
+            "link":"/departments"
         },
         {
             "image": helpdeskIcon,
             "title": "Helpdesk",
             "caption": "Technical support",
+            "link":"/departments"
         },
         {
             "image": faqIcon,
             "title": "FAQs",
             "caption": "Answers to common questions",
+            "link":"/departments"
         },
 
     ]
     return (
         <div className="flex justify-center">
             <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-8 p-5">
-                {cards.map((card) =>
-                    <div class="relative min-h-80 w-[30vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
+                {cards.map((card,i) =>
+                    <div key={i} class="relative min-h-80 w-[30vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
                         <div class="p-3 text-center">
                             <div class="flex justify-center mb-4">
                                 <img src={card.image} className="h-12" />
@@ -46,9 +51,11 @@ const QuickLinks = () => {
                                 {card.caption}
                             </p>
                             <div class="text-center">
+                                <Link to={card.link}>
                                 <button class="min-w-32 rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                                     View More
                                 </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
