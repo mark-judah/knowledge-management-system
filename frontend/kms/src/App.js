@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import Setup from './pages/Setup';
 import Departments from './pages/Departments';
 import ArticleEditor from './pages/ArticleEditor';
+import Faqs from './pages/Faqs';
+import Articles from './pages/Articles';
 
 
 function App() {
@@ -23,6 +25,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/departments' element={<Departments />} />
         <Route path='/article-editor' element={<ArticleEditor />} />
+        <Route path='/articles' element={<Articles />} />
+        <Route path='/frequently-asked-questions' element={<Faqs />} />
+
       </Routes>
 
       <div>

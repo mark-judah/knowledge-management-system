@@ -3,6 +3,9 @@ import departmentIcon from "../assets/folder.svg"
 import folderClosedIcon from "../assets/closed_folder.svg"
 import folderOpenIcon from "../assets/open_folder.svg"
 import newArticleIcon from "../assets/new_article.svg"
+import editDepartmentIcon from "../assets/edit.svg"
+import deleteDepartmentIcon from "../assets/delete_black.svg"
+
 import { Link } from "react-router-dom";
 
 const Departments = () => {
@@ -76,7 +79,22 @@ const Departments = () => {
     }
 
     return (
-        <div className="p-5">
+        <div className="p-5 mt-8">
+            <div class='flex items-center justify-center'>
+                <div class='w-full max-w-lg px-10 py-5 mx-auto'>
+                    <div class='max-w-md mx-auto space-y-3'>
+                        <h2 class="flex flex-row flex-nowrap items-center my-2">
+                            <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
+                            <span class="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
+                               All Departments
+                            </span>
+                            <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
+                        </h2>
+
+                    </div>
+                </div>
+            </div>
+
             {departments.map((department) =>
                 <div className="flex flex-col justify-center">
                     <div className="flex justify-start items-center space-x-3 my-5">
@@ -99,6 +117,9 @@ const Departments = () => {
                         <div className="w-2/3">
                             <hr className="h-0.5 bg-gray-500" />
                         </div>
+                        <img src={editDepartmentIcon} className="h-6" />
+                        <img src={deleteDepartmentIcon} className="h-6" />
+
                     </div>
 
                     <div>
@@ -107,10 +128,12 @@ const Departments = () => {
                                 {articles.map((article, index) => (
                                     (article.department === department.title ? (
                                         <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96">
-                                            <div class="p-4">
-                                                <h5 class="mb-2 text-slate-800 text-xl font-semibold">
+                                            <div class="mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1">
+                                                <span class="text-sm font-medium text-slate-600">
                                                     {article.title}
-                                                </h5>
+                                                </span>
+                                            </div>
+                                            <div class="p-4">
                                                 <p class="text-slate-600 leading-normal font-light">
                                                     {article.previewText}
                                                 </p>
