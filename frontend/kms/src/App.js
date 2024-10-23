@@ -9,6 +9,7 @@ import Departments from './pages/Departments';
 import ArticleEditor from './pages/ArticleEditor';
 import Faqs from './pages/Faqs';
 import Articles from './pages/Articles';
+import Folder from './pages/Folder';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path='/article-editor' element={<ArticleEditor />} />
         <Route path='/articles' element={<Articles />} />
         <Route path='/frequently-asked-questions' element={<Faqs />} />
+        <Route path="/departments/*" element={<Folder />} />
 
       </Routes>
 

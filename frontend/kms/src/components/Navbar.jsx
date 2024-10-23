@@ -34,7 +34,7 @@ const Navbar = () => {
                             </Link>
                         </div>
 
-                        <div className="flex justify-between items-center space-x-5">
+                        <div className="justify-between items-center space-x-5 hidden lg:flex">
                             {!fullNavbar.includes(location.pathname) ? (
                                 <div class="w-fit pl-6">
                                     <div class="relative">
@@ -93,14 +93,14 @@ const Navbar = () => {
 
             <div className={fullNavbar.includes(location.pathname) ? 'h-[25vh] flex flex-col justify-center items-center' : 'hidden'}>
                 <div>
-                    <p className="text-white sm:text-3xl">Welcome to Ipsums's Knowledge Hub</p>
-                    <p className="mt-2 text-sm text-slate-400 text-center">Find answers, share knowledge, and collaborate.</p>
+                    <p className="text-white sm:text-3xl">Welcome to Ipsums's Knowledge Base</p>
+                    <p className="mt-2 text-xl text-slate-400 text-center">Find answers, share knowledge, and collaborate.</p>
                 </div>
 
                 <div class="w-full max-w-sm min-w-[200px] mt-3 lg:mt-10 p-5">
                     <div class="relative">
                         <input
-                            class="w-full bg-transparent placeholder:text-white text-slate-700 text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                            class="w-full bg-transparent placeholder:text-white text-slate-700 text-xl border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                             placeholder="Search for answers"
                         />
                         <button
