@@ -103,7 +103,7 @@ const Faqs = () => {
                     <div class="relative flex flex-col  my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[70vh]">
                     <div class="flex justify-between items-center mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 space-x-5">
                         <div>
-                            <p className="text-wrap font-bold text-2xl">Q: {faq.question}</p>
+                            <p className="text-wrap font-bold text-xl sm:text-2xl">Q: {faq.question}</p>
                         </div>
                         <div>
                             {faq.answerVisible == true ? (
@@ -117,7 +117,7 @@ const Faqs = () => {
                     {faq.answerVisible == true ? (
                         <div class="p-4">
                             <h5 class="mb-2 text-slate-800 text-xl font-semibold">
-                                <p>{faq.answer}</p>
+                                <p className="text-sm sm:text-lg">{faq.answer}</p>
                             </h5>
                         </div>
                     ) : (

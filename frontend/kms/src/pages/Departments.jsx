@@ -158,7 +158,26 @@ const Departments = () => {
                                             </div>
                                         </Link>
                                     ) : (
-                                        ''
+                                        index === 1 ? (
+                                            <div class="relative min-h-80 w-[30vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
+                                                <div class="p-3 text-center">
+                                                    <div class="flex justify-center mb-4">
+                                                        <img src={departmentIcon} className="h-12" />
+                                                    </div>
+                                                    <div class="flex justify-center mb-2">
+                                                        <h5 class="text-slate-800 text-2xl font-semibold">
+                                                            Add a new folder
+                                                        </h5>
+                                                    </div>
+                                                    <p class="block text-slate-600 leading-normal font-light mb-4 max-w-lg">
+                                                        Share knowledge, and collaborate.
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )
                                     ))
                                 ))}
                             </div>
