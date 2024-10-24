@@ -10,7 +10,9 @@ const ArticleEditor = () => {
     const downloadHandler = () => { }
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
+    const [articleType, setArticleType] = useState('');
 
+    console.log(articleType)
     const newTag = () => {
         console.log(tag)
         if (tag !== "") {
@@ -76,6 +78,46 @@ const ArticleEditor = () => {
                             <option value="FR">Sales</option>
                             <option value="DE">Marketing</option>
                         </select>
+
+                        <label class="block mb-1 text-sm text-slate-600 mt-5">
+                            Article Type
+                        </label>
+                        <select id="type"
+                            class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                            onChange={(e) => setArticleType(e.target.value)}>
+
+                            <option selected>Choose a type</option>
+                            <option value="General">General</option>
+                            <option value="Induction">Induction</option>
+                        </select>
+
+                        {articleType === "Induction" ? (
+                            <div>
+                                <div>
+                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                        Article Chapter
+                                    </label>
+                                    <input placeholder="Chapter" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                        Estimated duration in minutes
+                                    </label>
+                                    <input placeholder="Article duration" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                        Article Thumbnail
+                                    </label>
+                                    <input type="file"
+                                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
+                                </div>
+                            </div>
+                        ) : (
+                            ''
+                        )}
 
                         <label class="block mb-1 text-sm text-slate-600 mt-5">
                             Tags

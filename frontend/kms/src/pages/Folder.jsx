@@ -52,7 +52,8 @@ const Folder = () => {
             "previewText": "Applying for leave in Odoo is simple and efficient. Follow these steps to request time off, track your leave status, and ensure proper approval through the system",
             "comments": ["Great!", "Thanks!"],
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
-            "version": "v1"
+            "version": "v1",
+            "type":"Induction"
         },
         {
             "title": "Company Policies and Handbook",
@@ -60,7 +61,8 @@ const Folder = () => {
             "previewText": "Our company policies ensure a productive, safe working environment. This article provides an overview of key policies that all employees should familiarize themselves with, from attendance to workplace behavior.",
             "comments": ["Great!", "Thanks!"],
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
-            "version": "v1"
+            "version": "v1",
+            'type':"General"
         },
     ]);
     let folderExists = folders.some(folder => slugify(folder['parent']) === slugify(slugify(location.pathname)))

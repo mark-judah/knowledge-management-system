@@ -24,7 +24,7 @@ const QuickLinks = () => {
             "image": helpdeskIcon,
             "title": "Helpdesk",
             "caption": "Technical support",
-            "link": "/departments"
+            "link": "/helpdesk"
         },
         {
             "image": inductionIcon,
