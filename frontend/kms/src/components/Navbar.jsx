@@ -1,18 +1,33 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import companyIcon from "../assets/company.svg"
 import settingsIcon from "../assets/settings.svg"
 import profileIcon from "../assets/profile.svg"
 import logoutIcon from "../assets/logout.svg"
-
+import departmentIcon from "../assets/department.svg"
+import articlesIcon from "../assets/articles.svg"
+import helpdeskIcon from "../assets/helpdesk.svg"
+import faqIcon from "../assets/faq.svg"
+import inductionIcon from "../assets/induction.svg"
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        console.log(token)
+        if (token === null) {
+           setLoggedIn(false)
+        } else {
+            setLoggedIn(true)
+        }
+    }, [navigate]);
 
     const fullNavbar = [
         '/'
     ]
-
 
     const toggleDropdown = () => {
         console.log("menuOpen")
@@ -21,6 +36,12 @@ const Navbar = () => {
         } else {
             setMenuOpen(true)
         }
+    }
+
+    const logout = () => {
+        setMenuOpen(false)
+        localStorage.removeItem("token");
+        navigate('/login')
     }
 
     return (
@@ -34,67 +55,84 @@ const Navbar = () => {
                             </Link>
                         </div>
 
-                        <div className="justify-between items-center space-x-5 hidden lg:flex">
-                            {!fullNavbar.includes(location.pathname) ? (
-                                <div class="w-fit pl-6">
-                                    <div class="relative">
-                                        <input
-                                            class="w-full bg-transparent placeholder:text-white text-slate-700 text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                                            placeholder="Search for answers"
-                                        />
-                                        <button
-                                            class="absolute top-1 right-1 flex items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm text-black transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                            type="button"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2">
-                                                <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
-                                            </svg>
+                        {loggedIn ? (
+                            <div className="flex justify-between items-center space-x-5">
+                                {!fullNavbar.includes(location.pathname) ? (
+                                    <div class="w-fit pl-6 hidden sm:flex">
+                                        <div class="relative">
+                                            <input
+                                                class="w-full bg-transparent placeholder:text-white text-slate-700 text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                                                placeholder="Search for answers"
+                                            />
+                                            <button
+                                                class="absolute top-1 right-1 flex items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm text-black transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                type="button"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2">
+                                                    <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+                                                </svg>
 
-                                            Search
-                                        </button>
+                                                Search
+                                            </button>
+                                        </div>
                                     </div>
+                                ) : (
+                                    ''
+                                )}
+
+                                <div>
+                                    <button onClick={toggleDropdown} class="flex justify-center items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
+                                        <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
+                                        Oloo
+                                    </button>
+                                    <ul className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 space-y-2  sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={companyIcon} className="h-6" alt="company settings" />
+                                            <p>Company Settings</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={departmentIcon} className="h-6" alt="company settings" />
+                                            <p>Manage Departments</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={articlesIcon} className="h-6" alt="company settings" />
+                                            <p>Manage Articles</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={helpdeskIcon} className="h-6" alt="company settings" />
+                                            <p>Manage Helpdesk</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={inductionIcon} className="h-6" alt="company settings" />
+                                            <p>Manage Induction</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={faqIcon} className="h-6" alt="company settings" />
+                                            <p>Manage FAQ's</p>
+                                        </li>
+                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={profileIcon} className="h-6" alt="company settings" />
+                                            <p>View Profile</p>
+                                        </li>
+                                        <li onClick={logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                            <img src={logoutIcon} className="h-6" alt="company settings" />
+                                            <p>Logout</p>
+                                        </li>
+                                    </ul>
                                 </div>
-                            ) : (
-                                ''
-                            )}
 
-                            <div>
-                                <button onClick={toggleDropdown} class="flex justify-center items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
-                                    <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
-                                    Account
-                                </button>
-                                <ul id="myDropdown" className={menuOpen ? "fixed mt-10 z-10 space-y-2 min-w-[180px] rounded-lg border border-slate-200 bg-white p-3" : "hidden"}>
-                                    <li className="flex justify-start items-center space-x-2">
-                                        <img src={companyIcon} className="h-6" alt="company settings" />
-                                        <p>Company Settings</p>
-                                    </li>
-                                    <li className="flex justify-start items-center space-x-2">
-                                        <img src={profileIcon} className="h-6" alt="company settings" />
-                                        <p>View Profile</p>
-                                    </li>
-                                    <li className="flex justify-start items-center space-x-2">
-                                        <img src={logoutIcon} className="h-6" alt="company settings" />
-                                        <p>Logout</p>
-                                    </li>
-                                </ul>
                             </div>
-
-                        </div>
-                        <button class="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs text-white font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden" type="button">
-                            <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                            </span>
-                        </button>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 </nav>
             </div>
 
             <div className={fullNavbar.includes(location.pathname) ? 'h-[25vh] flex flex-col justify-center items-center' : 'hidden'}>
                 <div>
-                    <p className="text-white text-xl text-center sm:text-3xl">Welcome to Ipsums's Knowledge Base</p>
-                    <p className="mt-2 text-sm sm:text-xl text-slate-400 text-center">Find answers, share knowledge, and collaborate.</p>
+                    <p className="text-white text-xl text-center sm:text-3xl">Welcome to Ipsums' Knowledge Base</p>
+                    <p className="mt-2 text-sm sm:text-xl text-slate-400 text-center">Find answers, share knowledge and collaborate.</p>
                 </div>
 
                 <div class="w-full max-w-sm min-w-[200px] mt-3 lg:mt-10 p-5">

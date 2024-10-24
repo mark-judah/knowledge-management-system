@@ -10,6 +10,8 @@ import ArticleEditor from './pages/ArticleEditor';
 import Faqs from './pages/Faqs';
 import Articles from './pages/Articles';
 import Folder from './pages/Folder';
+import Induction from './pages/Induction';
+import Material from './pages/Material';
 
 
 function App() {
@@ -29,6 +31,9 @@ function App() {
         <Route path='/articles' element={<Articles />} />
         <Route path='/frequently-asked-questions' element={<Faqs />} />
         <Route path="/departments/*" element={<Folder />} />
+        <Route path="/induction" element={<Induction />} />
+        <Route path="/induction/:department" element={<Material />} />
+
 
       </Routes>
 

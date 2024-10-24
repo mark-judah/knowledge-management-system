@@ -3,6 +3,7 @@ import departmentIcon from "../assets/department.svg"
 import articlesIcon from "../assets/articles.svg"
 import helpdeskIcon from "../assets/helpdesk.svg"
 import faqIcon from "../assets/faq.svg"
+import inductionIcon from "../assets/induction.svg"
 import { Link } from "react-router-dom";
 
 const QuickLinks = () => {
@@ -24,6 +25,12 @@ const QuickLinks = () => {
             "title": "Helpdesk",
             "caption": "Technical support",
             "link": "/departments"
+        },
+        {
+            "image": inductionIcon,
+            "title": "Induction",
+            "caption": "Orientation material per department",
+            "link": "/induction"
         },
         {
             "image": faqIcon,
@@ -50,7 +57,7 @@ const QuickLinks = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-8 p-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-5 gap-8 p-5">
                     {cards.map((card, i) =>
                         <div key={i} class="relative min-h-80 w-[30vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
                             <div class="p-3 text-center">
