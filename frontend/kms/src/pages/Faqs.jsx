@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import openIcon from "../assets/plus.svg"
 import closeIcon from "../assets/minus.svg"
 
 const Faqs = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     console.log('hapa')
     const [faqs, setFaqs] = useState([
         {

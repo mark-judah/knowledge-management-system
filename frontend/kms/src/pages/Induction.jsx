@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import viewMaterialButton from "../assets/more.svg"
 import { Link } from "react-router-dom";
 import slugify from "react-slugify";
 
 const Induction = () => {
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const [departments, setDepartments] = useState([
         {
             "title": "Finance",

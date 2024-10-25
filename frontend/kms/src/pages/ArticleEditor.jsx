@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactBlockText, { headerPlugin, imagePlugin, listPlugin, quotePlugin, todoPlugin } from 'react-block-text'
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
 
 const ArticleEditor = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const [value, setValue] = useState('')
     const fileHandler = () => { }
     const urlHandler = () => { }

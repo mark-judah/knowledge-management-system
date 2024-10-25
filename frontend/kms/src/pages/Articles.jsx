@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import newArticleIcon from "../assets/draft.svg"
 import { Link } from "react-router-dom";
 
 const Articles = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const [articles, setArticles] = useState([
         {
             "title": "How to apply for leave",
@@ -55,9 +58,9 @@ const Articles = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-8 p-5">
                 {articles.map((article, index) => (
-                    <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96">
+                    <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full">
                         <div class="mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1">
-                            <span class="text-sm font-medium text-slate-600">
+                            <span class="text-sm font-bold text-black">
                                 {article.title}
                             </span>
                         </div>
@@ -67,7 +70,7 @@ const Articles = () => {
                             </p>
                         </div>
                         <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
-                            <span class="text-sm text-slate-600 font-medium">
+                            <span class="text-sm text-black font-medium">
                                 Last updated: 4 hours ago
                             </span>
                         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import { Link, useLocation } from "react-router-dom";
@@ -7,6 +7,9 @@ import emptyIcon from "../assets/empty.svg"
 
 
 const Folder = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const location = useLocation();
     const { departmentName, folderName } = useParams();
     console.log(departmentName, folderName)

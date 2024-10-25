@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import departmentIcon from "../assets/folder.svg"
 import folderClosedIcon from "../assets/closed_folder.svg"
 import folderOpenIcon from "../assets/open_folder.svg"
@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 
 const Departments = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     const [departments, setDepartments] = useState([
         {
             "image": departmentIcon,

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import slugify from "react-slugify";
 import durationIcon from "../assets/duration.svg"
 
 const Material = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     const location = useLocation();
     const path = location.pathname.split('/')
     const currentRoute = path[2]
@@ -79,7 +83,7 @@ const Material = () => {
                     {material.map((item, index) => (
                         console.log(currentRoute, material.department),
                         slugify(item.department) === currentRoute ? (
-                            <div class="relative flex flex-col md:flex-row my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96">
+                            <div class="relative flex flex-col md:flex-row my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full">
                                 <div class="relative p-2.5 md:w-2/5 shrink-0 overflow-hidden">
                                     <img
                                         src={item.image}

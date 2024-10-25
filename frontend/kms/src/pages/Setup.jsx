@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import companyIcon from "../assets/company.svg"
 import deleteIcon from "../assets/delete.svg"
 import emailIcon from "../assets/email.svg"
@@ -6,6 +6,10 @@ import passwordIcon from "../assets/password.svg"
 import { Link, useNavigate } from "react-router-dom";
 
 const Setup = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     const navigate = useNavigate()
     const [component, setComponent] = useState(0);
     const [companyName, setCompanyName] = useState('');
