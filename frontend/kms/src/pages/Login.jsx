@@ -18,7 +18,7 @@ const Login = () => {
         navigate('/')
     }
     return (
-        <div className="h-screen flex justify-center items-center">
+        <div className="min-h-screen bg-[#F5F5F5] flex justify-center items-center">
             <div class="relative flex flex-col rounded-xl bg-transparent">
                 <h4 class="block text-xl font-medium text-slate-800">
                     Welcome
@@ -56,7 +56,7 @@ const Login = () => {
                             Remember Me
                         </label>
                     </div>
-                    <button class="mt-4 w-full rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="submit">
+                    <button class="mt-4 w-full rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="submit">
                         Login
                     </button>
                     <p class="flex justify-center mt-6 text-sm text-slate-600">

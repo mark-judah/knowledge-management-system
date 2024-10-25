@@ -7,13 +7,17 @@ import newFolderIcon from "../assets/new_folder.svg"
 import deleteDepartmentIcon from "../assets/delete_black.svg"
 import slugify from 'react-slugify';
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import BreadCrumb from "../components/BreadCrumbs";
 
 const Departments = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
+    const location = useLocation();
+    const path = location.pathname.split('/');
+
     const [departments, setDepartments] = useState([
         {
             "image": departmentIcon,
@@ -89,8 +93,8 @@ const Departments = () => {
     }
 
     return (
-        <div className="p-5 mt-8">
-            <div class='flex items-center justify-center'>
+        <div className="p-5 pt-8 bg-[#F5F5F5] min-h-screen">
+            <div class='flex flex-col items-center justify-center'>
                 <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -103,6 +107,7 @@ const Departments = () => {
 
                     </div>
                 </div>
+                <BreadCrumb path={path}/>
             </div>
 
             {departments.map((department) =>

@@ -15,7 +15,7 @@ const Home = () => {
     }, [navigate]);
 
     return (
-        <div>
+        <div className="bg-[#F5F5F5]">
             <QuickLinks/>
         </div>
     );

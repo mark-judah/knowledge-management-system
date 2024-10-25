@@ -192,7 +192,7 @@ const Setup = () => {
 
 
     return (
-        <div className="h-[90vh] flex justify-center items-center">
+        <div className="min-h-screen bg-[#F5F5F5] flex justify-center items-center">
             <div className="flex flex-col items-center">
                 <div>
                     {activeForm(component)}

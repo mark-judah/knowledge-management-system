@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import ReactBlockText, { headerPlugin, imagePlugin, listPlugin, quotePlugin, todoPlugin } from 'react-block-text'
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
+import { useLocation } from "react-router-dom";
+import BreadCrumb from "../components/BreadCrumbs";
 
 const ArticleEditor = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
+    const location = useLocation();
+    const path = location.pathname.split('/');
+
     const [value, setValue] = useState('')
     const fileHandler = () => { }
     const urlHandler = () => { }
@@ -44,7 +49,7 @@ const ArticleEditor = () => {
 
     return (
         <div>
-            <div class='flex items-center justify-center'>
+            <div class='flex flex-col items-center justify-center'>
                 <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -57,6 +62,9 @@ const ArticleEditor = () => {
 
                     </div>
                 </div>
+
+                <BreadCrumb path={path}/>
+
             </div>
             <div class="flex justify-center items-center w-full">
                 <div class="mt-5 bg-white rounded-lg shadow w-[90vh]">

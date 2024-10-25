@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import viewMaterialButton from "../assets/more.svg"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import slugify from "react-slugify";
+import BreadCrumb from "../components/BreadCrumbs";
 
 const Induction = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
+    const location = useLocation();
+    const path = location.pathname.split('/');
+
     const [departments, setDepartments] = useState([
         {
             "title": "Finance",
@@ -31,8 +35,8 @@ const Induction = () => {
     ]);
 
     return (
-        <div>
-            <div class='flex items-center justify-center'>
+        <div className="min-h-screen bg-[#F5F5F5]">
+            <div class='flex flex-col items-center justify-center'>
                 <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -45,6 +49,8 @@ const Induction = () => {
 
                     </div>
                 </div>
+                <BreadCrumb path={path}/>
+
             </div>
             <div className="flex flex-col justify-center items-center">
                 {departments.map((department) =>

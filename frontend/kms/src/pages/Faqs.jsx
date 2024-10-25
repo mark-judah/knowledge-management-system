@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import openIcon from "../assets/plus.svg"
 import closeIcon from "../assets/minus.svg"
+import { useLocation } from "react-router-dom";
+import BreadCrumb from "../components/BreadCrumbs";
 
 const Faqs = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
-    console.log('hapa')
+    }, [])
+    const location = useLocation();
+    const path = location.pathname.split('/');
+
     const [faqs, setFaqs] = useState([
         {
             "id": 1,
@@ -86,8 +90,8 @@ const Faqs = () => {
     }
 
     return (
-        <div>
-            <div class='flex items-center justify-center'>
+        <div className="min-h-screen bg-[#F5F5F5]">
+            <div class='flex flex-col items-center justify-center'>
                 <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -100,33 +104,34 @@ const Faqs = () => {
 
                     </div>
                 </div>
+                <BreadCrumb path={path}/>
             </div>
             {faqs.map((faq) => (
                 <div className="flex justify-center">
                     <div class="relative flex flex-col  my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[70vh]">
-                    <div class="flex justify-between items-center mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 space-x-5">
-                        <div>
-                            <p className="text-wrap font-bold text-xl sm:text-2xl">Q: {faq.question}</p>
+                        <div class="flex justify-between items-center mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 space-x-5">
+                            <div>
+                                <p className="text-wrap font-bold text-xl sm:text-2xl">Q: {faq.question}</p>
+                            </div>
+                            <div>
+                                {faq.answerVisible == true ? (
+                                    <img onClick={() => toggleAnswer(faq.id, faq.answerVisible)} src={closeIcon} className="h-6" />
+                                ) : (
+                                    <img onClick={() => toggleAnswer(faq.id, faq.answerVisible)} src={openIcon} className="h-6" />
+                                )}
+                            </div>
                         </div>
-                        <div>
-                            {faq.answerVisible == true ? (
-                            <img onClick={() => toggleAnswer(faq.id, faq.answerVisible)} src={closeIcon} className="h-6" />
-                        ) : (
-                            <img onClick={() => toggleAnswer(faq.id, faq.answerVisible)} src={openIcon} className="h-6" />
-                            )}
-                        </div>
-                    </div>
 
-                    {faq.answerVisible == true ? (
-                        <div class="p-4">
-                            <h5 class="mb-2 text-slate-800 text-xl font-semibold">
-                                <p className="text-sm sm:text-lg">{faq.answer}</p>
-                            </h5>
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
+                        {faq.answerVisible == true ? (
+                            <div class="p-4">
+                                <h5 class="mb-2 text-slate-800 text-xl font-semibold">
+                                    <p className="text-sm sm:text-lg">{faq.answer}</p>
+                                </h5>
+                            </div>
+                        ) : (
+                            ''
+                        )}
+                    </div>
                 </div>
             ))}
         </div>

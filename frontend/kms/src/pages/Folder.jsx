@@ -4,12 +4,13 @@ import slugify from 'react-slugify';
 import { Link, useLocation } from "react-router-dom";
 import folderIcon from "../assets/folder.svg"
 import emptyIcon from "../assets/empty.svg"
+import BreadCrumb from "../components/BreadCrumbs";
 
 
 const Folder = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
     const location = useLocation();
     const { departmentName, folderName } = useParams();
     console.log(departmentName, folderName)
@@ -56,7 +57,7 @@ const Folder = () => {
             "comments": ["Great!", "Thanks!"],
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
             "version": "v1",
-            "type":"Induction"
+            "type": "Induction"
         },
         {
             "title": "Company Policies and Handbook",
@@ -65,7 +66,7 @@ const Folder = () => {
             "comments": ["Great!", "Thanks!"],
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
             "version": "v1",
-            'type':"General"
+            'type': "General"
         },
     ]);
     let folderExists = folders.some(folder => slugify(folder['parent']) === slugify(slugify(location.pathname)))
@@ -74,8 +75,8 @@ const Folder = () => {
     console.log(slugify(currentFolder[currentFolder.length - 2]))
 
     return (
-        <div className="h-screen">
-            <div class='flex items-center justify-center'>
+        <div className="min-h-screen bg-[#F5F5F5]">
+            <div class='flex flex-col items-center justify-center'>
                 <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -88,6 +89,7 @@ const Folder = () => {
 
                     </div>
                 </div>
+                <BreadCrumb path={currentFolder}/>
             </div>
             {folderExists ? (
                 <div id="" className="ml-5 grid grid-cols-2 sm:grid-cols-8  lg:grid-cols-12 gap-2 p-5">

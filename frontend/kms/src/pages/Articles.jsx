@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import newArticleIcon from "../assets/draft.svg"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import BreadCrumb from "../components/BreadCrumbs";
 
 const Articles = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
+    const location = useLocation();
+    const path = location.pathname.split('/');
+
     const [articles, setArticles] = useState([
         {
             "title": "How to apply for leave",
@@ -15,7 +19,7 @@ const Articles = () => {
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
             "version": "v1",
             "type": "Induction",
-            "tags":["leave,odoo"]
+            "tags": ["leave,odoo"]
         },
         {
             "title": "Company Policies and Handbook",
@@ -25,13 +29,13 @@ const Articles = () => {
             "contributors": ["Oloo,Fatuma,Wanjiku,Kipruto"],
             "version": "v1",
             'type': "General",
-            "tags":["policy"]
+            "tags": ["policy"]
         },
     ]);
     return (
         <div>
             <div className="flex flex-col">
-                <div class='flex items-center justify-center'>
+                <div class='flex flex-col items-center justify-center'>
                     <div class='w-full max-w-lg px-10 py-5 mx-auto'>
                         <div class='max-w-md mx-auto space-y-3'>
                             <h2 class="flex flex-row flex-nowrap items-center my-2">
@@ -44,15 +48,17 @@ const Articles = () => {
 
                         </div>
                     </div>
+                    <BreadCrumb path={path}/>
+
                 </div>
 
                 <Link to="/article-editor">
-                <div className="flex justify-end mx-10">
-                    <button class="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
-                    <img src={newArticleIcon} className="h-7 mx-1" alt="new article" />
-                        New Article
-                    </button>
-                </div>
+                    <div className="flex justify-end mx-10">
+                        <button class="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                            <img src={newArticleIcon} className="h-7 mx-1" alt="new article" />
+                            New Article
+                        </button>
+                    </div>
                 </Link>
             </div>
 
