@@ -146,7 +146,7 @@ const Navbar = () => {
                 </nav>
             </div>
 
-            <div className={fullNavbar.includes(location.pathname) ? 'h-[25vh] sm:h-[35vh] flex flex-col justify-center items-center' : 'hidden'}>
+            <div className={fullNavbar.includes(location.pathname) ? 'h-[30vh] sm:h-[35vh] flex flex-col justify-center items-center' : 'hidden'}>
                 <div>
                     <p className="text-white text-lg text-center sm:text-3xl mt-5"><Greeting/>, how can we help?</p>
                     <div class="w-full px-5 mt-2 sm:mt-4">
@@ -163,7 +163,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="mt-2">
-                    <ReactTyped className="text-xs sm:text-sm text-slate-400 text-center" strings={["Find answers, share knowledge and collaborate."]} typeSpeed={40} />
+                    <ReactTyped className="text-xs sm:text-sm text-slate-400 text-center" strings={["Share knowledge and collaborate."]} typeSpeed={40} />
                 </div>
             </div>
         </div>
