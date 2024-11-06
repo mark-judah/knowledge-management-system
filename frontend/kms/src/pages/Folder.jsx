@@ -194,7 +194,7 @@ const Folder = () => {
                 </div>
                 <BreadCrumb path={currentFolder} />
             </div>
-            <div className="flex justify-end m-10">
+            <div className="flex justify-end mx-10 mt-10">
                 <button onClick={() => openModal()}
                     class="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none"
                     type="button">

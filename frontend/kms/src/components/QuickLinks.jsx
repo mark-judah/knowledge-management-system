@@ -43,7 +43,7 @@ const QuickLinks = () => {
     return (
         <div>
             <div class='flex items-center justify-center'>
-                <div class='w-full max-w-lg px-10 py-5 mx-auto'>
+                <div class='w-full max-w-lg px-10 py-3 mx-auto'>
                     <div class='max-w-md mx-auto space-y-3'>
                         <h2 class="flex flex-row flex-nowrap items-center my-2">
                             <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
@@ -57,9 +57,9 @@ const QuickLinks = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-5 gap-8 p-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-5 gap-8 px-5">
                     {cards.map((card, i) =>
-                        <div key={i} class="relative min-h-80 w-[30vh] sm:w-[27vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
+                        <div key={i} class="relative min-h-80 w-[40vh] sm:w-[27vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
                             <div class="p-3 text-center">
                                 <div class="flex justify-center mb-4">
                                     <img src={card.image} className="h-12" />
