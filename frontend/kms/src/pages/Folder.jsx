@@ -106,34 +106,6 @@ const Folder = () => {
     }
 
 
-    const [files, setFiles] = useState([])
-
-    const handleDrop = (event) => {
-        event.preventDefault();
-        const droppedfiles = event.dataTransfer.files;
-        if (droppedfiles.length > 0) {
-            const newfiles = Array.from(droppedfiles);
-            setFiles((prevFiles) => [...prevFiles, ...newfiles])
-        }
-
-    }
-
-    const handleFileChange = (event) => {
-        event.preventDefault();
-        const selectedFiles = event.target.files;
-        console.log(URL.createObjectURL(event.target.files[0]))
-        if (selectedFiles && selectedFiles.length > 0) {
-            const newfiles = Array.from(selectedFiles);
-            setFiles((prevFiles) => [...prevFiles, ...newfiles])
-        }
-
-    }
-
-    const removeFile = (fileName) => {
-        const newList = files.filter((file) => file.name !== fileName);
-        setFiles(newList);
-    }
-
     const convertBytes = (bytes) => {
         const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
         if (bytes == 0) {
@@ -172,7 +144,47 @@ const Folder = () => {
         )
 
     }
+    const [dropZoneClasses, setDropZoneClasses] = useState(['border-dotted border-2 border-gray-300 flex flex-col p-5  w-full'])
 
+    const onDragOverEvent=(event)=>{
+        console.log('dragged over')
+        event.preventDefault();
+        setDropZoneClasses(dropZoneClasses=>[...dropZoneClasses,'bg-gray-200'])
+        console.log(dropZoneClasses)
+
+    }
+
+    const [files, setFiles] = useState([])
+
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const newList = dropZoneClasses.filter((classes) => classes !== 'bg-gray-200');
+        setDropZoneClasses(newList);
+        console.log(newList)
+        const droppedfiles = event.dataTransfer.files;
+        if (droppedfiles.length > 0) {
+            const newfiles = Array.from(droppedfiles);
+            setFiles((prevFiles) => [...prevFiles, ...newfiles])
+        }
+
+
+    }
+
+    const handleFileChange = (event) => {
+        event.preventDefault();
+        const selectedFiles = event.target.files;
+        console.log(URL.createObjectURL(event.target.files[0]))
+        if (selectedFiles && selectedFiles.length > 0) {
+            const newfiles = Array.from(selectedFiles);
+            setFiles((prevFiles) => [...prevFiles, ...newfiles])
+        }
+
+    }
+
+    const removeFile = (fileName) => {
+        const newList = files.filter((file) => file.name !== fileName);
+        setFiles(newList);
+    }
 
     return (
         <div className="min-h-screen bg-[#F5F5F5]">
@@ -217,8 +229,8 @@ const Folder = () => {
                     </div>
                 </div>
 
-                <div className="border-dotted border-2 border-gray-300 flex flex-col p-5  w-full" onDrop={handleDrop}
-                    onDragOver={(event) => event.preventDefault()}>
+                <div className={dropZoneClasses.join(' ')} onDrop={handleDrop}
+                    onDragOver={onDragOverEvent}>
                     <img src={uploadFileIcon} className="h-9 m-4" alt="new upload" />
                     <p className="text-center">Drag and drop a file or multiple files</p>
                     <div>

@@ -61,6 +61,7 @@ const Navbar = () => {
         }
     }
 
+    const welcomeText=`${Greeting()}, how can we help?`
     return (
         <div className="flex flex-col justify-center bg-black p-3">
             <div>
@@ -148,7 +149,8 @@ const Navbar = () => {
 
             <div className={fullNavbar.includes(location.pathname) ? 'h-[30vh] sm:h-[35vh] flex flex-col justify-center items-center' : 'hidden'}>
                 <div>
-                    <p className="text-white text-lg text-center sm:text-3xl mt-5"><Greeting/>, how can we help?</p>
+                    <ReactTyped className="text-white text-lg text-center sm:text-3xl mt-5" strings={[welcomeText]} typeSpeed={40} />
+
                     <div class="w-full px-5 mt-2 sm:mt-4">
                         <div class="relative">
                             <input
@@ -163,7 +165,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="mt-2">
-                    <ReactTyped className="text-xs sm:text-sm text-slate-400 text-center" strings={["Share knowledge and collaborate."]} typeSpeed={40} />
+                    <p className="text-xs sm:text-sm text-slate-400 text-center">Share knowledge and collaborate.</p>
                 </div>
             </div>
         </div>
