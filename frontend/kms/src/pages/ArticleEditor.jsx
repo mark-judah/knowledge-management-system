@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from "react";
-import ReactBlockText, { headerPlugin, imagePlugin, listPlugin, quotePlugin, todoPlugin } from 'react-block-text'
+import React, { useEffect, useMemo, useState } from "react";
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
 import { useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
+import "@blocknote/core/fonts/inter.css";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
+import { BlockNoteEditor } from "@blocknote/core";
+import { useForm } from "react-hook-form"
+import axios from "axios";
 
 const ArticleEditor = () => {
+    const [articleData, setInitialContent] = useState("Loading")
+    const { register, handleSubmit, formState: { errors }, } = useForm();
     useEffect(() => {
         window.scrollTo(0, 0)
+        loadFromStorage().then((content) => {
+            setInitialContent(content);
+        });
     }, [])
+
     const location = useLocation();
     const path = location.pathname.split('/');
-
-    const [value, setValue] = useState('')
-    const fileHandler = () => { }
-    const urlHandler = () => { }
-    const downloadHandler = () => { }
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
     const [articleType, setArticleType] = useState('');
@@ -24,7 +30,7 @@ const ArticleEditor = () => {
     const newTag = () => {
         console.log(tag)
         if (tag !== "") {
-            setTags([...tags, tag]);
+            setTags([...tags, tag])
         }
     }
 
@@ -34,18 +40,82 @@ const ArticleEditor = () => {
         setTags(newList);
     }
 
-    const plugins = [
-        ...headerPlugin(),
-        ...todoPlugin(),
-        ...listPlugin(),
-        ...quotePlugin(),
-        ...imagePlugin({
-            onSubmitFile: fileHandler,
-            onSubmitUrl: urlHandler,
-            getUrl: downloadHandler,
-            maxFileSize: '5 MB', /* Optional, displayed in the file upload dialog */
-        }),
-    ]
+
+    async function uploadFile(file) {
+        const body = new FormData();
+        body.append("file", file);
+
+        const ret = await fetch("https://tmpfiles.org/api/v1/upload", {
+            method: "POST",
+            body: body,
+        });
+        return (await ret.json()).data.url.replace(
+            "tmpfiles.org/",
+            "tmpfiles.org/dl/"
+        );
+    }
+
+    const editor = useMemo(() => {
+        if (articleData === "Loading") {
+            return undefined;
+        } else {
+            console.log(articleData);
+            return BlockNoteEditor.create({ articleData, uploadFile });
+        }
+    }, [articleData]);
+
+
+    if (editor === undefined) {
+        return "Loading content...";
+    }
+
+    async function saveToStorage(jsonBlocks) {
+        // Save contents to local storage. You might want to debounce this or replace
+        // with a call to your API / database.
+        localStorage.setItem("editorContent", JSON.stringify(jsonBlocks));
+    }
+
+    async function loadFromStorage() {
+        // Gets the previously stored editor contents.
+        const storageString = JSON.parse(localStorage.getItem("editorContent"))
+        return storageString
+    }
+
+    const onSubmit = async (data) => {
+        console.log(data, articleData, tags)
+        const body = new FormData();
+        let payload = {}
+        if (data['article_type'] === 'Induction') {
+            payload = {
+                title: data['title'],
+                department: data['department'],
+                article_type: data['article_type'],
+                chapter: data['chapter'],
+                duration: data['duration'],
+                thumbnail: data['thumbnail'][0].name,
+                tags: tags,
+                article_content: articleData
+            }
+        } else {
+            payload = {
+                title: data['title'],
+                department: data['department'],
+                article_type: data['article_type'],
+                tags: tags,
+                article_content: articleData
+            }
+        }
+
+        body.append("article", payload);
+
+
+        console.log(payload)
+        axios.post('http://localhost:3200/articles', payload).then((response) => {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error)
+         })
+    }
 
     return (
         <div>
@@ -63,7 +133,7 @@ const ArticleEditor = () => {
                     </div>
                 </div>
 
-                <BreadCrumb path={path}/>
+                <BreadCrumb path={path} />
 
             </div>
             <div class="flex justify-center items-center w-full">
@@ -73,125 +143,131 @@ const ArticleEditor = () => {
                             Contribute to the Knowledge Hub
                         </span>
                     </div>
-                    <div class="px-5 pb-5">
-                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                            Title
-                        </label>
-                        <input placeholder="Article title" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
 
-                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                            Department
-                        </label>
-                        <select id="departments" class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
-                            <option selected>Choose a department</option>
-                            <option value="US">Finance</option>
-                            <option value="CA">Human Resources</option>
-                            <option value="FR">Sales</option>
-                            <option value="DE">Marketing</option>
-                        </select>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div class="px-5 pb-5">
+                            <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                Title
+                            </label>
+                            <input {...register("title")} placeholder="Article title" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
 
-                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                            Article Type
-                        </label>
-                        <select id="type"
-                            class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
-                            onChange={(e) => setArticleType(e.target.value)}>
+                            <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                Department
+                            </label>
+                            <select {...register("department")} id="departments" class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                                <option selected>Choose a department</option>
+                                <option value="Finance">Finance</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Marketing">Marketing</option>
+                            </select>
 
-                            <option selected>Choose a type</option>
-                            <option value="General">General</option>
-                            <option value="Induction">Induction</option>
-                        </select>
+                            <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                Article Type
+                            </label>
+                            <select {...register("article_type")} id="type"
+                                class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                                onChange={(e) => setArticleType(e.target.value)}>
 
-                        {articleType === "Induction" ? (
-                            <div>
+                                <option selected>Choose a type</option>
+                                <option value="General">General</option>
+                                <option value="Induction">Induction</option>
+                            </select>
+
+                            {articleType === "Induction" ? (
                                 <div>
-                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
-                                        Article Chapter
-                                    </label>
-                                    <input placeholder="Chapter" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
-                                </div>
+                                    <div>
+                                        <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                            Article Chapter
+                                        </label>
+                                        <input {...register("chapter")} placeholder="Chapter" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                    </div>
 
-                                <div>
-                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
-                                        Estimated duration in minutes
-                                    </label>
-                                    <input placeholder="Article duration" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
-                                </div>
+                                    <div>
+                                        <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                            Estimated duration in minutes
+                                        </label>
+                                        <input {...register("duration")} placeholder="Article duration" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                    </div>
 
-                                <div>
-                                    <label class="block mb-1 text-sm text-slate-600 mt-5">
-                                        Article Thumbnail
-                                    </label>
-                                    <input type="file"
-                                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
+                                    <div>
+                                        <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                            Article Thumbnail
+                                        </label>
+                                        <input {...register("thumbnail")} type="file"
+                                            class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
+                                    </div>
                                 </div>
+                            ) : (
+                                ''
+                            )}
+
+                            <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                Tags
+                            </label>
+                            <div class="relative mt-2">
+                                <input onChange={(e) => setTag(e.target.value)} type="text" class="text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" placeholder="Enter a tag" />
+                                <button onClick={newTag} class="absolute right-1 top-2 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                                    Add
+                                </button>
                             </div>
-                        ) : (
-                            ''
-                        )}
 
-                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                            Tags
-                        </label>
-                        <div class="relative mt-2">
-                            <input onChange={(e) => setTag(e.target.value)} type="text" class="text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" placeholder="Enter a tag" />
-                            <button onClick={newTag} class="absolute right-1 top-2 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-                                Add
-                            </button>
-                        </div>
-
-                        {tags.length > 0 ? (
-                            <div className="flex justify-center items-center mt-3 flex-wrap p-4">
-                                {tags.map((dep) => (
-                                    <div className="p-2">
-                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                            <div>
-                                                <p>{dep}</p>
-                                            </div>
-                                            <div>
-                                                <img onClick={() => removeTag(dep)} src={deleteIcon} className="h-5" />
+                            {tags.length > 0 ? (
+                                <div className="flex justify-center items-center mt-3 flex-wrap p-4">
+                                    {tags.map((dep) => (
+                                        <div className="p-2">
+                                            <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                                <div>
+                                                    <p>{dep}</p>
+                                                </div>
+                                                <div>
+                                                    <img onClick={() => removeTag(dep)} src={deleteIcon} className="h-5" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+
+                            ) : ('')}
+
+
+                            <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                Article content
+                            </label>
+                            <div className="mt-2 min-h-[600px] w-[80vh] text-wrap text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                                <BlockNoteView
+                                    theme={"light"}
+                                    editor={editor}
+                                    onChange={() => {
+                                        saveToStorage(editor.document);
+                                    }}
+                                />
                             </div>
-
-                        ) : ('')}
-
-
-                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                            Article content
-                        </label>
-                        <div className="mt-2 min-h-[600px] w-[80vh] text-wrap text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
-                            <ReactBlockText id="content"
-                                value={value}
-                                onChange={setValue}
-                                plugins={plugins}
-                            />
                         </div>
-                    </div>
 
-                    <div class="px-5 ">
-                    </div>
-                    <hr class="mt-4" />
-                    <div class="flex flex-row-reverse p-3">
-                        <div class="flex-initial pl-3">
-                            <button type="button" class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize   bg-black rounded-md hover:bg-gray-800  focus:outline-none focus:bg-gray-900  transition duration-300 transform active:scale-95 ease-in-out">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
-                                    <path d="M0 0h24v24H0V0z" fill="none"></path>
-                                    <path d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z" opacity=".3"></path>
-                                    <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"></path>
-                                </svg>
-                                <span class="pl-2 mx-1">Save</span>
-                            </button>
+
+                        <div class="px-5 ">
                         </div>
-                        <div class="flex-initial">
-                            <button type="button" class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize   bg-black rounded-md hover:bg-gray-800  focus:outline-none focus:bg-gray-900  transition duration-300 transform active:scale-95 ease-in-out">
-                                <img src={draftIcon} className="h-6" />
-                                <span class="pl-2 mx-1">Save as draft</span>
-                            </button>
+                        <hr class="mt-4" />
+                        <div class="flex flex-row-reverse p-3">
+                            <div class="flex-initial pl-3">
+                                <button type="submit" class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize   bg-black rounded-md hover:bg-gray-800  focus:outline-none focus:bg-gray-900  transition duration-300 transform active:scale-95 ease-in-out">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                                        <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                        <path d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z" opacity=".3"></path>
+                                        <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"></path>
+                                    </svg>
+                                    <span class="pl-2 mx-1">Save</span>
+                                </button>
+                            </div>
+                            <div class="flex-initial">
+                                <button type="submit" class="flex items-center px-5 py-2.5 font-medium tracking-wide text-white capitalize   bg-black rounded-md hover:bg-gray-800  focus:outline-none focus:bg-gray-900  transition duration-300 transform active:scale-95 ease-in-out">
+                                    <img src={draftIcon} className="h-6" />
+                                    <span class="pl-2 mx-1">Save as draft</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,0 +1,228 @@
+{
+  "articles": [
+    {
+      "title": "Test",
+      "department": "Finance",
+      "article_type": "General",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "article_content": [
+        {
+          "id": "1678d0b4-dc4e-4ffb-9ad2-a7785caf94be",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "a",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "868c92e6-6bc5-42af-b5e6-9341bf13141d",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "v",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "c541c086-f8e3-4339-a024-0542b6400ee3",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "d",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "01159491-4792-4f75-a151-123a00012733",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "sf",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "0660c007-dd17-4ee4-ac53-40ea90914c9e",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "g",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "fd1e4483-9307-4790-8d0a-d3562a5fef18",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "id": 1
+    },
+    {
+      "title": "Test 2",
+      "department": "Finance",
+      "article_type": "Induction",
+      "chapter": "1",
+      "duration": "10",
+      "thumbnail": "e79aa96f-7069-4b32-9fb7-39b0a53b1302.jpeg",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "article_content": [
+        {
+          "id": "1678d0b4-dc4e-4ffb-9ad2-a7785caf94be",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "a",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "868c92e6-6bc5-42af-b5e6-9341bf13141d",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "v",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "c541c086-f8e3-4339-a024-0542b6400ee3",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "d",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "01159491-4792-4f75-a151-123a00012733",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "sf",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "0660c007-dd17-4ee4-ac53-40ea90914c9e",
+          "type": "numberedListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "g",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "fd1e4483-9307-4790-8d0a-d3562a5fef18",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "id": 2
+    }
+  ],
+  "departments": [],
+  "folders": [],
+  "faqs": [],
+  "material": [],
+  "users": []
+}
