@@ -57,9 +57,9 @@ const QuickLinks = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-5 gap-8 px-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-5">
                     {cards.map((card, i) =>
-                        <div key={i} class="relative min-h-80 w-[40vh] sm:w-[27vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
+                        <div key={i} class="relative min-h-80 w-[40vh] flex flex-col justify-center items-center my-6 bg-white shadow-sm border border-slate-200 rounded-lg p-2">
                             <div class="p-3 text-center">
                                 <div class="flex justify-center mb-4">
                                     <img src={card.image} className="h-12" />

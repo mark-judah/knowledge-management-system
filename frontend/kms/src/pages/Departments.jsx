@@ -153,7 +153,7 @@ const Departments = () => {
 
                     <div>
                         {department.folderOpen == true ? (
-                            <div className="ml-5 grid grid-cols-2 sm:grid-cols-8  lg:grid-cols-12 gap-2 p-5">
+                            <div className="ml-5 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 p-5">
                                 {folders.map((folder, index) => (
                                     (folder.department === department.title ? (
                                         <Link to={`/departments/${slugify(department.title)}/${slugify(folder.title)}`} >

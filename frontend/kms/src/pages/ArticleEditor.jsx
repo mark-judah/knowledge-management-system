@@ -159,7 +159,7 @@ const ArticleEditor = () => {
 
             </div>
             <div class="flex justify-center items-center w-full">
-                <div class="mt-5 bg-white rounded-lg shadow w-[90vh]">
+                <div class="m-5 bg-white rounded-lg shadow w-[70vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
                     <div class="mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1">
                         <span class="text-2xl text-black font-bold">
                             Contribute to the Knowledge Hub
@@ -258,7 +258,7 @@ const ArticleEditor = () => {
                             <label class="block mb-1 text-sm text-slate-600 mt-5">
                                 Article content
                             </label>
-                            <div className="mt-2 min-h-[600px] w-[80vh] text-wrap text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                            <div className="mt-2 min-h-[600px] text-wrap text-black placeholder-black  px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
                                 <BlockNoteView
                                     theme={"light"}
                                     editor={editor}

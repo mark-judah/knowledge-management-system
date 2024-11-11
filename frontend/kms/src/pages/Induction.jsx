@@ -54,7 +54,7 @@ const Induction = () => {
             </div>
             <div className="flex flex-col justify-center items-center">
                 {departments.map((department) =>
-                    <div className="bg-white shadow-xl my-5  p-5 rounded-xl flex justify-between items-center w-full sm:w-1/2">
+                    <div className="bg-white shadow-xl my-5  p-5 rounded-xl flex justify-between items-center w-[45vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
                         <div className="flex flex-col">
                             <div>
                                 <p className="font-bold text-lg">{department.title}</p>

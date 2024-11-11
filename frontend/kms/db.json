@@ -151,6 +151,1070 @@
       ],
       "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
       "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
+    },
+    {
+      "title": "How to setup warehousing and stock transfers",
+      "department": "Pharmacy",
+      "article_type": "General",
+      "tags": ["Stock transfers","Warehouse"],
+      "article_content": [
+        {
+          "id": "8f607b86-270e-465a-8c4e-55253f607e9b",
+          "type": "heading",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "level": 1
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "How to setup warehousing and stock transfers",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "4dfdb667-47b6-4673-884b-4ba370f2c3b9",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "1. Setup the warehouse and locations",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "41e65a1e-4193-4738-bb7b-99a59c1a8f85",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "When a company is created, a warehouse called My Company is the default warehouse, rename it to Main Store (Inventory > Configuration > Warehouses)",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "524fcb1d-fbd8-4eba-97b8-74407cc8b9b6",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": " ",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "45e9a08a-69b4-42ec-bd46-775050c78841",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2F3806ff08-2c65-4a54-b6e5-861a885d2ce8%2Fimage.png?table=block&id=136aa77a-4d73-807f-8023-d108f1b1964b&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "cd7323d3-b3c9-4b0a-bed5-3630e26603b9",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "By default, a location called stock is created and linked to the default warehouse",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "abd74abc-0133-4f05-a5fd-a6f2716e662f",
+          "type": "image",
+          "props": {
+            "backgroundColor": "default",
+            "textAlignment": "left",
+            "name": "https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "url": "https://sable-word-d57.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fc935f7cd-1815-4298-8d10-21b11d403b5e%2Fc0790a2b-8ceb-46a7-b05c-29ffb1bf60a6%2Fimage.png?table=block&id=136aa77a-4d73-80f2-8114-c528860a6f25&spaceId=c935f7cd-1815-4298-8d10-21b11d403b5e&width=1420&userId=&cache=v2",
+            "caption": "",
+            "showPreview": true,
+            "previewWidth": 1183
+          },
+          "children": []
+        },
+        {
+          "id": "1e106d76-c572-49c5-8ab0-402261ae03fd",
+          "type": "bulletListItem",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Rename the location to the relevant name, in this case Stock is",
+              "styles": {}
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": "2dc4e0dd-255a-474b-a9c6-c6efb9f3f3b7",
+          "type": "paragraph",
+          "props": {
+            "textColor": "default",
+            "backgroundColor": "default",
+            "textAlignment": "left"
+          },
+          "content": [],
+          "children": []
+        }
+      ],
+      "thumbnail": "blob:http://localhost:3000/9366b2db-a487-4fd0-938c-f682683b8406",
+      "id": 1
     }
   ],
   "departments": [

@@ -108,7 +108,7 @@ const Faqs = () => {
             </div>
             {faqs.map((faq) => (
                 <div className="flex justify-center">
-                    <div class="relative flex flex-col  my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[70vh]">
+                    <div class="relative flex flex-col  my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[45vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
                         <div class="flex justify-between items-center mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 space-x-5">
                             <div>
                                 <p className="text-wrap font-bold text-xl sm:text-2xl">Q: {faq.question}</p>
@@ -124,7 +124,7 @@ const Faqs = () => {
 
                         {faq.answerVisible == true ? (
                             <div class="p-4">
-                                <h5 class="mb-2 text-slate-800 text-xl font-semibold">
+                                <h5 class="mb-2 text-slate-800 text-xl">
                                     <p className="text-sm sm:text-lg">{faq.answer}</p>
                                 </h5>
                             </div>
