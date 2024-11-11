@@ -24,7 +24,7 @@ const BreadCrumb = (props) => {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
                                     {/* <Link to={props.path.slice(0,-1)} class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-black"> */}
-                                        <p>{String(item).charAt(0).toUpperCase() + String(item).slice(1)}</p>
+                                        <p>{String(item).charAt(0).toUpperCase() + String(item).slice(1).replace(/-/g, " ")}</p>
                                     {/* </Link> */}
                                 </div>
                             )}

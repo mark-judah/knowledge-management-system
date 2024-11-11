@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -9,15 +9,23 @@ import "@blocknote/mantine/style.css";
 import { BlockNoteEditor } from "@blocknote/core";
 import { useForm } from "react-hook-form"
 import axios from "axios";
+import { useCreateBlockNote } from "@blocknote/react";
 
 const ArticleEditor = () => {
-    const [articleData, setInitialContent] = useState("Loading")
+    const [articleData, setArticleData] = useState("Loading")
     const { register, handleSubmit, formState: { errors }, } = useForm();
     useEffect(() => {
         window.scrollTo(0, 0)
-        loadFromStorage().then((content) => {
-            setInitialContent(content);
-        });
+        axios.get('http://localhost:3200/departments')
+        .then(function (response) {
+            // handle success
+            setDepartments(response.data)
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
     }, [])
 
     const location = useLocation();
@@ -25,6 +33,11 @@ const ArticleEditor = () => {
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
     const [articleType, setArticleType] = useState('');
+    const [articleThumbnail, setArticleThumbnail] = useState('')
+    const [departments, setDepartments] = useState([])
+    const navigate = useNavigate()
+
+    
 
     console.log(articleType)
     const newTag = () => {
@@ -55,30 +68,30 @@ const ArticleEditor = () => {
         );
     }
 
-    const editor = useMemo(() => {
-        if (articleData === "Loading") {
-            return undefined;
-        } else {
-            console.log(articleData);
-            return BlockNoteEditor.create({ articleData, uploadFile });
-        }
-    }, [articleData]);
-
-
-    if (editor === undefined) {
-        return "Loading content...";
-    }
+    const editor = useCreateBlockNote({
+        initialContent: [
+            {
+              type: "paragraph",
+              content: "Welcome to this demo!",
+            },
+            {
+              type: "heading",
+              content: "This is a heading block",
+            },
+            {
+              type: "paragraph",
+              content: "This is a paragraph block",
+            },
+            {
+              type: "paragraph",
+              content:"Clear the text area to begin"
+            },
+          ],
+          uploadFile
+    })
 
     async function saveToStorage(jsonBlocks) {
-        // Save contents to local storage. You might want to debounce this or replace
-        // with a call to your API / database.
-        localStorage.setItem("editorContent", JSON.stringify(jsonBlocks));
-    }
-
-    async function loadFromStorage() {
-        // Gets the previously stored editor contents.
-        const storageString = JSON.parse(localStorage.getItem("editorContent"))
-        return storageString
+        setArticleData(jsonBlocks)
     }
 
     const onSubmit = async (data) => {
@@ -92,7 +105,7 @@ const ArticleEditor = () => {
                 article_type: data['article_type'],
                 chapter: data['chapter'],
                 duration: data['duration'],
-                thumbnail: data['thumbnail'][0].name,
+                thumbnail: URL.createObjectURL(articleThumbnail),
                 tags: tags,
                 article_content: articleData
             }
@@ -102,7 +115,8 @@ const ArticleEditor = () => {
                 department: data['department'],
                 article_type: data['article_type'],
                 tags: tags,
-                article_content: articleData
+                article_content: articleData,
+                thumbnail: URL.createObjectURL(articleThumbnail),
             }
         }
 
@@ -114,8 +128,16 @@ const ArticleEditor = () => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)
-         })
+        }).finally(
+            navigate('/articles')
+        )
     }
+
+    const handleFileChange = (event) => {
+        event.preventDefault()
+        setArticleThumbnail(event.target.files[0])
+    }
+
 
     return (
         <div>
@@ -156,10 +178,9 @@ const ArticleEditor = () => {
                             </label>
                             <select {...register("department")} id="departments" class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                                 <option selected>Choose a department</option>
-                                <option value="Finance">Finance</option>
-                                <option value="HR">Human Resources</option>
-                                <option value="Sales">Sales</option>
-                                <option value="Marketing">Marketing</option>
+                                {departments.map((department) => (
+                                    <option value={department.title}>{department.title}</option>
+                                ))}
                             </select>
 
                             <label class="block mb-1 text-sm text-slate-600 mt-5">
@@ -173,7 +194,18 @@ const ArticleEditor = () => {
                                 <option value="General">General</option>
                                 <option value="Induction">Induction</option>
                             </select>
-
+                            <div>
+                                <label class="block mb-1 text-sm text-slate-600 mt-5">
+                                    Article Thumbnail
+                                </label>
+                                <input onChange={handleFileChange} type="file"
+                                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
+                                {articleThumbnail != '' ? (
+                                    <div className="p-2">
+                                        <img src={URL.createObjectURL(articleThumbnail)} className="w-32 rounded-lg" />
+                                    </div>
+                                ) : ('')}
+                            </div>
                             {articleType === "Induction" ? (
                                 <div>
                                     <div>
@@ -188,14 +220,6 @@ const ArticleEditor = () => {
                                             Estimated duration in minutes
                                         </label>
                                         <input {...register("duration")} placeholder="Article duration" class="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
-                                    </div>
-
-                                    <div>
-                                        <label class="block mb-1 text-sm text-slate-600 mt-5">
-                                            Article Thumbnail
-                                        </label>
-                                        <input {...register("thumbnail")} type="file"
-                                            class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
                                     </div>
                                 </div>
                             ) : (
