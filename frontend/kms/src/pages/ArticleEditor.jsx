@@ -16,7 +16,7 @@ const ArticleEditor = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('http://localhost:3200/departments')
+        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/departments')
         .then(function (response) {
             // handle success
             setDepartments(response.data)
@@ -124,7 +124,7 @@ const ArticleEditor = () => {
 
 
         console.log(payload)
-        axios.post('http://localhost:3200/articles', payload).then((response) => {
+        axios.post('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles', payload).then((response) => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)

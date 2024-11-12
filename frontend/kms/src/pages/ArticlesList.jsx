@@ -10,7 +10,7 @@ const Articles = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('http://localhost:3200/articles')
+        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles')
             .then(function (response) {
                 setArticles(response.data)
                 console.log(response);
