@@ -1220,26 +1220,59 @@
   "departments": [
     {
       "title": "Marketing",
-      "id": 1
+      "id": 1,
+      "folders": [
+          {
+            "title":"Articles"
+          },
+          {
+            "title":"Invoices"
+          },
+          {
+            "title":"Receipts"
+          },
+          {
+            "title":"Templates"
+          }
+      ]
     },
     {
       "title": "Finance",
-      "id": 2
+      "id": 2,
+      "folders": [
+        {
+          "title":"Articles"
+        }
+    ]
     },
     {
       "title": "Information Technology",
-      "id": 3
+      "id": 3,
+      "folders": [
+        {
+          "title":"Articles"
+        }
+    ]
     },
     {
       "title": "Human Resources",
-      "id": 4
+      "id": 4,
+      "folders": [
+        {
+          "title":"Articles"
+        }
+    ]
     },
     {
       "title": "Pharmacy",
-      "id": 5
+      "id": 5,
+      "folders": [
+        {
+          "title":"Articles"
+        }
+    ]
     }
   ],
-  "folders": [],
   "faqs": [],
   "material": [],
   "users": []
