@@ -17,18 +17,6 @@ const ArticleEditor = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm();
     useEffect(() => {
         window.scrollTo(0, 0)
-<<<<<<< HEAD
-        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/departments')
-        .then(function (response) {
-            // handle success
-            setDepartments(response.data)
-            console.log(response);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-=======
         axios.get('http://localhost:8000/api/departments/')
             .then(function (response) {
                 // handle success
@@ -39,7 +27,6 @@ const ArticleEditor = () => {
                 // handle error
                 console.log(error);
             })
->>>>>>> 65f3b87 (removed json-server files, moved to typicode)
     }, [])
 
     const location = useLocation();
@@ -105,50 +92,7 @@ const ArticleEditor = () => {
     })
 
     async function saveToStorage(jsonBlocks) {
-<<<<<<< HEAD
         setArticleData(jsonBlocks)
-    }
-
-    const onSubmit = async (data) => {
-        console.log(data, articleData, tags)
-        const body = new FormData();
-        let payload = {}
-        if (data['article_type'] === 'Induction') {
-            payload = {
-                title: data['title'],
-                department: data['department'],
-                article_type: data['article_type'],
-                chapter: data['chapter'],
-                duration: data['duration'],
-                thumbnail: URL.createObjectURL(articleThumbnail),
-                tags: tags,
-                article_content: articleData
-            }
-        } else {
-            payload = {
-                title: data['title'],
-                department: data['department'],
-                article_type: data['article_type'],
-                tags: tags,
-                article_content: articleData,
-                thumbnail: URL.createObjectURL(articleThumbnail),
-            }
-        }
-
-        body.append("article", payload);
-
-
-        console.log(payload)
-        axios.post('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles', payload).then((response) => {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error)
-        }).finally(
-            navigate('/articles')
-        )
-=======
-        setArticleData(JSON.stringify(jsonBlocks))
->>>>>>> 65f3b87 (removed json-server files, moved to typicode)
     }
 
     const handleFileChange = (event) => {
@@ -168,7 +112,7 @@ const ArticleEditor = () => {
             body.append('duration', data['duration']);
             body.append('thumbnail', articleThumbnail);
             body.append('tags', tags);
-            body.append('article_content', articleData);
+            body.append('article_content', JSON.stringify(articleData));
         } else {
             body.append('title', data['title']);
             body.append('department', data['department']);
@@ -177,7 +121,7 @@ const ArticleEditor = () => {
             body.append('duration', data['duration']);
             body.append('thumbnail', articleThumbnail);
             body.append('tags', tags);
-            body.append('article_content', articleData);
+            body.append('article_content', JSON.stringify(articleData));
         }
 
         console.log(body)

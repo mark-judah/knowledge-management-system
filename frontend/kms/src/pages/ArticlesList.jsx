@@ -12,11 +12,7 @@ const Articles = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-<<<<<<< HEAD
-        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles')
-=======
         axios.get('http://localhost:8000/api/articles/')
->>>>>>> 65f3b87 (removed json-server files, moved to typicode)
             .then(function (response) {
                 setArticles(response.data)
                 console.log(response);
