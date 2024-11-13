@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import { Link, useLocation } from "react-router-dom";
 import folderIcon from "../assets/folder.svg"
-import emptyIcon from "../assets/empty.svg"
 import BreadCrumb from "../components/BreadCrumbs";
 import newUploadIcon from "../assets/upload.svg"
 import Modal from 'react-modal'
@@ -11,6 +10,7 @@ import close from "../assets/close.svg"
 import uploadFileIcon from "../assets/upload_black.svg"
 import deleteIcon from "../assets/delete_black.svg"
 import { extensionsMapper, fileTypesIcons } from "../constants";
+import Empty from "../components/Empty";
 
 const Folder = () => {
     useEffect(() => {
@@ -304,17 +304,7 @@ const Folder = () => {
                     ))}
                 </div>
             ) : (
-                <div className="h-[80vh] flex justify-center items-center">
-                    <div className="flex flex-col items-center space-y-5">
-                        <div>
-                            <img src={emptyIcon} className="w-[40vh]" />
-                        </div>
-                        <div>
-                            <p className="text-3xl mt-5 font-bold">Nothing to see here</p>
-                        </div>
-
-                    </div>
-                </div>
+               <Empty/>
             )
             }
 

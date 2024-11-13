@@ -9,72 +9,30 @@ import slugify from 'react-slugify';
 
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
+import axios from "axios";
 
 const Departments = () => {
+    const [departments, setDepartments] = useState([]);
+    const [folders, setFolders] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        Promise.all([
+            axios.get('http://localhost:8000/api/departments/'),
+            axios.get('http://localhost:8000/api/folders/')
+        ]).then(([departmentsResponse,foldersResponse])=>{
+            console.log(departmentsResponse.data);
+            console.log(foldersResponse.data);
+            setDepartments(departmentsResponse.data)
+            setFolders(foldersResponse.data)
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        })
     }, [])
+
     const location = useLocation();
     const path = location.pathname.split('/');
-
-    const [departments, setDepartments] = useState([
-        {
-            "image": departmentIcon,
-            "title": "Finance",
-            "articles": "4",
-            "folderOpen": false
-        },
-        {
-            "image": departmentIcon,
-            "title": "Marketing",
-            "articles": "1",
-            "folderOpen": false
-        },
-        {
-            "image": departmentIcon,
-            "title": "Human Resources",
-            "articles": "1",
-            "folderOpen": false
-        },
-        {
-            "image": departmentIcon,
-            "title": "Information Technology",
-            "articles": "1",
-            "folderOpen": false
-        },
-    ]);
-
-    const [folders, setFolders] = useState([
-        {
-            "title": "Articles",
-            "department": "Human Resources",
-        },
-        {
-            "title": "Articles",
-            "department": "Marketing",
-        },
-        {
-            "title": "Articles",
-            "department": "Finance",
-        },
-        {
-            "title": "Articles",
-            "department": "Information Technology",
-        },
-        {
-            "title": "Invoices",
-            "department": "Finance",
-        },
-        {
-            "title": "Receipts",
-            "department": "Finance",
-        },
-        {
-            "title": "Templates",
-            "department": "Finance",
-        },
-    ]);
 
     const toggleFolder = (title, folderStatus) => {
         console.log(title)

@@ -16,14 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.conf.urls.static import static
-
-from django.conf import settings
+from apiApp.views import DepartmentListCreateView,ArticleListCreateView,FolderListCreateView,FileListCreateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('apiApp.urls')),
+   path('departments/',DepartmentListCreateView.as_view(),name=''),
+   path('articles/',ArticleListCreateView.as_view(),name=''),
+   path('folders/',FolderListCreateView.as_view(),name='')
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
