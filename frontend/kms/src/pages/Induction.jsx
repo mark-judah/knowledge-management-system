@@ -3,36 +3,35 @@ import viewMaterialButton from "../assets/more.svg"
 import { Link, useLocation } from "react-router-dom";
 import slugify from "react-slugify";
 import BreadCrumb from "../components/BreadCrumbs";
+import axios from "axios";
+import Empty from "../components/Empty";
 
 const Induction = () => {
+    const [articles, setArticles] = useState([]);
+    const [departments, setDepartments] = useState([]);
+
     useEffect(() => {
         window.scrollTo(0, 0)
+        Promise.all([
+            axios.get('http://localhost:8000/api/departments/'),
+            axios.get('http://localhost:8000/api/articles/')
+        ]).then(([departmentsResponse, articlesResponse]) => {
+            console.log(departmentsResponse.data);
+            console.log(articlesResponse.data);
+            setDepartments(departmentsResponse.data)
+            setArticles(articlesResponse.data)
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        })
     }, [])
+
     const location = useLocation();
     const path = location.pathname.split('/');
-
-    const [departments, setDepartments] = useState([
-        {
-            "title": "Finance",
-            "chapters": "5",
-            "folderOpen": false
-        },
-        {
-            "title": "Marketing",
-            "chapters": "0",
-            "folderOpen": false
-        },
-        {
-            "title": "Human Resources",
-            "chapters": "1",
-            "folderOpen": false
-        },
-        {
-            "title": "Information Technology",
-            "chapters": "0",
-            "folderOpen": false
-        },
-    ]);
+    const countArticles = (department) => {
+        const newList = articles.filter((article) => article.department == department && article.article_type === 'Induction');
+        return newList.length
+    }
 
     return (
         <div className="min-h-screen bg-[#F5F5F5]">
@@ -49,41 +48,43 @@ const Induction = () => {
 
                     </div>
                 </div>
-                <BreadCrumb path={path}/>
-
+                <BreadCrumb path={path} />
             </div>
-            <div className="flex flex-col justify-center items-center">
-                {departments.map((department) =>
-                    <div className="bg-white shadow-xl my-5  p-5 rounded-xl flex justify-between items-center w-[45vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
-                        <div className="flex flex-col">
-                            <div>
-                                <p className="font-bold text-lg">{department.title}</p>
+
+
+            {departments.length > 0 ? (
+                <div className="flex flex-col justify-center items-center">
+                    {departments.map((department) =>
+                        <div className="bg-white shadow-xl my-5  p-5 rounded-xl flex justify-between items-center w-[45vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
+                            <div className="flex flex-col">
+                                <div>
+                                    <p className="font-bold text-lg">{department.title}</p>
+                                </div>
+                                <div>
+                                    {countArticles(department.title) > 0 ? (
+                                        <p>
+                                            {countArticles(department.title)} {countArticles(department.title) === 1 ? 'Chapter' : 'Chapters'}
+                                        </p>
+                                    ) : (
+                                        <p>--</p>
+                                    )}
+                                </div>
                             </div>
+
                             <div>
-                                {Number(department.chapters) > 0 ? (
-                                    <p>
-                                        {department.chapters} {Number(department.chapters) === 1 ? 'Chapter' : 'Chapters'}
-                                    </p>
-                                ) : (
-                                    <p>--</p>
-                                )}
+                                <Link to={slugify(department.title)} state={{ data: articles }}>
+                                    <button class="flex justify-center items-center bg-black text-white  rounded-2xl py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
+                                        <span className="text-xs sm:text-base">View Material</span>
+                                        <img src={viewMaterialButton} className="h-4 sm:h-7 ml-3" alt="account settings" />
+                                    </button>
+                                </Link>
                             </div>
-
-
-
                         </div>
-
-                        <div>
-                            <Link to={slugify(department.title)}>
-                                <button class="flex justify-center items-center bg-black text-white  rounded-2xl py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
-                                    <span className="text-xs sm:text-base">View Material</span>
-                                    <img src={viewMaterialButton} className="h-4 sm:h-7 ml-3" alt="account settings" />
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            ) : (
+                <Empty />
+            )}
 
         </div>
     );

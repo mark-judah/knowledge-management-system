@@ -35,7 +35,7 @@ function App() {
         <Route path='/frequently-asked-questions' element={<Faqs />} />
         <Route path="/departments/*" element={<Folder />} />
         <Route path="/induction" element={<Induction />} />
-        <Route path="/induction/:department" element={<Material />} />
+        <Route path="/induction/:material" element={<Material />} />
       </Routes>
 
       <div>

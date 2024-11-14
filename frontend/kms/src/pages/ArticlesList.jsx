@@ -4,13 +4,15 @@ import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
 import slugify from "react-slugify";
-import emptyIcon from "../assets/empty.svg"
+import { getUrl } from "../constants";
+import Empty from "../components/Empty";
 
 const Articles = () => {
+    const [articles, setArticles] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles')
+        axios.get('http://localhost:8000/api/articles/')
             .then(function (response) {
                 setArticles(response.data)
                 console.log(response);
@@ -21,10 +23,11 @@ const Articles = () => {
             })
 
     }, [])
+
+    
     const location = useLocation();
     const path = location.pathname.split('/');
 
-    const [articles, setArticles] = useState([]);
 
 
     return (
@@ -65,15 +68,15 @@ const Articles = () => {
                                 <a href="javascript:void(0)">
                                     <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[40vh]  md:w-[45vh] xl:w-[55vh] ">
                                         <div class="relative h-56 m-2.5 overflow-hidden text-white rounded-md">
-                                            <img src={article.thumbnail} alt="card-image" />
+                                            <img src={`${getUrl()}`+article.thumbnail} alt="card-image" />
                                         </div>
                                         <div class="px-4">
                                             <div class="flex justify-start space-x-1 items-center">
-                                                {article.tags.map((tag) => (
+                                                {/* {JSON.parse(article.tags).map((tag) => (
                                                     <div className="mb-4 rounded-full bg-black py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-fit text-center">
                                                         {tag}
                                                     </div>
-                                                ))}
+                                                ))} */}
                                             </div>
                                             <h6 class="mb-2 text-slate-800 text-xl font-semibold">
                                                {article.title}
@@ -95,17 +98,7 @@ const Articles = () => {
                     ))}
                 </div>
             ) : (
-                <div className="h-[80vh] flex justify-center items-center">
-                    <div className="flex flex-col items-center space-y-5">
-                        <div>
-                            <img src={emptyIcon} className="w-[40vh]" />
-                        </div>
-                        <div>
-                            <p className="text-3xl mt-5 font-bold">Nothing to see here</p>
-                        </div>
-
-                    </div>
-                </div>
+               <Empty/>
             )
 
             }

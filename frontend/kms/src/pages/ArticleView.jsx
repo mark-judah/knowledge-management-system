@@ -4,6 +4,7 @@ import BreadCrumb from "../components/BreadCrumbs";
 import { BlockNoteView } from "@blocknote/mantine";
 import { BlockNoteEditor } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
+import newArticleIcon from "../assets/draft.svg"
 
 const ArticleView = () => {
     const location = useLocation()
@@ -14,7 +15,7 @@ const ArticleView = () => {
     const path = location.pathname.split('/');
 
     const editor = useCreateBlockNote({
-        initialContent: data
+        initialContent: JSON.parse(data)
     })
 
     async function saveToStorage(jsonBlocks) {
@@ -35,7 +36,7 @@ const ArticleView = () => {
     }
 
     return (
-        <div>
+        <div className="min-h-screen">
             <div className="flex flex-col">
                 <div class='flex flex-col items-center justify-center'>
                     <div class='w-full max-w-lg px-10 py-5 mx-auto'>
@@ -53,6 +54,15 @@ const ArticleView = () => {
                     <BreadCrumb path={path} />
 
                 </div>
+
+                <Link to="/article-editor">
+                    <div className="flex justify-end mx-10">
+                        <button class="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                            <img src={newArticleIcon} className="h-7 mx-1" alt="new article" />
+                            Save Changes
+                        </button>
+                    </div>
+                </Link>
 
                 <div className="mt-10 flex justify-center">
                     <BlockNoteView

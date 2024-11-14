@@ -10,22 +10,23 @@ import { BlockNoteEditor } from "@blocknote/core";
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useCreateBlockNote } from "@blocknote/react";
+import { getUrl } from "../constants";
 
 const ArticleEditor = () => {
-    const [articleData, setArticleData] = useState("Loading")
+    const [articleData, setArticleData] = useState('')
     const { register, handleSubmit, formState: { errors }, } = useForm();
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/departments')
-        .then(function (response) {
-            // handle success
-            setDepartments(response.data)
-            console.log(response);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+        axios.get('http://localhost:8000/api/departments/')
+            .then(function (response) {
+                // handle success
+                setDepartments(response.data)
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
     }, [])
 
     const location = useLocation();
@@ -37,7 +38,7 @@ const ArticleEditor = () => {
     const [departments, setDepartments] = useState([])
     const navigate = useNavigate()
 
-    
+
 
     console.log(articleType)
     const newTag = () => {
@@ -71,66 +72,27 @@ const ArticleEditor = () => {
     const editor = useCreateBlockNote({
         initialContent: [
             {
-              type: "paragraph",
-              content: "Welcome to this demo!",
+                type: "paragraph",
+                content: "Welcome to this demo!",
             },
             {
-              type: "heading",
-              content: "This is a heading block",
+                type: "heading",
+                content: "This is a heading block",
             },
             {
-              type: "paragraph",
-              content: "This is a paragraph block",
+                type: "paragraph",
+                content: "This is a paragraph block",
             },
             {
-              type: "paragraph",
-              content:"Clear the text area to begin"
+                type: "paragraph",
+                content: "Clear the text area to begin"
             },
-          ],
-          uploadFile
+        ],
+        uploadFile
     })
 
     async function saveToStorage(jsonBlocks) {
         setArticleData(jsonBlocks)
-    }
-
-    const onSubmit = async (data) => {
-        console.log(data, articleData, tags)
-        const body = new FormData();
-        let payload = {}
-        if (data['article_type'] === 'Induction') {
-            payload = {
-                title: data['title'],
-                department: data['department'],
-                article_type: data['article_type'],
-                chapter: data['chapter'],
-                duration: data['duration'],
-                thumbnail: URL.createObjectURL(articleThumbnail),
-                tags: tags,
-                article_content: articleData
-            }
-        } else {
-            payload = {
-                title: data['title'],
-                department: data['department'],
-                article_type: data['article_type'],
-                tags: tags,
-                article_content: articleData,
-                thumbnail: URL.createObjectURL(articleThumbnail),
-            }
-        }
-
-        body.append("article", payload);
-
-
-        console.log(payload)
-        axios.post('https://my-json-server.typicode.com/mark-judah/knowledge-management-system/articles', payload).then((response) => {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error)
-        }).finally(
-            navigate('/articles')
-        )
     }
 
     const handleFileChange = (event) => {
@@ -138,6 +100,47 @@ const ArticleEditor = () => {
         setArticleThumbnail(event.target.files[0])
     }
 
+    const onSubmit = async (data) => {
+        console.log(data, articleData, tags)
+        const body = new FormData();
+
+        if (data['article_type'] === 'Induction') {
+            body.append('title', data['title']);
+            body.append('department', data['department']);
+            body.append('article_type', data['article_type']);
+            body.append('chapter', data['chapter']);
+            body.append('duration', data['duration']);
+            body.append('thumbnail', articleThumbnail);
+            body.append('tags', tags);
+            body.append('article_content', JSON.stringify(articleData));
+        } else {
+            body.append('title', data['title']);
+            body.append('department', data['department']);
+            body.append('article_type', data['article_type']);
+            body.append('chapter', data['chapter']);
+            body.append('duration', data['duration']);
+            body.append('thumbnail', articleThumbnail);
+            body.append('tags', tags);
+            body.append('article_content', JSON.stringify(articleData));
+        }
+
+        console.log(body)
+        axios.post(`${getUrl()}` + '/api/articles/', body, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(
+            data['article_type'] === 'General' ? (
+                navigate('/articles')
+            ) : (
+                navigate('/induction')
+            )
+        )
+    }
 
     return (
         <div>
@@ -179,7 +182,7 @@ const ArticleEditor = () => {
                             <select {...register("department")} id="departments" class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                                 <option selected>Choose a department</option>
                                 {departments.map((department) => (
-                                    <option value={department.title}>{department.title}</option>
+                                    <option value={department.id}>{department.title}</option>
                                 ))}
                             </select>
 
