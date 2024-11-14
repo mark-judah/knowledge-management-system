@@ -1,78 +1,29 @@
 import React, { useEffect, useState } from "react";
 import openIcon from "../assets/plus.svg"
 import closeIcon from "../assets/minus.svg"
-import { useLocation } from "react-router-dom";
+import relatedArticleIcon from "../assets/related_article.svg"
+import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
+import axios from "axios";
 
 const Faqs = () => {
+    const [faqs, setFaqs] = useState([])
     useEffect(() => {
         window.scrollTo(0, 0)
+        axios.get('http://localhost:8000/api/faqs/')
+            .then(function (response) {
+                setFaqs(response.data)
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
     }, [])
     const location = useLocation();
     const path = location.pathname.split('/');
 
-    const [faqs, setFaqs] = useState([
-        {
-            "id": 1,
-            "question": "How do I admit a patient on Bahmni?",
-            "answer": "There are two options, click on the bed icon which leads to the inpatient area or use the disposition tab in clinical.",
-            "answerVisible": false
-        },
-        {
-            "id": 2,
-            "question": "How do I discharge a patient in Bahmni?",
-            "answer": "Go to the patient's clinical record, click on the Disposition tab, select the Discharge option, and confirm with the necessary details like discharge date and follow-up instructions.",
-            "answerVisible": false
-        },
-        {
-            "id": 3,
-            "question": "How do I record a patient's vitals in Bahmni?",
-            "answer": "Navigate to the patient's profile, click on the Vitals tab, and enter the measurements such as temperature, pulse, blood pressure, and weight.",
-            "answerVisible": false
-        },
-        {
-            "id": 4,
-            "question": "How do I prescribe medication using Bahmni?",
-            "answer": "In the patient's clinical profile, go to the Prescriptions section, search for the medication, set dosage, frequency, and duration, then save the prescription.",
-            "answerVisible": false
-        },
-        {
-            "id": 5,
-            "question": "How do I schedule a follow-up appointment for a patient in Bahmni?",
-            "answer": "Go to the patient's record, click on the Appointments tab, select a date and time, assign a healthcare provider, and save the appointment.",
-            "answerVisible": false
-        },
-        {
-            "id": 6,
-            "question": "How do I transfer a patient to another ward in Bahmni?",
-            "answer": "Click on the Inpatient area or go to the Disposition tab, select the Transfer option, choose the new ward or bed, and confirm the transfer.",
-            "answerVisible": false
-        },
-        {
-            "id": 7,
-            "question": "How do I document a patient's allergies in Bahmni?",
-            "answer": "Open the patient's profile, go to the Allergies section, click Add Allergy, select the allergen, specify the reaction, and save the details.",
-            "answerVisible": false
-        },
-        {
-            "id": 8,
-            "question": "How do I enter lab results for a patient in Bahmni?",
-            "answer": "Go to the patient's profile, click on the Laboratory tab, enter or review lab results, and confirm to update the patient's record.",
-            "answerVisible": false
-        },
-        {
-            "id": 9,
-            "question": "How can I track patient billing in Bahmni?",
-            "answer": "Go to the Billing module from the patient's record, view pending invoices and payments, or generate a new invoice for recent treatments.",
-            "answerVisible": false
-        },
-        {
-            "id": 10,
-            "question": "How do I generate a patient's medical summary in Bahmni?",
-            "answer": "Go to the patient's profile, click on the Summary tab, and select Generate Summary to create a medical report including diagnoses and treatments.",
-            "answerVisible": false
-        }
-    ]);
+
 
     const toggleAnswer = (id, toggleStatus) => {
         const currentFaqsIndex = faqs.findIndex((faq) => faq.id === id);
@@ -87,6 +38,18 @@ const Faqs = () => {
             newFaqsArray[currentFaqsIndex] = updatedFaq;
             setFaqs(newFaqsArray);
         }
+    }
+
+    const fetchArticle = () =>{
+        axios.get('http://localhost:8000/api/articles/1')
+            .then(function (response) {
+                setFaqs(response.data)
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
     }
 
     return (
@@ -104,7 +67,7 @@ const Faqs = () => {
 
                     </div>
                 </div>
-                <BreadCrumb path={path}/>
+                <BreadCrumb path={path} />
             </div>
             {faqs.map((faq) => (
                 <div className="flex justify-center">
@@ -127,10 +90,21 @@ const Faqs = () => {
                                 <h5 class="mb-2 text-slate-800 text-xl">
                                     <p className="text-sm sm:text-lg">{faq.answer}</p>
                                 </h5>
+
+                                {faq.related_article ? (
+                                        <div className="flex justify-start items-center space-x-1 p-2">
+                                            <p className="text-sm underline">Related article</p>
+                                            <img src={relatedArticleIcon} className="w-4 hover:cursor-pointer" onClick={fetchArticle}/>
+                                        </div>
+                                ) : (
+                                    ''
+                                )}
                             </div>
                         ) : (
                             ''
                         )}
+
+
                     </div>
                 </div>
             ))}

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apiApp.models import Department,Article,Folder,File
+from apiApp.models import Department,Article, Faq,Folder,File
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,4 +27,9 @@ class FolderSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model=File
+        fields='__all__'
+
+class FaqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Faq
         fields='__all__'

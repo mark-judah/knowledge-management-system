@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from apiApp.models import Department, Article, Folder, File
-from apiApp.serializers import DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FolderSerializer, FileSerializer
+from apiApp.models import Department, Article, Faq, Folder, File
+from apiApp.serializers import DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FaqSerializer, FolderSerializer, FileSerializer
 
 # Create your views here.
 class DepartmentListCreateView(APIView):
@@ -55,6 +55,19 @@ class FileListCreateView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = FileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class FaqCreateView(APIView):
+    def get(self, request, *args, **kwargs):
+        faqs = Faq.objects.all()
+        serializer = FaqSerializer(faqs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = FaqSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from apiApp.views import DepartmentListCreateView,ArticleListCreateView,FolderListCreateView,FileListCreateView
+from apiApp.views import DepartmentListCreateView,ArticleListCreateView,FolderListCreateView,FileListCreateView,FaqCreateView
 
 urlpatterns = [
    path('departments/',DepartmentListCreateView.as_view(),name=''),
    path('articles/',ArticleListCreateView.as_view(),name=''),
-   path('folders/',FolderListCreateView.as_view(),name='')
+   path('folders/',FolderListCreateView.as_view(),name=''),
+   path('faqs/',FaqCreateView.as_view(),name='')
+
 ]
