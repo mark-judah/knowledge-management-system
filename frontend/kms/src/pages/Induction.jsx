@@ -24,7 +24,7 @@ const Induction = () => {
             // handle error
             console.log(error);
         })
-    }, [])
+    }, [departments,articles])
 
     const location = useLocation();
     const path = location.pathname.split('/');
