@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
 import slugify from "react-slugify";
-import { getUrl } from "../constants";
+import { getBackendUrl } from "../constants";
 import Empty from "../components/Empty";
 
 const Articles = () => {
@@ -68,7 +68,7 @@ const Articles = () => {
                                 <a href="javascript:void(0)">
                                     <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[40vh]  md:w-[45vh] xl:w-[55vh] ">
                                         <div class="relative h-56 m-2.5 overflow-hidden text-white rounded-md">
-                                            <img src={`${getUrl()}`+article.thumbnail} alt="card-image" />
+                                            <img src={`${getBackendUrl()}`+article.thumbnail} alt="card-image" />
                                         </div>
                                         <div class="px-4">
                                             <div class="flex justify-start space-x-1 items-center">

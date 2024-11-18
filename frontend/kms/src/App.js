@@ -13,6 +13,7 @@ import Folder from './pages/Folder';
 import Induction from './pages/Induction';
 import Material from './pages/Material';
 import ArticleView from './pages/ArticleView';
+import ManageDepartments from './pages/ManageDepartments';
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
         <Route path="/departments/*" element={<Folder />} />
         <Route path="/induction" element={<Induction />} />
         <Route path="/induction/:material" element={<Material />} />
+        <Route path="/manage-departments" element={<ManageDepartments />} />
+
       </Routes>
 
       <div>

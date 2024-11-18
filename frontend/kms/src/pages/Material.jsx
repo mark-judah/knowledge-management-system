@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import slugify from "react-slugify";
 import durationIcon from "../assets/duration.svg"
 import BreadCrumb from "../components/BreadCrumbs";
-import { getUrl } from "../constants";
+import { getBackendUrl } from "../constants";
 import Empty from "../components/Empty";
 import newArticleIcon from "../assets/draft.svg"
 
@@ -53,7 +53,7 @@ const Material = () => {
                                 <div class="relative flex flex-col md:flex-row my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full">
                                     <div class="relative p-2.5 md:w-2/5 shrink-0 overflow-hidden">
                                         <img
-                                            src={`${getUrl()}` + item.thumbnail}
+                                            src={`${getBackendUrl()}` + item.thumbnail}
                                             alt="thumbnail"
                                             class="h-full w-full rounded-md md:rounded-lg object-contain"
                                         />

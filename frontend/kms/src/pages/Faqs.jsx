@@ -92,7 +92,7 @@ const Faqs = () => {
                                 </h5>
 
                                 {faq.related_article ? (
-                                        <div className="flex justify-start items-center space-x-1 p-2">
+                                        <div className="flex justify-end items-center space-x-1 p-2">
                                             <p className="text-sm underline">Related article</p>
                                             <img src={relatedArticleIcon} className="w-4 hover:cursor-pointer" onClick={fetchArticle}/>
                                         </div>

@@ -10,7 +10,7 @@ import { BlockNoteEditor } from "@blocknote/core";
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useCreateBlockNote } from "@blocknote/react";
-import { getUrl } from "../constants";
+import { getBackendUrl } from "../constants";
 
 const ArticleEditor = () => {
     const [articleData, setArticleData] = useState('')
@@ -125,7 +125,7 @@ const ArticleEditor = () => {
         }
 
         console.log(body)
-        axios.post(`${getUrl()}` + '/api/articles/', body, {
+        axios.post(`${getBackendUrl()}` + '/api/articles/', body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
