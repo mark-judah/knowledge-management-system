@@ -96,7 +96,7 @@ const extensionsMapper = {
         "7z": "archive"
     }
 
-    const getUrl = () => {
+    const getBackendUrl = () => {
         console.log(process.env.REACT_APP_MODE)
         const mode = process.env.REACT_APP_MODE;
         if (mode === 'development') {
@@ -109,5 +109,5 @@ const extensionsMapper = {
 export {
     fileTypesIcons,
     extensionsMapper,
-    getUrl
+    getBackendUrl
 }

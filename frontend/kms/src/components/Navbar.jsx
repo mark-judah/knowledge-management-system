@@ -48,28 +48,28 @@ const Navbar = () => {
         navigate('/login')
     }
 
-    const Greeting =()=>{
-        const today=new Date()
-        const currentHour=today.getHours()
+    const Greeting = () => {
+        const today = new Date()
+        const currentHour = today.getHours()
 
         if (currentHour < 12) {
             return 'Good Morning'
-        }else if (currentHour < 18) {
+        } else if (currentHour < 18) {
             return 'Good Afternoon'
-        }else  {
+        } else {
             return 'Good Evening'
         }
     }
 
-    const welcomeText=`${Greeting()}, how can we help?`
+    const welcomeText = `${Greeting()}, how can we help?`
     return (
-        <div className="flex flex-col justify-center bg-black p-3">
+        <div className="flex flex-col justify-center bg-black p-3" onClick={toggleDropdown}>
             <div>
                 <nav class="block  px-4 py-2 mx-auto  shadow-md lg:px-8 lg:py-3">
                     <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                         <div className="flex justify-center items-center space-x-5">
                             <Link to="/">
-                                <img src={logoIcon} className="w-[20vh]"/>
+                                <img src={logoIcon} className="w-[20vh]" />
                             </Link>
                         </div>
 
@@ -108,10 +108,13 @@ const Navbar = () => {
                                             <img src={companyIcon} className="h-6" alt="company settings" />
                                             <p>Company Settings</p>
                                         </li>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={departmentIcon} className="h-6" alt="company settings" />
-                                            <p>Manage Departments</p>
-                                        </li>
+                                        <Link to="/manage-departments" className>
+                                            <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                                <img src={departmentIcon} className="h-6" alt="company settings" />
+                                                <p>Manage Departments</p>
+                                            </li>
+                                        </Link>
+
                                         <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
                                             <img src={articlesIcon} className="h-6" alt="company settings" />
                                             <p>Manage Articles</p>
