@@ -12,7 +12,7 @@ const Articles = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('http://localhost:8000/api/articles/')
+        axios.get(`${getBackendUrl()}` + 'api/articles/')
             .then(function (response) {
                 setArticles(response.data)
                 console.log(response);

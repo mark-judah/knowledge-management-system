@@ -20,7 +20,7 @@ const ManageDepartments = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('http://localhost:8000/api/departments/')
+        axios.get(`${getBackendUrl()}` + 'api/departments/')
             .then(function (response) {
                 setFetchedDepartments(response.data)
                 console.log(response);
