@@ -6,6 +6,7 @@ import newArticleIcon from "../assets/new_article.svg"
 import newFolderIcon from "../assets/new_folder.svg"
 import deleteDepartmentIcon from "../assets/delete_black.svg"
 import slugify from 'react-slugify';
+import { getBackendUrl } from "../constants";
 
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
@@ -18,8 +19,8 @@ const Departments = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         Promise.all([
-            axios.get('http://localhost:8000/api/departments/'),
-            axios.get('http://localhost:8000/api/folders/')
+            axios.get(`${getBackendUrl()}` + 'api/departments/'),
+            axios.get(`${getBackendUrl()}` + 'api/folders/')
         ]).then(([departmentsResponse,foldersResponse])=>{
             console.log(departmentsResponse.data);
             console.log(foldersResponse.data);
@@ -52,15 +53,15 @@ const Departments = () => {
 
     return (
         <div className="p-5 pt-8 bg-[#F5F5F5] min-h-screen">
-            <div class='flex flex-col items-center justify-center'>
-                <div class='w-full max-w-lg px-10 py-5 mx-auto'>
-                    <div class='max-w-md mx-auto space-y-3'>
-                        <h2 class="flex flex-row flex-nowrap items-center my-2">
-                            <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
-                            <span class="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
+            <div className='flex flex-col items-center justify-center'>
+                <div className='w-full max-w-lg px-10 py-5 mx-auto'>
+                    <div className='max-w-md mx-auto space-y-3'>
+                        <h2 className="flex flex-row flex-nowrap items-center my-2">
+                            <span className="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
+                            <span className="flex-none block mx-4   px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
                                 All Departments
                             </span>
-                            <span class="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
+                            <span className="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
                         </h2>
 
                     </div>

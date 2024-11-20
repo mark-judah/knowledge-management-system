@@ -5,6 +5,7 @@ import slugify from "react-slugify";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
 import Empty from "../components/Empty";
+import { getBackendUrl } from "../constants";
 
 const Induction = () => {
     const [articles, setArticles] = useState([]);
@@ -13,8 +14,8 @@ const Induction = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         Promise.all([
-            axios.get('http://localhost:8000/api/departments/'),
-            axios.get('http://localhost:8000/api/articles/')
+            axios.get(`${getBackendUrl()}` + 'api/departments/'),
+            axios.get(`${getBackendUrl()}` + 'api/articles/')
         ]).then(([departmentsResponse, articlesResponse]) => {
             console.log(departmentsResponse.data);
             console.log(articlesResponse.data);
