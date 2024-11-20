@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,7 +6,6 @@ import BreadCrumb from "../components/BreadCrumbs";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
-import { BlockNoteEditor } from "@blocknote/core";
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useCreateBlockNote } from "@blocknote/react";
@@ -37,8 +36,6 @@ const ArticleEditor = () => {
     const [articleThumbnail, setArticleThumbnail] = useState('')
     const [departments, setDepartments] = useState([])
     const navigate = useNavigate()
-
-
 
     console.log(articleType)
     const newTag = () => {

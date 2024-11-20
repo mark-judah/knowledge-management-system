@@ -22,7 +22,7 @@ const Articles = () => {
                 console.log(error);
             })
 
-    }, [articles])
+    }, [])
 
     
     const location = useLocation();

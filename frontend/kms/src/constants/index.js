@@ -106,6 +106,16 @@ const extensionsMapper = {
         }
     }
 
+    const getFrontendUrl = () => {
+        console.log(process.env.REACT_APP_MODE)
+        const mode = process.env.REACT_APP_MODE;
+        if (mode === 'development') {
+            return process.env.REACT_APP_FRONTEND_URL_DEV;
+        } else {
+            return process.env.REACT_APP_FRONTEND_URL_PROD;
+        }
+    }
+
 export {
     fileTypesIcons,
     extensionsMapper,

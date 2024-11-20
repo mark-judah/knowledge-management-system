@@ -8,26 +8,34 @@ import close from "../assets/close.svg"
 import editIcon from "../assets/edit_white.svg"
 import deleteIcon from "../assets/delete.svg"
 import { getBackendUrl } from "../constants";
+import relatedArticleIcon from "../assets/related_article.svg"
 
-const ManageDepartments = () => {
+const ManageFaqs = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
-    const [fetchedDepartments, setFetchedDepartments] = useState([]);
+    const [fetchedFaqs, setFetchedFaqs] = useState([]);
+    const [articles, setArticles] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [departments, setDepartments] = useState([]);
-    const [newDepartment, setNewDepartment] = useState('');
+    const [question,setQuestion] = useState('');
+    const [answer,setAnswer] = useState('');
+    const [relatedArticle,setRelatedArticle] = useState('');
+
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get('http://localhost:8000/api/departments/')
-            .then(function (response) {
-                setFetchedDepartments(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+        Promise.all([
+            axios.get('http://localhost:8000/api/faqs/'),
+            axios.get('http://localhost:8000/api/articles/')
+        ]).then(([faqsResponse, articlesResponse]) => {
+            console.log(faqsResponse.data);
+            console.log(articlesResponse.data);
+            setFetchedFaqs(faqsResponse.data)
+            setArticles(articlesResponse.data)
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+
 
     }, [])
 
@@ -58,26 +66,12 @@ const ManageDepartments = () => {
         }
     }
 
-    const addDepartment = () => {
-        console.log(newDepartment)
-        if (newDepartment !== "") {
-            setDepartments([...departments, newDepartment]);
-        }
-        setNewDepartment('')
-    }
-
-    const removeDepartment = (dep) => {
-        console.log(dep)
-        const newList = departments.filter((dept) => dept !== dep);
-        setDepartments(newList);
-    }
-
     const handleSubmit = () => {
-        departments.map((dep) => {
             let data = {
-                "title": dep
+                "question": question,
+                "answer":answer
             }
-            axios.post(`${getBackendUrl()}` + '/api/departments/', data, {
+            axios.post(`${getBackendUrl()}` + '/api/faqs/', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -86,9 +80,11 @@ const ManageDepartments = () => {
             }).catch(function (error) {
                 console.log(error)
             })
-        })
         closeModal()
-        setDepartments('')
+    }
+
+    const fetchArticle = () => {
+
     }
 
     return (
@@ -100,7 +96,7 @@ const ManageDepartments = () => {
                             <h2 className="flex flex-row flex-nowrap items-center my-2">
                                 <span className="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
                                 <span className="flex-none block mx-4 px-4 py-2.5 text-xs leading-none font-medium uppercase bg-black text-white">
-                                    Departments
+                                    faqs
                                 </span>
                                 <span className="flex-grow block border-t border-black" aria-hidden="true" role="presentation"></span>
                             </h2>
@@ -113,7 +109,7 @@ const ManageDepartments = () => {
                 <div className="flex justify-end mx-10" onClick={() => openModal()}>
                     <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                         <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
-                        New Department
+                        New Faq
                     </button>
                 </div>
 
@@ -123,7 +119,7 @@ const ManageDepartments = () => {
                     style={modalStyle}>
                     <div className="flex justify-between w-full mb-5">
                         <div className="flex flex-col space-y-2">
-                            <p className="text-black font-bold text-xl">New Department(s)</p>
+                            <p className="text-black font-bold text-xl">New Faq</p>
                             <p className="text-gray-500 text-sm"></p>
                         </div>
 
@@ -133,29 +129,17 @@ const ManageDepartments = () => {
                     </div>
 
                     <div>
-                        <div className="relative mt-5">
-                            <input value={newDepartment} onChange={(e) => setNewDepartment(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder="Enter a department" />
-                            <button onClick={addDepartment} className="absolute right-1 top-4 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-                                Add
-                            </button>
+                        <div className="mt-5 space-y-4">
+                            <input onChange={(e) => setQuestion(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder="Question" />
+                            <input onChange={(e) => setAnswer(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder="Answer" />
+                            <select class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                                <option selected>Add a related article (optional)</option>
+                                {articles.map((article) => (
+                                    <option value={''}>{article.title}</option>
+                                ))}
+                            </select>
                         </div>
-                    </div>
 
-                    <div className="flex justify-center items-center mt-3 flex-wrap p-4">
-                        {departments.length > 0 ? (
-                            departments.map((dep) => (
-                                <div className="p-2">
-                                    <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                        <div>
-                                            <p>{dep}</p>
-                                        </div>
-                                        <div>
-                                            <img onClick={() => removeDepartment(dep)} src={deleteIcon} className="h-5" />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : ('')}
                     </div>
 
                     <div className="flex justify-end items-center space-x-2 w-full mt-5">
@@ -180,7 +164,17 @@ const ManageDepartments = () => {
                         <tr>
                             <th className="p-4 border-b border-slate-200 bg-slate-50">
                                 <p className="text-sm font-normal leading-none text-slate-500">
-                                    Name
+                                    Question
+                                </p>
+                            </th>
+                            <th className="p-4 border-b border-slate-200 bg-slate-50">
+                                <p className="text-sm font-normal leading-none text-slate-500">
+                                    Answer
+                                </p>
+                            </th>
+                            <th className="p-4 border-b border-slate-200 bg-slate-50">
+                                <p className="text-sm font-normal leading-none text-slate-500">
+                                    Related Article
                                 </p>
                             </th>
                             <th className="p-4 border-b border-slate-200 bg-slate-50">
@@ -201,10 +195,27 @@ const ManageDepartments = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {fetchedDepartments.map((fetchedDepartment) => (
+                        {fetchedFaqs.map((fetchedFaq) => (
                             <tr className="hover:bg-slate-50 border-b border-slate-200">
                                 <td className="p-4 py-5">
-                                    <p className="block font-semibold text-sm text-slate-800">{fetchedDepartment.title}</p>
+                                    <p className="block font-semibold text-sm text-slate-800 w-[30vh]">{fetchedFaq.question}</p>
+                                </td>
+                                <td className="p-4 py-5">
+                                    <p className="block font-semibold text-sm text-slate-800 w-[30vh]">{fetchedFaq.answer}</p>
+                                </td>
+                                <td className="p-4 py-5">
+                                    {fetchedFaq.related_article != null ? (
+                                        <Link to={fetchedFaq.related_article} className="block font-semibold text-sm text-slate-800">
+                                            <div className="flex">
+                                                <p className="text-sm underline mr-1">Open</p>
+                                                <img src={relatedArticleIcon} className="w-4 hover:cursor-pointer" onClick={fetchArticle} />
+                                            </div>
+                                        </Link>
+                                    ) : (
+                                        <p className="text-sm text-slate-500">
+                                            None
+                                        </p>
+                                    )}
                                 </td>
                                 <td className="p-4 py-5">
                                     <p className="text-sm text-slate-500">TODO</p>
@@ -213,25 +224,25 @@ const ManageDepartments = () => {
                                     <p className="text-sm text-slate-500">TODO</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                <div className="p-2 flex justify-center items-center space-x-3">
-                                    <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                        <div>
-                                            <p>Edit</p>
+                                    <div className="p-2 flex justify-center items-center space-x-3">
+                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                            <div>
+                                                <p>Edit</p>
+                                            </div>
+                                            <div>
+                                                <img src={editIcon} className="h-5" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <img src={editIcon} className="h-5" />
-                                        </div>
-                                    </div>
 
-                                    <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                        <div>
-                                            <p>Delete</p>
-                                        </div>
-                                        <div>
-                                            <img src={deleteIcon} className="h-5" />
+                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                            <div>
+                                                <p>Delete</p>
+                                            </div>
+                                            <div>
+                                                <img src={deleteIcon} className="h-5" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </td>
                             </tr>
                         ))}
@@ -243,4 +254,4 @@ const ManageDepartments = () => {
     );
 }
 
-export default ManageDepartments;
+export default ManageFaqs;

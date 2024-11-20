@@ -20,6 +20,7 @@ const Navbar = () => {
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
+        setMenuOpen(false)
         const token = localStorage.getItem('token')
         console.log(token)
         if (token === null) {
@@ -43,7 +44,6 @@ const Navbar = () => {
     }
 
     const logout = () => {
-        setMenuOpen(false)
         localStorage.removeItem("token");
         navigate('/login')
     }
@@ -63,7 +63,7 @@ const Navbar = () => {
 
     const welcomeText = `${Greeting()}, how can we help?`
     return (
-        <div className="flex flex-col justify-center bg-black p-3" onClick={toggleDropdown}>
+        <div className="flex flex-col justify-center bg-black p-3">
             <div>
                 <nav class="block  px-4 py-2 mx-auto  shadow-md lg:px-8 lg:py-3">
                     <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
@@ -83,7 +83,7 @@ const Navbar = () => {
                                                 placeholder="Search for answers"
                                             />
                                             <button
-                                                class="absolute top-1 right-1 flex items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm text-black transition-all shadow-sm hover:shadow  focus:shadow-none  active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                class="absolute top-1 right-1 flex items-center rounded bg-white py-2 px-2.5 border border-transparent text-center text-sm text-black transition-all shadow-sm hover:shadow  focus:shadow-none  active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                                 type="button"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2">
@@ -99,47 +99,58 @@ const Navbar = () => {
                                 )}
 
                                 <div>
-                                    <button onClick={toggleDropdown} class="flex justify-center items-center rounded bg-white py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
+                                    <button onClick={toggleDropdown} class="flex justify-center items-center rounded bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
                                         Oloo
                                     </button>
-                                    <ul className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 space-y-2  sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={companyIcon} className="h-6" alt="company settings" />
-                                            <p>Company Settings</p>
-                                        </li>
-                                        <Link to="/manage-departments" className>
-                                            <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                    <div className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10  sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
+                                        <Link >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={companyIcon} className="h-6" alt="company settings" />
+                                                <p>Company Settings</p>
+                                            </div>
+                                        </Link>
+                                        <Link to="/manage-departments" >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
                                                 <img src={departmentIcon} className="h-6" alt="company settings" />
                                                 <p>Manage Departments</p>
-                                            </li>
+                                            </div>
                                         </Link>
-
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={articlesIcon} className="h-6" alt="company settings" />
-                                            <p>Manage Articles</p>
-                                        </li>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={helpdeskIcon} className="h-6" alt="company settings" />
-                                            <p>Manage Helpdesk</p>
-                                        </li>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={inductionIcon} className="h-6" alt="company settings" />
-                                            <p>Manage Induction</p>
-                                        </li>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={faqIcon} className="h-6" alt="company settings" />
-                                            <p>Manage FAQ's</p>
-                                        </li>
-                                        <li className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
-                                            <img src={profileIcon} className="h-6" alt="company settings" />
-                                            <p>View Profile</p>
-                                        </li>
-                                        <li onClick={logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold">
+                                        <Link to="/manage-articles" >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={articlesIcon} className="h-6" alt="company settings" />
+                                                <p>Manage Articles</p>
+                                            </div>
+                                        </Link>
+                                        <Link >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={helpdeskIcon} className="h-6" alt="company settings" />
+                                                <p>Manage Helpdesk</p>
+                                            </div>
+                                        </Link>
+                                        <Link to="/manage-induction" >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={inductionIcon} className="h-6" alt="company settings" />
+                                                <p>Manage Induction</p>
+                                            </div>
+                                        </Link>
+                                        <Link to="/manage-faqs" className="py-10">
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={faqIcon} className="h-6" alt="company settings" />
+                                                <p>Manage FAQ's</p>
+                                            </div>
+                                        </Link>
+                                        <Link >
+                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                <img src={profileIcon} className="h-6" alt="company settings" />
+                                                <p>View Profile</p>
+                                            </div>
+                                        </Link>
+                                        <div onClick={logout} className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold py-2">
                                             <img src={logoutIcon} className="h-6" alt="company settings" />
                                             <p>Logout</p>
-                                        </li>
-                                    </ul>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>

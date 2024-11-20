@@ -14,6 +14,9 @@ import Induction from './pages/Induction';
 import Material from './pages/Material';
 import ArticleView from './pages/ArticleView';
 import ManageDepartments from './pages/ManageDepartments';
+import ManageArticles from './pages/ManageArticles';
+import ManageInduction from './pages/ManageInduction';
+import ManageFaqs from './pages/ManageFaqs';
 
 
 function App() {
@@ -38,6 +41,10 @@ function App() {
         <Route path="/induction" element={<Induction />} />
         <Route path="/induction/:material" element={<Material />} />
         <Route path="/manage-departments" element={<ManageDepartments />} />
+        <Route path="/manage-articles" element={<ManageArticles />} />
+        <Route path="/manage-induction" element={<ManageInduction />} />
+        <Route path="/manage-faqs" element={<ManageFaqs />} />
+
 
       </Routes>
 
