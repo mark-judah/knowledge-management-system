@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import companyIcon from "../assets/company.svg"
 import deleteIcon from "../assets/delete.svg"
 import emailIcon from "../assets/email.svg"
@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Setup = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
 
     const navigate = useNavigate()
     const [component, setComponent] = useState(0);
@@ -30,7 +30,7 @@ const Setup = () => {
         if (component === 4) {
             console.log('hapa')
             navigate('/')
-        }else{
+        } else {
             activeForm(component)
         }
     }
@@ -181,7 +181,7 @@ const Setup = () => {
                             <input type="password" class="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Confirm Password" />
                             <img src={passwordIcon} className="absolute w-5 h-5 top-2.5 right-2.5" />
                         </div>
-                    
+
                     </div>
                 </div>
 

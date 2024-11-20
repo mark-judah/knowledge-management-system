@@ -104,7 +104,7 @@ const Navbar = () => {
                                         Oloo
                                     </button>
                                     <div className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10  sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
-                                        <Link >
+                                        <Link to="/manage-company" >
                                             <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
                                                 <img src={companyIcon} className="h-6" alt="company settings" />
                                                 <p>Company Settings</p>

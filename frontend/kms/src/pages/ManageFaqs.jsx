@@ -7,8 +7,9 @@ import Modal from 'react-modal'
 import close from "../assets/close.svg"
 import editIcon from "../assets/edit_white.svg"
 import deleteIcon from "../assets/delete.svg"
-import { getBackendUrl } from "../constants";
+import { getBackendUrl,getFrontendUrl } from "../constants";
 import relatedArticleIcon from "../assets/related_article.svg"
+import slugify from "react-slugify";
 
 const ManageFaqs = () => {
     const location = useLocation();
@@ -19,6 +20,7 @@ const ManageFaqs = () => {
     const [question,setQuestion] = useState('');
     const [answer,setAnswer] = useState('');
     const [relatedArticle,setRelatedArticle] = useState('');
+    const [seed, setSeed] = useState(1);
 
 
     useEffect(() => {
@@ -37,7 +39,7 @@ const ManageFaqs = () => {
         })
 
 
-    }, [])
+    }, [seed])
 
     const openModal = () => {
         setModalIsOpen(true)
@@ -69,9 +71,10 @@ const ManageFaqs = () => {
     const handleSubmit = () => {
             let data = {
                 "question": question,
-                "answer":answer
+                "answer":answer,
+                "related_article":relatedArticle
             }
-            axios.post(`${getBackendUrl()}` + '/api/faqs/', data, {
+            axios.post(`${getBackendUrl()}` + 'api/faqs/', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -81,6 +84,7 @@ const ManageFaqs = () => {
                 console.log(error)
             })
         closeModal()
+        setSeed(Math.random())
     }
 
     const fetchArticle = () => {
@@ -106,8 +110,8 @@ const ManageFaqs = () => {
                     <BreadCrumb path={path} />
                 </div>
 
-                <div className="flex justify-end mx-10" onClick={() => openModal()}>
-                    <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                <div className="flex justify-end mx-10">
+                    <button onClick={() => openModal()} className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                         <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
                         New Faq
                     </button>
@@ -132,10 +136,10 @@ const ManageFaqs = () => {
                         <div className="mt-5 space-y-4">
                             <input onChange={(e) => setQuestion(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder="Question" />
                             <input onChange={(e) => setAnswer(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder="Answer" />
-                            <select class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                            <select onChange={(e) => setRelatedArticle(e.target.value)} class="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                                 <option selected>Add a related article (optional)</option>
                                 {articles.map((article) => (
-                                    <option value={''}>{article.title}</option>
+                                    <option  value={`${getFrontendUrl()}` +'articles/'+ slugify(article.title)}>{article.title}</option>
                                 ))}
                             </select>
                         </div>
@@ -218,10 +222,10 @@ const ManageFaqs = () => {
                                     )}
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedFaq.created_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedFaq.updated_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
                                     <div className="p-2 flex justify-center items-center space-x-3">

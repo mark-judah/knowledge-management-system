@@ -1,13 +1,27 @@
 from django.db import models
 
 # Create your models here.
-class Department(models.Model):
+
+class Company(models.Model):
     title = models.CharField(max_length=180)
-    icon = models.ImageField(upload_to='img',blank=True, null=True)
+    logo = models.ImageField(upload_to='img', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
     
+
+class Department(models.Model):
+    title = models.CharField(max_length=180)
+    icon = models.ImageField(upload_to='img', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Article(models.Model):
     title = models.CharField(max_length=180)
     department = models.ForeignKey(
@@ -16,14 +30,18 @@ class Article(models.Model):
         blank=False
     )
     article_type = models.CharField(max_length=180)
-    chapter = models.CharField(max_length=180,blank=True, null=True)
+    chapter = models.CharField(max_length=180, blank=True, null=True)
     duration = models.CharField(max_length=180, blank=True, null=True)
     thumbnail = models.ImageField(upload_to='img')
-    tags = models.TextField( blank=True, null=True)
+    tags = models.TextField(blank=True, null=True)
     article_content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
-     
+
+
 class Folder(models.Model):
     title = models.CharField(max_length=180)
     department = models.ForeignKey(
@@ -31,8 +49,12 @@ class Folder(models.Model):
         on_delete=models.CASCADE,
         blank=False
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
+
 
 class File(models.Model):
     title = models.CharField(max_length=180)
@@ -41,13 +63,19 @@ class File(models.Model):
         on_delete=models.CASCADE,
         blank=False
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
+
 
 class Faq(models.Model):
     question = models.CharField(max_length=180)
     answer = models.CharField(max_length=180)
-    related_article = models.CharField(max_length=180,blank=True,null=True)
+    related_article = models.CharField(max_length=180, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.question

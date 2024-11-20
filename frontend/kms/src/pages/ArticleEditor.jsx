@@ -122,7 +122,7 @@ const ArticleEditor = () => {
         }
 
         console.log(body)
-        axios.post(`${getBackendUrl()}` + '/api/articles/', body, {
+        axios.post(`${getBackendUrl()}` + 'api/articles/', body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

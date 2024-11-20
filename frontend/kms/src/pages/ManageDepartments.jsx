@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumbs";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import newFolderIcon from "../assets/new_folder_white.svg"
 import Modal from 'react-modal'
@@ -16,6 +16,7 @@ const ManageDepartments = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [departments, setDepartments] = useState([]);
     const [newDepartment, setNewDepartment] = useState('');
+    const [seed, setSeed] = useState(1);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -29,7 +30,7 @@ const ManageDepartments = () => {
                 console.log(error);
             })
 
-    }, [])
+    }, [seed])
 
     const openModal = () => {
         setModalIsOpen(true)
@@ -77,7 +78,7 @@ const ManageDepartments = () => {
             let data = {
                 "title": dep
             }
-            axios.post(`${getBackendUrl()}` + '/api/departments/', data, {
+            axios.post(`${getBackendUrl()}` + 'api/departments/', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -87,8 +88,9 @@ const ManageDepartments = () => {
                 console.log(error)
             })
         })
-        closeModal()
         setDepartments('')
+        closeModal()
+        setSeed(Math.random())
     }
 
     return (
@@ -110,8 +112,8 @@ const ManageDepartments = () => {
                     <BreadCrumb path={path} />
                 </div>
 
-                <div className="flex justify-end mx-10" onClick={() => openModal()}>
-                    <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                <div className="flex justify-end mx-10">
+                    <button onClick={() => openModal()} className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                         <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
                         New Department
                     </button>
@@ -207,10 +209,10 @@ const ManageDepartments = () => {
                                     <p className="block font-semibold text-sm text-slate-800">{fetchedDepartment.title}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedDepartment.created_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedDepartment.updated_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
                                 <div className="p-2 flex justify-center items-center space-x-3">
