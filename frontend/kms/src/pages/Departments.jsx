@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import departmentIcon from "../assets/folder.svg"
 import folderClosedIcon from "../assets/closed_folder.svg"
 import folderOpenIcon from "../assets/open_folder.svg"
-import newArticleIcon from "../assets/new_article.svg"
-import newFolderIcon from "../assets/new_folder.svg"
-import deleteDepartmentIcon from "../assets/delete_black.svg"
+import newFileIcon from "../assets/new_article.svg"
 import slugify from 'react-slugify';
 import { getBackendUrl } from "../constants";
-
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
@@ -21,7 +18,7 @@ const Departments = () => {
         Promise.all([
             axios.get(`${getBackendUrl()}` + 'api/departments/'),
             axios.get(`${getBackendUrl()}` + 'api/folders/')
-        ]).then(([departmentsResponse,foldersResponse])=>{
+        ]).then(([departmentsResponse, foldersResponse]) => {
             console.log(departmentsResponse.data);
             console.log(foldersResponse.data);
             setDepartments(departmentsResponse.data)
@@ -66,7 +63,7 @@ const Departments = () => {
 
                     </div>
                 </div>
-                <BreadCrumb path={path}/>
+                <BreadCrumb path={path} />
             </div>
 
             {departments.map((department) =>
@@ -82,7 +79,7 @@ const Departments = () => {
                         </div>
                         <Link to={slugify(department.title)}>
                             <div>
-                                <img src={department.image} className="h-6" />
+                                <img className="w-6" src={departmentIcon} />
                             </div>
                         </Link>
 
@@ -94,7 +91,7 @@ const Departments = () => {
 
                         <Link to={slugify(department.title)}>
                             <div>
-                                <p>({department.articles})</p>
+                                <p>({folders.filter((folder) => folder.department === department.title).length})</p>
                             </div>
                         </Link>
 
@@ -104,32 +101,33 @@ const Departments = () => {
                             </Link>
 
                         </div>
-
-                        {/* <img src={newArticleIcon} className="h-6" /> */}
-                        <img src={newFolderIcon} className="h-6" />
-
+                        <img src={newFileIcon} className="h-6" />
                     </div>
 
                     <div>
                         {department.folderOpen == true ? (
                             <div className="ml-5 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 p-5">
-                                {folders.map((folder, index) => (
-                                    (folder.department === department.title ? (
-                                        <Link to={`/departments/${slugify(department.title)}/${slugify(folder.title)}`} >
-                                            <div className="flex flex-col space-y-2">
-                                                <div>
-                                                    <img src={departmentIcon} className="h-24" />
-                                                </div>
+                                {folders.filter((folder) => folder.department === department.title).length > 0 ? (
+                                    folders.map((folder, index) => (
+                                        (folder.department === department.title ? (
+                                            <Link to={`/departments/${slugify(department.title)}/${slugify(folder.title)}`} >
+                                                <div className="flex flex-col space-y-2">
+                                                    <div>
+                                                        <img src={departmentIcon} className="h-24" />
+                                                    </div>
 
-                                                <div>
-                                                    <p>{folder.title}</p>
+                                                    <div>
+                                                        <p>{folder.title}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    ) : (
-                                        ''
+                                            </Link>
+                                        ) : (
+                                            ''
+                                        ))
                                     ))
-                                ))}
+                                ) : (
+                                    <img src={newFileIcon} className="h-24" />
+                                )}
                             </div>
                         ) : (
                             ''

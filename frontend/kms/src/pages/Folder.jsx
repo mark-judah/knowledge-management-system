@@ -22,35 +22,35 @@ const Folder = () => {
     const [folders, setFolders] = useState([
         {
             "title": "Articles",
-            "parent": "Departments/Human resources",
+            "path": "Departments/Human resources",
         },
         {
             "title": "Articles",
-            "parent": "Departments/Finance",
+            "path": "Departments/Finance",
         },
         {
             "title": "Invoices",
-            "parent": "Departments/Finance",
+            "path": "Departments/Finance",
         },
         {
             "title": "January",
-            "parent": "Departments/Finance/Invoices",
+            "path": "Departments/Finance/Invoices",
         },
         {
             "title": "Week 1",
-            "parent": "Departments/Finance/Invoices/January",
+            "path": "Departments/Finance/Invoices/January",
         },
         {
             "title": "January",
-            "parent": "Departments/Finance",
+            "path": "Departments/Finance",
         },
         {
             "title": "Receipts",
-            "parent": "Departments/Finance",
+            "path": "Departments/Finance",
         },
         {
             "title": "Templates",
-            "parent": "Departments/Finance",
+            "path": "Departments/Finance",
         },
     ]);
     const [articles, setArticles] = useState([
@@ -74,7 +74,7 @@ const Folder = () => {
         },
     ]);
 
-    let folderExists = folders.some(folder => slugify(folder['parent']) === slugify(slugify(location.pathname)))
+    let folderExists = folders.some(folder => slugify(folder['path']) === slugify(slugify(location.pathname)))
     let articleExists = articles.some(article => slugify(article['department']) === slugify(currentFolder[currentFolder.length - 2]))
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [mainText, setMainText] = useState('')
@@ -280,7 +280,7 @@ const Folder = () => {
             {folderExists || files.length >0 ? (
                 <div id="" className="ml-5 grid grid-cols-2 sm:grid-cols-8  lg:grid-cols-12 gap-2 p-5">
                     {folders.map((folder, index) => (
-                        slugify(folder.parent) === slugify(location.pathname) ? (
+                        slugify(folder.path) === slugify(location.pathname) ? (
                             <Link to={`${location.pathname}/${slugify(folder.title)}`}>
                                 <div className="flex flex-col space-y-2">
                                     <div>

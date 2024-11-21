@@ -187,6 +187,11 @@ const ManageDepartments = () => {
                             </th>
                             <th className="p-4 border-b border-slate-200 bg-slate-50">
                                 <p className="text-sm font-normal leading-none text-slate-500">
+                                    Icon
+                                </p>
+                            </th>
+                            <th className="p-4 border-b border-slate-200 bg-slate-50">
+                                <p className="text-sm font-normal leading-none text-slate-500">
                                     Date Created
                                 </p>
                             </th>
@@ -209,31 +214,39 @@ const ManageDepartments = () => {
                                     <p className="block font-semibold text-sm text-slate-800">{fetchedDepartment.title}</p>
                                 </td>
                                 <td className="p-4 py-5">
+                                    {fetchedDepartment.icon ? (
+                                        <img className="w-24" src={`${getBackendUrl()}` + fetchedDepartment.icon} alt="card-image" />
+
+                                    ) : (
+                                        'No icon'
+                                    )}
+                                </td>
+                                <td className="p-4 py-5">
                                     <p className="text-sm text-slate-500">{fetchedDepartment.created_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
                                     <p className="text-sm text-slate-500">{fetchedDepartment.updated_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                <div className="p-2 flex justify-center items-center space-x-3">
-                                    <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                        <div>
-                                            <p>Edit</p>
+                                    <div className="p-2 flex justify-center items-center space-x-3">
+                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                            <div>
+                                                <p>Edit</p>
+                                            </div>
+                                            <div>
+                                                <img src={editIcon} className="h-5" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <img src={editIcon} className="h-5" />
-                                        </div>
-                                    </div>
 
-                                    <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                        <div>
-                                            <p>Delete</p>
-                                        </div>
-                                        <div>
-                                            <img src={deleteIcon} className="h-5" />
+                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
+                                            <div>
+                                                <p>Delete</p>
+                                            </div>
+                                            <div>
+                                                <img src={deleteIcon} className="h-5" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </td>
                             </tr>
                         ))}
