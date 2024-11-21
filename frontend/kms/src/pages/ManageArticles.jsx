@@ -120,10 +120,10 @@ const ManageArticles = () => {
                                     <p className="text-sm text-slate-500">{fetchedArticle.tags}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedArticle.created_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">TODO</p>
+                                    <p className="text-sm text-slate-500">{fetchedArticle.updated_at}</p>
                                 </td>
                                 <td className="p-4 py-5">
                                     <div className="p-2 flex justify-center items-center space-x-3">

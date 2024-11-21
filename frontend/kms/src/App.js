@@ -17,6 +17,7 @@ import ManageDepartments from './pages/ManageDepartments';
 import ManageArticles from './pages/ManageArticles';
 import ManageInduction from './pages/ManageInduction';
 import ManageFaqs from './pages/ManageFaqs';
+import ManageCompany from './pages/ManageCompany';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/departments/*" element={<Folder />} />
         <Route path="/induction" element={<Induction />} />
         <Route path="/induction/:material" element={<Material />} />
+        <Route path="/manage-company" element={<ManageCompany />} />
         <Route path="/manage-departments" element={<ManageDepartments />} />
         <Route path="/manage-articles" element={<ManageArticles />} />
         <Route path="/manage-induction" element={<ManageInduction />} />

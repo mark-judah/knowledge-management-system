@@ -119,5 +119,6 @@ const extensionsMapper = {
 export {
     fileTypesIcons,
     extensionsMapper,
-    getBackendUrl
+    getBackendUrl,
+    getFrontendUrl,
 }

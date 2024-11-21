@@ -24,7 +24,7 @@ const Articles = () => {
 
     }, [])
 
-    
+
     const location = useLocation();
     const path = location.pathname.split('/');
 
@@ -50,14 +50,16 @@ const Articles = () => {
 
                 </div>
 
-                <Link to="/article-editor">
-                    <div className="flex justify-end mx-10">
+
+                <div className="flex justify-end mx-10">
+                    <Link to="/article-editor">
                         <button class="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                             <img src={newArticleIcon} className="h-7 mx-1" alt="new article" />
                             New Article
                         </button>
-                    </div>
-                </Link>
+                    </Link>
+
+                </div>
             </div>
 
             {articles.length > 0 ? (
@@ -68,7 +70,7 @@ const Articles = () => {
                                 <a href="javascript:void(0)">
                                     <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[40vh]  md:w-[45vh] xl:w-[55vh] ">
                                         <div class="relative h-56 m-2.5 overflow-hidden text-white rounded-md">
-                                            <img src={`${getBackendUrl()}`+article.thumbnail} alt="card-image" />
+                                            <img src={`${getBackendUrl()}` + article.thumbnail} alt="card-image" />
                                         </div>
                                         <div class="px-4">
                                             <div class="flex justify-start space-x-1 items-center">
@@ -79,7 +81,7 @@ const Articles = () => {
                                                 ))} */}
                                             </div>
                                             <h6 class="mb-2 text-slate-800 text-xl font-semibold">
-                                               {article.title}
+                                                {article.title}
                                             </h6>
 
                                         </div>
@@ -98,7 +100,7 @@ const Articles = () => {
                     ))}
                 </div>
             ) : (
-               <Empty/>
+                <Empty />
             )
 
             }
