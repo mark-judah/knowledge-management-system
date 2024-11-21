@@ -23,6 +23,13 @@ class CompanyListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, *args, **kwargs):
+        company=Company.objects.get(pk=1)
+        serializer = CompanySerializer(company,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserListCreateView(APIView):
     def get(self, request, *args, **kwargs):
@@ -31,8 +38,11 @@ class UserListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
-        group = Group.objects.get(name=request.data['department'])
+        group_exists=Group.objects.filter(name=request.data['department']).exists()
+        if group_exists:
+            group = Group.objects.get(name=request.data['department'])
+        else:
+            group=Group.objects.create(name=request.data['department'])   
         password = make_password(request.data['password'])
         role_data = request.data['role']
         is_superuser = False
@@ -65,7 +75,6 @@ class DepartmentListCreateView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = DepartmentSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             serializer.save()
             Group.objects.create(name=request.data['title'])

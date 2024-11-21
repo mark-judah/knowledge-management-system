@@ -11,6 +11,8 @@ import helpdeskIcon from "../assets/helpdesk.svg"
 import faqIcon from "../assets/faq.svg"
 import logoIcon from "../assets/logo.svg"
 import inductionIcon from "../assets/induction.svg"
+import axios from "axios";
+import { getBackendUrl } from "../constants";
 
 
 const Navbar = () => {
@@ -18,6 +20,7 @@ const Navbar = () => {
     const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [company, setCompany] = useState([])
 
     useEffect(() => {
         setMenuOpen(false)
@@ -28,6 +31,15 @@ const Navbar = () => {
         } else {
             setLoggedIn(true)
         }
+        axios.get(`${getBackendUrl()}` + 'api/company/')
+            .then(function (response) {
+                setCompany(response.data)
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
     }, [navigate]);
 
     const fullNavbar = [
@@ -61,15 +73,30 @@ const Navbar = () => {
         }
     }
 
+
     const welcomeText = `${Greeting()}, how can we help?`
     return (
         <div className="flex flex-col justify-center bg-black p-3">
             <div>
-                <nav className="block  px-4 py-2 mx-auto  shadow-md lg:px-8 lg:py-3">
+                <nav className="block  px-4 py-2 mx-auto  lg:px-8 lg:py-3">
                     <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                         <div className="flex justify-center items-center space-x-5">
                             <Link to="/">
-                                <img src={logoIcon} className="w-[20vh]" />
+                                {company.length > 0 ? (
+                                    <div>
+                                        <p className="text-white text-xl sm:text-3xl font-extrabold">{company[0].title}</p>
+                                        <div className="mt-2">
+                                            <p className="text-xs sm:text-sm text-slate-400">{company[0].tagline}</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p className="text-white text-lg sm:text-2xl font-extrabold">Knowledge Management System</p>
+                                        <div className="mt-2">
+                                            <p className="text-xs sm:text-sm text-slate-400">Share knowledge and collaborate.</p>
+                                        </div>
+                                    </div>
+                                )}
                             </Link>
                         </div>
 
@@ -99,56 +126,74 @@ const Navbar = () => {
                                 )}
 
                                 <div>
-                                    <button onClick={toggleDropdown} className="flex justify-center items-center rounded bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
+                                    <div onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="flex justify-center items-center rounded-full hover:cursor-pointer bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
-                                        Oloo
-                                    </button>
-                                    <div className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10  sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
-                                        <Link to="/manage-company" >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={companyIcon} className="h-6" alt="company settings" />
-                                                <p>Company Settings</p>
+                                    </div>
+                                    <div className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
+
+                                        <div className="mt-2">
+                                            <Link to="/manage-company" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={companyIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Company Settings</p>
+                                                </div>
+                                            </Link>
+                                            <Link to="/manage-departments" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={departmentIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage Departments</p>
+                                                </div>
+                                            </Link>
+                                            <Link to="/manage-articles" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={articlesIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage Articles</p>
+                                                </div>
+                                            </Link>
+                                            <Link >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={helpdeskIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage Helpdesk</p>
+                                                </div>
+                                            </Link>
+                                            <Link to="/manage-induction" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={inductionIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage Induction</p>
+                                                </div>
+                                            </Link>
+                                            <Link to="/manage-faqs" className="py-10">
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={faqIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage FAQ's</p>
+                                                </div>
+                                            </Link>
+                                            <Link >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={profileIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>View Profile</p>
+                                                </div>
+                                            </Link>
+                                            <div onClick={logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold py-2">
+                                                <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                    <img src={logoutIcon} className="h-6" alt="company settings" />
+                                                </div>
+                                                <p>Logout</p>
                                             </div>
-                                        </Link>
-                                        <Link to="/manage-departments" >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={departmentIcon} className="h-6" alt="company settings" />
-                                                <p>Manage Departments</p>
-                                            </div>
-                                        </Link>
-                                        <Link to="/manage-articles" >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={articlesIcon} className="h-6" alt="company settings" />
-                                                <p>Manage Articles</p>
-                                            </div>
-                                        </Link>
-                                        <Link >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={helpdeskIcon} className="h-6" alt="company settings" />
-                                                <p>Manage Helpdesk</p>
-                                            </div>
-                                        </Link>
-                                        <Link to="/manage-induction" >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={inductionIcon} className="h-6" alt="company settings" />
-                                                <p>Manage Induction</p>
-                                            </div>
-                                        </Link>
-                                        <Link to="/manage-faqs" className="py-10">
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={faqIcon} className="h-6" alt="company settings" />
-                                                <p>Manage FAQ's</p>
-                                            </div>
-                                        </Link>
-                                        <Link >
-                                            <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                <img src={profileIcon} className="h-6" alt="company settings" />
-                                                <p>View Profile</p>
-                                            </div>
-                                        </Link>
-                                        <div onClick={logout} className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold py-2">
-                                            <img src={logoutIcon} className="h-6" alt="company settings" />
-                                            <p>Logout</p>
                                         </div>
                                     </div>
                                 </div>

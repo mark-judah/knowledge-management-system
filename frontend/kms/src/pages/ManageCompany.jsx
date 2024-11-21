@@ -26,6 +26,7 @@ const ManageCompany = () => {
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, } = useForm();
     const [seed, setSeed] = useState(1);
+    const [tagline, setCompanyTagline] = useState('');
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -88,10 +89,34 @@ const ManageCompany = () => {
             }).finally(
                 toggleComponents('users')
             )
-        }else{
+        } else {
             console.log("username & password do not match")
         }
 
+    }
+
+    const saveCompanyDetails = () => {
+        const body = new FormData();
+        if (companyName.length == 0) {
+            setCompanyName(company[0].title)
+        }
+        if (tagline.length == 0) {
+            setCompanyTagline(company[0].tagline)
+        }
+        body.append('title', companyName);
+        body.append('tagline', tagline);
+
+        axios.patch(`${getBackendUrl()}` + 'api/company/', body, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(
+            window.location.reload()
+        )
     }
 
     return (
@@ -138,29 +163,22 @@ const ManageCompany = () => {
                             <label className="block mb-1 text-sm text-slate-600 mt-5">
                                 Name
                             </label>
-                            <input value={company.length > 0 ? company[0].title : companyName}
+                            <input placeholder={company.length > 0 ? company[0].title : companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Company name" />
+                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
                         </div>
 
-                        <div className="w-full max-w-sm min-w-[200px]">
+                        <div className="w-full max-w-sm min-w-[200px] mt-4">
                             <label className="block mb-1 text-sm text-slate-600 mt-5">
-                                Logo
+                                Tagline
                             </label>
-                            <input type="file"
-                                onChange={(e) => setCompanyLogo(e.target.files[0])}
-                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Company logo" />
-                            {companyLogo != '' ? (
-                                <div className="p-2">
-                                    <img src={URL.createObjectURL(companyLogo)} className="w-32 rounded-lg" />
-                                </div>
-                            ) : (
-                                <img src={company.length > 0 ? `${getBackendUrl()}` + company[0].logo : ''} />
-                            )}
+                            <input placeholder={company.length > 0 ? company[0].tagline : tagline}
+                                onChange={(e) => setCompanyTagline(e.target.value)}
+                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" />
                         </div>
 
                         <div className="w-full max-w-sm min-w-[200px] flex justify-start items-center my-5">
-                            <button className="w-fit rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                            <button onClick={saveCompanyDetails} className="w-fit rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                                 Save Changes
                             </button>
                         </div>

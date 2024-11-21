@@ -4,7 +4,7 @@ from django.db import models
 
 class Company(models.Model):
     title = models.CharField(max_length=180)
-    logo = models.ImageField(upload_to='img', blank=True, null=True)
+    tagline = models.CharField(max_length=180,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -14,7 +14,6 @@ class Company(models.Model):
 
 class Department(models.Model):
     title = models.CharField(max_length=180)
-    icon = models.ImageField(upload_to='img', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,6 +50,7 @@ class Folder(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    path = models.CharField(max_length=180)
 
     def __str__(self):
         return self.title
@@ -65,6 +65,7 @@ class File(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    path = models.CharField(max_length=180)
 
     def __str__(self):
         return self.title
