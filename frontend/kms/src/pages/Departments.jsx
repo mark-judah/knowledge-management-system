@@ -3,15 +3,23 @@ import departmentIcon from "../assets/folder.svg"
 import folderClosedIcon from "../assets/closed_folder.svg"
 import folderOpenIcon from "../assets/open_folder.svg"
 import newFileIcon from "../assets/new_article.svg"
+import newDepartentIcon from "../assets/new_folder.svg"
 import slugify from 'react-slugify';
 import { getBackendUrl } from "../constants";
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import FileUpload from "../components/FileUpload";
+import closeIcon from "../assets/close.svg"
+
 
 const Departments = () => {
     const [departments, setDepartments] = useState([]);
     const [folders, setFolders] = useState([]);
+    const [newFolder, setNewFolder] = useState('');
+    const [seed, setSeed] = useState(1);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -27,7 +35,7 @@ const Departments = () => {
             // handle error
             console.log(error);
         })
-    }, [])
+    }, [seed])
 
     const location = useLocation();
     const path = location.pathname.split('/');
@@ -46,6 +54,25 @@ const Departments = () => {
             newDepartmentsArray[currentFoldersIndex] = updatedDepartment;
             setDepartments(newDepartmentsArray);
         }
+    }
+
+    const saveFolder = (id, department) => {
+        let data = {
+            "title": slugify(newFolder),
+            "department": id,
+            "path": "Departments" + "/" + department
+        }
+        axios.post(`${getBackendUrl()}` + 'api/folders/', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(
+            setSeed(Math.random())
+        )
     }
 
     return (
@@ -77,57 +104,104 @@ const Departments = () => {
                                 <img onClick={() => toggleFolder(department.title, department.folderOpen)} src={folderClosedIcon} className="h-6" />
                             )}
                         </div>
-                        <Link to={slugify(department.title)}>
+                        <Link to={slugify(department.title)} state={{ id: department.id, department: department.title }}>
                             <div>
                                 <img className="w-6" src={departmentIcon} />
                             </div>
                         </Link>
 
-                        <Link to={slugify(department.title)}>
+                        <Link to={slugify(department.title)} state={{ id: department.id, department: department.title }}>
                             <div>
                                 <p>{department.title}</p>
                             </div>
                         </Link>
 
-                        <Link to={slugify(department.title)}>
+                        <Link to={slugify(department.title)} state={{ id: department.id, department: department.title }}>
                             <div>
                                 <p>({folders.filter((folder) => folder.department === department.title).length})</p>
                             </div>
                         </Link>
 
                         <div className="w-2/3">
-                            <Link to={slugify(department.title)}>
+                            <Link to={slugify(department.title)} state={{ id: department.id, department: department.title }}>
                                 <hr className="h-0.5 bg-gray-500" />
                             </Link>
 
                         </div>
-                        <img src={newFileIcon} className="h-6" />
+                        <Popup trigger={
+                            <img src={newDepartentIcon} className="h-6 hover:cursor-pointer" />
+                        } modal nested>
+                            {close => (
+                                <div className="p-5">
+                                    <div className="flex justify-between w-full mb-5">
+                                        <div className="flex flex-col space-y-2">
+                                            <p className="text-black font-bold text-xl">New Folder</p>
+                                            <p className="text-gray-500 text-sm"></p>
+                                        </div>
+
+                                        <div>
+                                            <img src={closeIcon} onClick={close} className="h-5 mx-1 hover:cursor-pointer" alt="close modal" />
+                                        </div>
+                                    </div>
+
+                                    <div className="relative mt-5">
+                                        <input value={newFolder} onChange={(e) => setNewFolder(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                                            placeholder="Name" />
+
+                                    </div>
+
+                                    <div className="flex justify-end items-center space-x-2 w-full mt-5">
+                                        <button onClick={close}
+                                            className="rounded-md border border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-black hover:border-black focus:text-white"
+                                            type="button">
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg"
+                                            type="button" onClick={() => { close(); saveFolder(department.id, department.title) }}>
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
+
+                        <Popup trigger={
+                            <img src={newFileIcon} className="h-6 hover:cursor-pointer" />
+                        } modal nested>
+                            <FileUpload path={'Departments/' + department.title} />
+                        </Popup>
                     </div>
 
                     <div>
                         {department.folderOpen == true ? (
-                            <div className="ml-5 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 p-5">
-                                {folders.filter((folder) => folder.department === department.title).length > 0 ? (
-                                    folders.map((folder, index) => (
-                                        (folder.department === department.title ? (
-                                            <Link to={`/departments/${slugify(department.title)}/${slugify(folder.title)}`} >
-                                                <div className="flex flex-col space-y-2">
-                                                    <div>
-                                                        <img src={departmentIcon} className="h-24" />
-                                                    </div>
+                            <div>
+                                <p className="text-xs sm:text-sm text-slate-400 ml-10">{folders.filter((folder) => folder.department === department.title).length > 0 ? 'Latest Folders' : 'No Files/Folders'}</p>
 
-                                                    <div>
-                                                        <p>{folder.title}</p>
+                                <div className="ml-5 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 p-5">
+                                    {folders.filter((folder) => folder.department === department.title).length > 0 ? (
+                                        folders.map((folder, index) => (
+                                            (folder.department === department.title ? (
+                                                <Link to={"/" + folder.path.toLowerCase() + "/" + folder.title} state={{ id: department.id, department: department.title }}>
+                                                    <div className="flex flex-col space-y-2">
+                                                        <div>
+                                                            <img src={departmentIcon} className="h-24" />
+                                                        </div>
+
+                                                        <div>
+                                                            <p>{folder.title}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Link>
-                                        ) : (
-                                            ''
+                                                </Link>
+                                            ) : (
+                                                ''
+                                            ))
                                         ))
-                                    ))
-                                ) : (
-                                    <img src={newFileIcon} className="h-24" />
-                                )}
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
                             </div>
                         ) : (
                             ''

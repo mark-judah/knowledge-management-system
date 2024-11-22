@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from apiApp.models import Company, Department, Article, Faq, Folder, File
-from apiApp.serializers import CompanySerializer, UserSerializer, DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FaqSerializer, FolderSerializer, FileSerializer
+from apiApp.serializers import CompanySerializer, FolderSerializerGet, FolderSerializerPost, UserSerializer, DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FaqSerializer, FileSerializer
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 
@@ -99,11 +99,11 @@ class ArticleListCreateView(APIView):
 class FolderListCreateView(APIView):
     def get(self, request, *args, **kwargs):
         folders = Folder.objects.all()
-        serializer = FolderSerializer(folders, many=True)
+        serializer = FolderSerializerGet(folders, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = FolderSerializer(data=request.data)
+        serializer = FolderSerializerPost(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
