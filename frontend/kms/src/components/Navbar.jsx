@@ -23,7 +23,6 @@ const Navbar = () => {
     const [company, setCompany] = useState([])
 
     useEffect(() => {
-        setMenuOpen(false)
         const token = localStorage.getItem('token')
         console.log(token)
         if (token === null) {
@@ -40,7 +39,7 @@ const Navbar = () => {
                 // handle error
                 console.log(error);
             })
-    }, [navigate]);
+    }, []);
 
     const fullNavbar = [
         '/'
@@ -125,11 +124,11 @@ const Navbar = () => {
                                     ''
                                 )}
 
-                                <div>
+                                <div className="z-10">
                                     <div onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="flex justify-center items-center rounded-full hover:cursor-pointer bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
                                     </div>
-                                    <div className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
+                                    <div onMouseLeave={toggleDropdown} className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
 
                                         <div className="mt-2">
                                             <Link to="/manage-company" >

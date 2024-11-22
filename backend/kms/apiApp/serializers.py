@@ -42,9 +42,14 @@ class ArticleSerializerPost(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class FolderSerializer(serializers.ModelSerializer):
+class FolderSerializerGet(serializers.ModelSerializer):
     department = serializers.CharField(source='department.title')
 
+    class Meta:
+        model = Folder
+        fields = '__all__'
+
+class FolderSerializerPost(serializers.ModelSerializer):
     class Meta:
         model = Folder
         fields = '__all__'

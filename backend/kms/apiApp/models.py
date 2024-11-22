@@ -50,7 +50,7 @@ class Folder(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    path = models.CharField(max_length=180)
+    path = models.CharField(max_length=180,blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -65,7 +65,7 @@ class File(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    path = models.CharField(max_length=180)
+    path = models.CharField(max_length=180,blank=True, null=True)
 
     def __str__(self):
         return self.title
