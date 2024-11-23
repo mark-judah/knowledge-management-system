@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import uploadFileIcon from "../assets/upload_black.svg"
 import deleteIcon from "../assets/delete_black.svg"
 import closeIcon from "../assets/close.svg"
+import { getBackendUrl } from "../constants";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import slugify from "react-slugify";
 
 
 const FileUpload = (props) => {
+    const location = useLocation();
+    const currentFolder = location.pathname.split('/');
+
     const convertBytes = (bytes) => {
         const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
         if (bytes == 0) {
@@ -59,7 +66,26 @@ const FileUpload = (props) => {
 
     const handleUpload = () => {
         document.getElementById("popup-root").remove()
-        console.log(files)
+        let filteredPath = currentFolder.filter((item) => item != 'departments' && item != slugify(props.department) && item != '')
+        let formattedPath = filteredPath.join('/')
+
+        let data = {
+            "department_id": props.id,
+            "files": files,
+            "path":  "Departments" + "/" + props.department + "/" + formattedPath
+        }
+     
+        axios.post(`${getBackendUrl()}` + 'api/files/', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(
+
+        )
     }
 
     return (
@@ -70,7 +96,7 @@ const FileUpload = (props) => {
                 </div>
 
                 <div>
-                    <img src={closeIcon} onClick={()=>document.getElementById("popup-root").remove()} className="h-5 mx-1 hover:cursor-pointer" alt="close modal" />
+                    <img src={closeIcon} onClick={() => document.getElementById("popup-root").remove()} className="h-5 mx-1 hover:cursor-pointer" alt="close modal" />
                 </div>
             </div>
 
@@ -112,7 +138,7 @@ const FileUpload = (props) => {
             </div>
 
             <div className="flex justify-end items-center space-x-2 w-full">
-                <button onClick={()=>document.getElementById("popup-root").remove()}
+                <button onClick={() => document.getElementById("popup-root").remove()}
                     className="rounded-md border border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-black hover:border-black focus:text-white"
                     type="button">
                     Cancel

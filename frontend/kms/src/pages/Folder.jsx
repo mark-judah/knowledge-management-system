@@ -29,21 +29,24 @@ const Folder = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/folders/')
-            .then(function (response) {
-                setFolders(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
+        Promise.all([
+            axios.get(`${getBackendUrl()}` + 'api/files/'),
+            axios.get(`${getBackendUrl()}` + 'api/folders/')
+        ]).then(([filesResponse, foldersResponse]) => {
+            console.log(filesResponse.data);
+            console.log(foldersResponse.data);
+            setFiles(filesResponse.data)
+            setFolders(foldersResponse.data)
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        })
     }, [seed])
 
     let folderExists = folders.some(folder => slugify(folder['path']) === slugify(slugify(location.pathname)))
 
     const FileIconMapper = (props) => {
-        const fileExtension = props.file.name.split('.').pop()
+        const fileExtension = props.file.title.split('.').pop()
         console.log(fileExtension)
         const fileType = extensionsMapper[fileExtension]
         console.log(fileType)
@@ -55,26 +58,26 @@ const Folder = () => {
         }
 
         return (
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center w-fit">
                 <div className="p-2">
                     <img src={icon} className="h-24" />
                 </div>
 
                 <div>
-                    <p>{props.file.name}</p>
+                    <p className="text-xs">{props.file.title}</p>
                 </div>
             </div>
         )
 
     }
 
-    const saveFolder = (id, department) => {  
-        let filteredPath=currentFolder.filter((item)=>item!='departments' && item!=slugify(department) && item!='')
-        let formattedPath=filteredPath.join('/')
+    const saveFolder = (id, department) => {
+        let filteredPath = currentFolder.filter((item) => item != 'departments' && item != slugify(department) && item != '')
+        let formattedPath = filteredPath.join('/')
         let data = {
             "title": slugify(newFolder),
             "department": id,
-            "path": "Departments" + "/" + department+ "/" +formattedPath
+            "path": "Departments" + "/" + department + "/" + formattedPath
         }
         axios.post(`${getBackendUrl()}` + 'api/folders/', data, {
             headers: {
@@ -118,7 +121,7 @@ const Folder = () => {
                         New File
                     </button>
                 } modal nested>
-                    <FileUpload path={location.pathname} />
+                    <FileUpload department={department} id={id} />
                 </Popup>
 
                 <Popup trigger={
@@ -169,14 +172,14 @@ const Folder = () => {
                 <div id="" className="ml-5 grid grid-cols-2 sm:grid-cols-8  lg:grid-cols-12 gap-2 p-5">
                     {folders.map((folder, index) => (
                         slugify(folder.path) === slugify(location.pathname) ? (
-                            <Link to={`${location.pathname}/${slugify(folder.title)}`} state={{ id: id, department: department}}>
+                            <Link to={`${location.pathname}/${slugify(folder.title)}`} state={{ id: id, department: department }}>
                                 <div className="flex flex-col space-y-2">
                                     <div>
                                         <img src={folderIcon} className="h-24" alt="folder" />
                                     </div>
 
                                     <div>
-                                        <p>{folder.title}</p>
+                                        <p className="text-xs">{folder.title}</p>
                                     </div>
                                 </div>
                             </Link>

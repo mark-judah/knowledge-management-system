@@ -65,6 +65,7 @@ class File(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    file = models.FileField(upload_to='files')
     path = models.CharField(max_length=180,blank=True, null=True)
 
     def __str__(self):

@@ -25,5 +25,6 @@ urlpatterns = [
     path('departments/', DepartmentListCreateView.as_view(), name=''),
     path('articles/', ArticleListCreateView.as_view(), name=''),
     path('folders/', FolderListCreateView.as_view(), name=''),
+    path('files/', FileListCreateView.as_view(), name=''),
     path('faqs/', FaqCreateView.as_view(), name='')
 ]
