@@ -170,7 +170,7 @@ const Departments = () => {
                         <Popup trigger={
                             <img src={newFileIcon} className="h-6 hover:cursor-pointer" />
                         } modal nested>
-                            <FileUpload path={'Departments/' + department.title} />
+                            <FileUpload department={department.title} id={department.id} />
                         </Popup>
                     </div>
 

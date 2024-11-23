@@ -24,12 +24,13 @@ class CompanyListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, *args, **kwargs):
-        company=Company.objects.get(pk=1)
-        serializer = CompanySerializer(company,data=request.data)
+        company = Company.objects.get(pk=1)
+        serializer = CompanySerializer(company, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserListCreateView(APIView):
     def get(self, request, *args, **kwargs):
@@ -38,11 +39,12 @@ class UserListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        group_exists=Group.objects.filter(name=request.data['department']).exists()
+        group_exists = Group.objects.filter(
+            name=request.data['department']).exists()
         if group_exists:
             group = Group.objects.get(name=request.data['department'])
         else:
-            group=Group.objects.create(name=request.data['department'])   
+            group = Group.objects.create(name=request.data['department'])
         password = make_password(request.data['password'])
         role_data = request.data['role']
         is_superuser = False
@@ -55,8 +57,8 @@ class UserListCreateView(APIView):
             "username": request.data['username'],
             "email": request.data['email'],
             "password": password,
-            "is_staff":is_staff,
-            "is_superuser":is_superuser
+            "is_staff": is_staff,
+            "is_superuser": is_superuser
         }
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
@@ -117,11 +119,31 @@ class FileListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = FileSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        files_list = request.data.getlist('files[]')
+        print(files_list)
+        response_data = []
+        errors = []
+
+        file_data = ''
+        for file in files_list:
+            print(file.name)
+            file_data = {
+                "title": file.name,
+                "department": request.data['department_id'],
+                "file": file,
+                "path": request.data['path']
+            }
+            serializer = FileSerializer(data=file_data)
+            if serializer.is_valid():
+                serializer.save()
+                response_data.append(serializer.data)
+            else:
+                errors.append(serializer.data)
+
+        if len(errors) > 0:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 class FaqCreateView(APIView):
