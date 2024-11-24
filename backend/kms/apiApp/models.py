@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -28,6 +29,11 @@ class Article(models.Model):
         on_delete=models.CASCADE,
         blank=False
     )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=False
+    )
     article_type = models.CharField(max_length=180)
     chapter = models.CharField(max_length=180, blank=True, null=True)
     duration = models.CharField(max_length=180, blank=True, null=True)
@@ -48,6 +54,11 @@ class Folder(models.Model):
         on_delete=models.CASCADE,
         blank=False
     )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=False
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     path = models.CharField(max_length=180,blank=True, null=True)
@@ -60,6 +71,11 @@ class File(models.Model):
     title = models.CharField(max_length=180)
     department = models.ForeignKey(
         Department,
+        on_delete=models.CASCADE,
+        blank=False
+    )
+    owner = models.ForeignKey(
+        User,
         on_delete=models.CASCADE,
         blank=False
     )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ReactTyped } from "react-typed";
 import companyIcon from "../assets/company.svg"
@@ -9,44 +9,19 @@ import departmentIcon from "../assets/department.svg"
 import articlesIcon from "../assets/articles.svg"
 import helpdeskIcon from "../assets/helpdesk.svg"
 import faqIcon from "../assets/faq.svg"
-import logoIcon from "../assets/logo.svg"
 import inductionIcon from "../assets/induction.svg"
-import axios from "axios";
-import { getBackendUrl } from "../constants";
-
+import { MyContext } from "../MyContextProvider";
 
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [company, setCompany] = useState([])
-
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        console.log(token)
-        if (token === null) {
-            setLoggedIn(false)
-        } else {
-            setLoggedIn(true)
-        }
-        axios.get(`${getBackendUrl()}` + 'api/company/')
-            .then(function (response) {
-                setCompany(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-    }, []);
-
+    const value = useContext(MyContext)
     const fullNavbar = [
         '/'
     ]
 
     const toggleDropdown = () => {
-        console.log("menuOpen")
         if (menuOpen) {
             setMenuOpen(false)
         } else {
@@ -81,25 +56,16 @@ const Navbar = () => {
                     <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                         <div className="flex justify-center items-center space-x-5">
                             <Link to="/">
-                                {company.length > 0 ? (
-                                    <div>
-                                        <p className="text-white text-xl sm:text-3xl font-extrabold">{company[0].title}</p>
-                                        <div className="mt-2">
-                                            <p className="text-xs sm:text-sm text-slate-400">{company[0].tagline}</p>
-                                        </div>
+                                <div>
+                                    <p className="text-white text-xl sm:text-3xl font-extrabold">{value.companyData.length > 0 ? value.companyData[0].title : ''}</p>
+                                    <div className="mt-2">
+                                        <p className="text-xs sm:text-sm text-slate-400">{value.companyData.length > 0 ? value.companyData[0].tagline : ''}</p>
                                     </div>
-                                ) : (
-                                    <div>
-                                        <p className="text-white text-lg sm:text-2xl font-extrabold">Knowledge Management System</p>
-                                        <div className="mt-2">
-                                            <p className="text-xs sm:text-sm text-slate-400">Share knowledge and collaborate.</p>
-                                        </div>
-                                    </div>
-                                )}
+                                </div>
                             </Link>
                         </div>
 
-                        {loggedIn ? (
+                        {localStorage.getItem('token') ? (
                             <div className="flex justify-between items-center space-x-5">
                                 {!fullNavbar.includes(location.pathname) ? (
                                     <div className="w-fit pl-6 hidden sm:flex">

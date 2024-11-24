@@ -1,38 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getBackendUrl } from "../constants";
 import axios from "axios";
-
+import Swal from 'sweetalert2'
+import LoadingAnimation from "../components/LoadingAnimation";
+import { MyContext } from "../MyContextProvider";
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
-    const [companyData, setCompanyData] = useState([]);
+    const navigate = useNavigate()
+    const value = useContext(MyContext)
+    const {register,handleSubmit,formState: { errors },} = useForm();
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/company/')
-            .then(function (response) {
-                setCompanyData(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-
     }, [])
 
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const onSubmit = async (data) => {
+        value.setLoading(true)
+        let form_data = {
+            "username": data['username'],
+            "password": data['password']
+        }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log({ email, password })
-        localStorage.setItem("token", 'abcd1234bcd');
-        navigate('/')
+        axios.post(`${getBackendUrl()}` + 'api/token/', form_data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (response.status == 200) {
+                value.setLoading(false)
+                localStorage.setItem("token", response.data.access);
+                navigate('/')
+            }
+        }).catch(function (error) {
+            value.setLoading(false)
+            if (error.status == 401) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'The credentials provided are incorrect',
+                    icon: 'error',
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: '#000000',
+                    iconColor: '#000000'
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occured, please try again',
+                    icon: 'error',
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: '#000000',
+                    iconColor: '#000000'
+                })
+            }
+        })
     }
+
     return (
-        <div className="min-h-screen bg-[#F5F5F5] flex justify-center items-center">
+        <div className="static min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center">
+            <LoadingAnimation />
             <div className="relative flex flex-col rounded-xl bg-transparent">
                 <h4 className="block text-xl font-medium text-slate-800">
                     Welcome
@@ -40,21 +67,29 @@ const Login = () => {
                 <p className="text-slate-500 font-light">
                     Enter your details to login.
                 </p>
-                <form onSubmit={handleSubmit} className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                     <div className="mb-1 flex flex-col gap-6">
                         <div className="w-full max-w-sm min-w-[200px]">
                             <label className="block mb-2 text-sm text-slate-600">
-                                Email
+                                Username
                             </label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Your Email" />
+                            <input type="text" {...register("username", {
+                                required: true
+                            })} className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Your Username" />
+                            {errors.username?.type === "required" && (
+                                <small>Username is required</small>
+                            )}
                         </div>
                         <div className="w-full max-w-sm min-w-[200px]">
                             <label className="block mb-2 text-sm text-slate-600">
                                 Password
                             </label>
-                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Your Password" />
+                            <input type="password" {...register("password", {
+                                required: true
+                            })} className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Your Password" />
+                            {errors.password?.type === "required" && (
+                                <small>Password is required</small>
+                            )}
                         </div>
                     </div>
                     <div className="inline-flex items-center mt-2">
@@ -73,15 +108,15 @@ const Login = () => {
                     <button className="mt-4 w-full rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="submit">
                         Login
                     </button>
-                    {companyData.length > 0 ?(
+                    {value.companyData.length > 0 ? (
                         ''
-                    ):(
+                    ) : (
                         <p className="flex justify-center mt-6 text-sm text-slate-600">
-                        First time here?
-                        <Link to="/first-time-setup" className="ml-1 text-sm font-semibold text-slate-700 underline">
-                            Quick Setup
-                        </Link>
-                    </p>
+                            First time here?
+                            <Link to="/first-time-setup" className="ml-1 text-sm font-semibold text-slate-700 underline">
+                                Quick Setup
+                            </Link>
+                        </p>
                     )}
                 </form>
             </div>

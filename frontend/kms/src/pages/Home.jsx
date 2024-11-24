@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import QuickLinks from "../components/QuickLinks";
 
@@ -6,17 +6,15 @@ const Home = () => {
     const navigate = useNavigate()
     useEffect(() => {
         window.scrollTo(0, 0)
-        const token = localStorage.getItem('token')
-        console.log(token)
-        if (token === null) {
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
 
-    }, [navigate]);
+    }, []);
 
     return (
         <div className="bg-[#F5F5F5]">
-            <QuickLinks/>
+            <QuickLinks />
         </div>
     );
 }

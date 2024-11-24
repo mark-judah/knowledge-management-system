@@ -6,11 +6,13 @@ from apiApp.models import Company, Department, Article, Faq, Folder, File
 from apiApp.serializers import CompanySerializer, FolderSerializerGet, FolderSerializerPost, UserSerializer, DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FaqSerializer, FileSerializer
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
-
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
 
 
 class CompanyListCreateView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         company = Company.objects.all()
         serializer = CompanySerializer(company, many=True)
@@ -23,20 +25,29 @@ class CompanyListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CompanyUpdateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def patch(self, request, *args, **kwargs):
         company = Company.objects.get(pk=1)
         serializer = CompanySerializer(company, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_304_NOT_MODIFIED)
 
+class UserListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
-class UserListCreateView(APIView):
     def get(self, request, *args, **kwargs):
         user = User.objects.all()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
+
+
+class UserCreateView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         group_exists = Group.objects.filter(
@@ -70,6 +81,9 @@ class UserListCreateView(APIView):
 
 
 class DepartmentListCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         departments = Department.objects.all()
         serializer = DepartmentSerializer(departments, many=True)
@@ -85,6 +99,9 @@ class DepartmentListCreateView(APIView):
 
 
 class ArticleListCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         articles = Article.objects.all()
         serializer = ArticleSerializerGet(articles, many=True)
@@ -99,6 +116,9 @@ class ArticleListCreateView(APIView):
 
 
 class FolderListCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         folders = Folder.objects.all()
         serializer = FolderSerializerGet(folders, many=True)
@@ -113,6 +133,9 @@ class FolderListCreateView(APIView):
 
 
 class FileListCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         files = File.objects.all()
         serializer = FileSerializer(files, many=True)
@@ -147,6 +170,9 @@ class FileListCreateView(APIView):
 
 
 class FaqCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         faqs = Faq.objects.all()
         serializer = FaqSerializer(faqs, many=True)

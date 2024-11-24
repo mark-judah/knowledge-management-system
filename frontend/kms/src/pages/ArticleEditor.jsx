@@ -23,7 +23,6 @@ const ArticleEditor = () => {
                 console.log(response);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             })
     }, [])
@@ -98,7 +97,6 @@ const ArticleEditor = () => {
     }
 
     const onSubmit = async (data) => {
-        console.log(data, articleData, tags)
         const body = new FormData();
 
         if (data['article_type'] === 'Induction') {

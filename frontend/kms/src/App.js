@@ -21,8 +21,6 @@ import ManageCompany from './pages/ManageCompany';
 
 
 function App() {
- 
-
   return (
     <div className="App font-poppins">
       <div>

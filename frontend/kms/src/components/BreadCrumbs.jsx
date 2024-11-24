@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import slugify from "react-slugify";
 const BreadCrumb = (props) => {
-    console.log(props)
     return (
         <div>
             <nav className="flex" aria-label="Breadcrumb">

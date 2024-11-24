@@ -20,7 +20,6 @@ const ManageArticles = () => {
                 console.log(response);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             })
 

@@ -189,9 +189,13 @@ const Folder = () => {
                     ))}
 
                     {files.map((file) => (
-                        <div>
-                            <FileIconMapper file={file} />
-                        </div>
+                        slugify(file.path) === slugify(location.pathname) ? (
+                            <div>
+                                <FileIconMapper file={file} />
+                            </div>
+                        ) : (
+                            ''
+                        )
                     ))}
                 </div>
             ) : (

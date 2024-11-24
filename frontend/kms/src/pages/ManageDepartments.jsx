@@ -26,7 +26,6 @@ const ManageDepartments = () => {
                 console.log(response);
             })
             .catch(function (error) {
-                // handle error
                 console.log(error);
             })
 
@@ -47,7 +46,7 @@ const ManageDepartments = () => {
         setDepartments(newList);
     }
 
-    const closePopup=()=>{
+    const closePopup = () => {
         document.getElementById("popup-root").remove()
     }
     const handleSubmit = () => {
@@ -90,13 +89,13 @@ const ManageDepartments = () => {
 
 
                 <Popup trigger={
-                    <div className="flex justify-end mx-10">
+                    <div className="flex justify-end m-10">
                         <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
                             <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
                             New Department
                         </button>
                     </div>
-                } modal nested>
+                } modal>
                     <div className="p-5">
                         <div className="flex justify-between w-full mb-5">
                             <div className="flex flex-col space-y-2">
@@ -144,7 +143,7 @@ const ManageDepartments = () => {
 
                             <button
                                 className="rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg"
-                                type="button" onClick={() =>{closePopup(); handleSubmit()}}>
+                                type="button" onClick={() => { closePopup(); handleSubmit() }}>
                                 Submit
                             </button>
                         </div>
@@ -152,69 +151,59 @@ const ManageDepartments = () => {
                 </Popup>
             </div>
 
-            <div className="relative flex flex-col justify-center items-center w-full h-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border mt-10">
-                <table className="w-fit text-left table-auto min-w-max mb-10">
-                    <thead>
-                        <tr>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Name
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Date Created
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Date Modified
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Actions
-                                </p>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {fetchedDepartments.map((fetchedDepartment) => (
-                            <tr className="hover:bg-slate-50 border-b border-slate-200">
-                                <td className="p-4 py-5">
-                                    <p className="block font-semibold text-sm text-slate-800">{fetchedDepartment.title}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedDepartment.created_at}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedDepartment.updated_at}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <div className="p-2 flex justify-center items-center space-x-3">
-                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                            <div>
-                                                <p>Edit</p>
-                                            </div>
-                                            <div>
-                                                <img src={editIcon} className="h-5" />
-                                            </div>
-                                        </div>
+            <div className="p-5 flex justify-center">
+                <div
+                    class="relative flex flex-col w-fit h-full overflow-scroll md:overflow-hidden text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
+                    <table class="w-full text-left table-auto min-w-max">
+                        <thead>
+                            <tr>
+                                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Name
+                                    </p>
+                                </th>
 
-                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                            <div>
-                                                <p>Delete</p>
-                                            </div>
-                                            <div>
-                                                <img src={deleteIcon} className="h-5" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
+                                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Date Created
+                                    </p>
+                                </th>
+
+                                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Actions</p>
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {fetchedDepartments.map((department) => (
+                                <tr class="even:bg-blue-gray-50/50">
+                                    <td class="p-4">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            {department.title}
+                                        </p>
+                                    </td>
+
+                                    <td class="p-4">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            {department.created_at}
+                                        </p>
+                                    </td>
+
+                                    <td class="p-4 flex items-center space-x-3">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            Edit
+                                        </p>
+
+                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            Delete
+                                        </p>
+                                    </td>
+
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
