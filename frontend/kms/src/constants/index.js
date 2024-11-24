@@ -97,7 +97,6 @@ const extensionsMapper = {
     }
 
     const getBackendUrl = () => {
-        console.log(process.env.REACT_APP_MODE)
         const mode = process.env.REACT_APP_MODE;
         if (mode === 'development') {
             return process.env.REACT_APP_BACKEND_URL_DEV;

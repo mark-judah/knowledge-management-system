@@ -16,11 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apiApp.views import CompanyListCreateView,UserListCreateView, DepartmentListCreateView, ArticleListCreateView, FolderListCreateView, FileListCreateView, FaqCreateView
+from apiApp.views import CompanyListCreateView, CompanyUpdateView,UserListView, UserCreateView, DepartmentListCreateView, ArticleListCreateView, FolderListCreateView, FileListCreateView, FaqCreateView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('company/', CompanyListCreateView.as_view(), name=''),
-    path('user/', UserListCreateView.as_view(), name=''),
+    path('company/update/', CompanyUpdateView.as_view(), name=''),
+    path('users/', UserListView.as_view(), name=''),
+    path('user/', UserCreateView.as_view(), name=''),
     path('departments/', DepartmentListCreateView.as_view(), name=''),
     path('departments/', DepartmentListCreateView.as_view(), name=''),
     path('articles/', ArticleListCreateView.as_view(), name=''),
