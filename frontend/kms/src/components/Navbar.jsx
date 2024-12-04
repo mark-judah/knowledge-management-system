@@ -29,11 +29,6 @@ const Navbar = () => {
         }
     }
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        navigate('/login')
-    }
-
     const Greeting = () => {
         const today = new Date()
         const currentHour = today.getHours()
@@ -153,7 +148,7 @@ const Navbar = () => {
                                                     <p>View Profile</p>
                                                 </div>
                                             </Link>
-                                            <div onClick={logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold py-2">
+                                            <div onClick={value.logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold py-2">
                                                 <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
                                                     <img src={logoutIcon} className="h-6" alt="company settings" />
                                                 </div>

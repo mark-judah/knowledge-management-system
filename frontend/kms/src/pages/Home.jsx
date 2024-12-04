@@ -6,10 +6,6 @@ const Home = () => {
     const navigate = useNavigate()
     useEffect(() => {
         window.scrollTo(0, 0)
-        if (localStorage.getItem('token') === null) {
-            navigate('/login')
-        }
-
     }, []);
 
     return (

@@ -31,6 +31,7 @@ const NewUser = () => {
             }
         }).catch(function (error) {
             console.log(error)
+            value.setLoading(false)
         })
     }
 
@@ -101,7 +102,7 @@ const NewUser = () => {
                     <select {...register("role", {
                         required: true
                     })} id="role" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
-                        <option selected disabled>Role</option>
+                        <option value="" selected disabled>Role</option>
                         <option value="Staff">Staff</option>
                         <option value="Admin">Admin</option>
                     </select>
@@ -116,7 +117,7 @@ const NewUser = () => {
                     <select {...register("department", {
                         required: true
                     })} id="departments" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
-                        <option selected disabled>Department</option>
+                        <option value="" selected disabled>Department</option>
 
                         {value.departments.map((department) => (
                             <option value={department.title}>{department.title}</option>
