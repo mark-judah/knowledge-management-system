@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import departmentIcon from "../assets/folder.svg"
 import folderClosedIcon from "../assets/closed_folder.svg"
 import folderOpenIcon from "../assets/open_folder.svg"
@@ -13,46 +13,33 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FileUpload from "../components/FileUpload";
 import closeIcon from "../assets/close.svg"
+import { MyContext } from "../MyContextProvider";
 
 
 const Departments = () => {
-    const [departments, setDepartments] = useState([]);
-    const [folders, setFolders] = useState([]);
     const [newFolder, setNewFolder] = useState('');
-    const [seed, setSeed] = useState(1);
+    const value = useContext(MyContext)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        Promise.all([
-            axios.get(`${getBackendUrl()}` + 'api/departments/'),
-            axios.get(`${getBackendUrl()}` + 'api/folders/')
-        ]).then(([departmentsResponse, foldersResponse]) => {
-            console.log(departmentsResponse.data);
-            console.log(foldersResponse.data);
-            setDepartments(departmentsResponse.data)
-            setFolders(foldersResponse.data)
-        }).catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-    }, [seed])
+    }, [])
 
     const location = useLocation();
     const path = location.pathname.split('/');
 
     const toggleFolder = (title, folderStatus) => {
         console.log(title)
-        const currentFoldersIndex = departments.findIndex((department) => department.title === title);
+        const currentFoldersIndex = value.departments.findIndex((department) => department.title === title);
         if (folderStatus == true) {
-            const updatedDepartment = { ...departments[currentFoldersIndex], folderOpen: false };
-            const newDepartmentsArray = [...departments];
+            const updatedDepartment = { ...value.departments[currentFoldersIndex], folderOpen: false };
+            const newDepartmentsArray = [...value.departments];
             newDepartmentsArray[currentFoldersIndex] = updatedDepartment;
-            setDepartments(newDepartmentsArray);
+            value.setDepartments(newDepartmentsArray);
         } else {
-            const updatedDepartment = { ...departments[currentFoldersIndex], folderOpen: true };
-            const newDepartmentsArray = [...departments];
+            const updatedDepartment = { ...value.departments[currentFoldersIndex], folderOpen: true };
+            const newDepartmentsArray = [...value.departments];
             newDepartmentsArray[currentFoldersIndex] = updatedDepartment;
-            setDepartments(newDepartmentsArray);
+            value.setDepartments(newDepartmentsArray);
         }
     }
 
@@ -60,18 +47,20 @@ const Departments = () => {
         let data = {
             "title": slugify(newFolder),
             "department": id,
-            "path": "Departments" + "/" + department
+            "path": "Departments" + "/" + department,
+            "owner": localStorage.getItem('username')
         }
         axios.post(`${getBackendUrl()}` + 'api/folders/', data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)
         }).finally(
-            setSeed(Math.random())
+            value.setFoldersDataSeed(Math.random())
         )
     }
 
@@ -93,7 +82,7 @@ const Departments = () => {
                 <BreadCrumb path={path} />
             </div>
 
-            {departments.map((department) =>
+            {value.departments.map((department) =>
                 <div className="flex flex-col justify-center">
 
                     <div className="flex justify-start items-center space-x-3 my-5">
@@ -118,7 +107,7 @@ const Departments = () => {
 
                         <Link to={slugify(department.title)} state={{ id: department.id, department: department.title }}>
                             <div>
-                                <p>({folders.filter((folder) => folder.department === department.title).length})</p>
+                                <p>({value.folders.filter((folder) => folder.department === department.title).length})</p>
                             </div>
                         </Link>
 
@@ -177,11 +166,11 @@ const Departments = () => {
                     <div>
                         {department.folderOpen == true ? (
                             <div>
-                                <p className="text-xs sm:text-sm text-slate-400 ml-10">{folders.filter((folder) => folder.department === department.title).length > 0 ? 'Latest Folders' : 'No Files/Folders'}</p>
+                                <p className="text-xs sm:text-sm text-slate-400 ml-10">{value.folders.filter((folder) => folder.department === department.title).length > 0 ? 'Latest Folders' : 'No Files/Folders'}</p>
 
                                 <div className="ml-5 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 p-5">
-                                    {folders.filter((folder) => folder.department === department.title).length > 0 ? (
-                                        folders.map((folder, index) => (
+                                    {value.folders.filter((folder) => folder.department === department.title).length > 0 ? (
+                                        value.folders.map((folder, index) => (
                                             (folder.department === department.title ? (
                                                 <Link to={"/" + folder.path.toLowerCase() + "/" + folder.title} state={{ id: department.id, department: department.title }}>
                                                     <div className="flex flex-col space-y-2">

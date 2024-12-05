@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import { Link, useLocation } from "react-router-dom";
@@ -13,37 +13,22 @@ import FileUpload from "../components/FileUpload";
 import axios from "axios";
 import closeIcon from "../assets/close.svg"
 import newDepartentIcon from "../assets/new_folder_white.svg"
+import { MyContext } from "../MyContextProvider";
 
 
 const Folder = () => {
     const location = useLocation();
     const currentFolder = location.pathname.split('/');
-    const [folders, setFolders] = useState([]);
-    const [files, setFiles] = useState([])
     const [newFolder, setNewFolder] = useState('');
-    const [seed, setSeed] = useState(1);
-
-
     const { id } = location.state
     const { department } = location.state
+    const value = useContext(MyContext)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        Promise.all([
-            axios.get(`${getBackendUrl()}` + 'api/files/'),
-            axios.get(`${getBackendUrl()}` + 'api/folders/')
-        ]).then(([filesResponse, foldersResponse]) => {
-            console.log(filesResponse.data);
-            console.log(foldersResponse.data);
-            setFiles(filesResponse.data)
-            setFolders(foldersResponse.data)
-        }).catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-    }, [seed])
+    }, [])
 
-    let folderExists = folders.some(folder => slugify(folder['path']) === slugify(slugify(location.pathname)))
+    let folderExists = value.folders.some(folder => slugify(folder['path']) === slugify(slugify(location.pathname)))
 
     const FileIconMapper = (props) => {
         const fileExtension = props.file.title.split('.').pop()
@@ -77,18 +62,20 @@ const Folder = () => {
         let data = {
             "title": slugify(newFolder),
             "department": id,
-            "path": "Departments" + "/" + department + "/" + formattedPath
+            "path": "Departments" + "/" + department + "/" + formattedPath,
+            "owner": localStorage.getItem('username')
         }
         axios.post(`${getBackendUrl()}` + 'api/folders/', data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)
         }).finally(
-            setSeed(Math.random())
+            value.setFoldersDataSeed(Math.random())
         )
     }
 
@@ -168,9 +155,9 @@ const Folder = () => {
 
             </div>
 
-            {folderExists || files.length > 0 ? (
+            {folderExists || value.files.length > 0 ? (
                 <div id="" className="ml-5 grid grid-cols-2 sm:grid-cols-8  lg:grid-cols-12 gap-2 p-5">
-                    {folders.map((folder, index) => (
+                    {value.folders.map((folder, index) => (
                         slugify(folder.path) === slugify(location.pathname) ? (
                             <Link to={`${location.pathname}/${slugify(folder.title)}`} state={{ id: id, department: department }}>
                                 <div className="flex flex-col space-y-2">
@@ -188,7 +175,7 @@ const Folder = () => {
                         )
                     ))}
 
-                    {files.map((file) => (
+                    {value.files.map((file) => (
                         slugify(file.path) === slugify(location.pathname) ? (
                             <div>
                                 <FileIconMapper file={file} />

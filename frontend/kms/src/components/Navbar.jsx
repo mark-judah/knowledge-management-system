@@ -84,7 +84,9 @@ const Navbar = () => {
                                 ) : (
                                     ''
                                 )}
-
+                                <div>
+                                    <p>{localStorage.getItem('username') }</p>
+                                </div>
                                 <div className="z-10">
                                     <div onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="flex justify-center items-center rounded-full hover:cursor-pointer bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import draftIcon from "../assets/draft.svg"
 import deleteIcon from "../assets/delete.svg"
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,32 +10,25 @@ import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useCreateBlockNote } from "@blocknote/react";
 import { getBackendUrl } from "../constants";
+import { MyContext } from "../MyContextProvider";
 
 const ArticleEditor = () => {
     const [articleData, setArticleData] = useState('')
-    const { register, handleSubmit, formState: { errors }, } = useForm();
-    useEffect(() => {
-        window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/departments/')
-            .then(function (response) {
-                // handle success
-                setDepartments(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }, [])
-
     const location = useLocation();
     const path = location.pathname.split('/');
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
     const [articleType, setArticleType] = useState('');
     const [articleThumbnail, setArticleThumbnail] = useState('')
-    const [departments, setDepartments] = useState([])
     const navigate = useNavigate()
+    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const value=useContext(MyContext)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+ 
     console.log(articleType)
     const newTag = () => {
         console.log(tag)
@@ -108,6 +101,7 @@ const ArticleEditor = () => {
             body.append('thumbnail', articleThumbnail);
             body.append('tags', tags);
             body.append('article_content', JSON.stringify(articleData));
+            body.append('owner', localStorage.getItem('username'));
         } else {
             body.append('title', data['title']);
             body.append('department', data['department']);
@@ -117,18 +111,21 @@ const ArticleEditor = () => {
             body.append('thumbnail', articleThumbnail);
             body.append('tags', tags);
             body.append('article_content', JSON.stringify(articleData));
+            body.append('owner', localStorage.getItem('username'));
         }
 
         console.log(body)
         axios.post(`${getBackendUrl()}` + 'api/articles/', body, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)
         }).finally(
+            value.setArticleDataSeed(Math.random()),
             data['article_type'] === 'General' ? (
                 navigate('/articles')
             ) : (
@@ -176,7 +173,7 @@ const ArticleEditor = () => {
                             </label>
                             <select {...register("department")} id="departments" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                                 <option selected>Choose a department</option>
-                                {departments.map((department) => (
+                                {value.departments.map((department) => (
                                     <option value={department.id}>{department.title}</option>
                                 ))}
                             </select>

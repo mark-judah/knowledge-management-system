@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import uploadFileIcon from "../assets/upload_black.svg"
 import deleteIcon from "../assets/delete_black.svg"
 import closeIcon from "../assets/close.svg"
@@ -6,11 +6,14 @@ import { getBackendUrl } from "../constants";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import slugify from "react-slugify";
+import { MyContext } from "../MyContextProvider";
 
 
 const FileUpload = (props) => {
     const location = useLocation();
     const currentFolder = location.pathname.split('/');
+    const value = useContext(MyContext)
+
 
     const convertBytes = (bytes) => {
         const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
@@ -72,19 +75,21 @@ const FileUpload = (props) => {
         let data = {
             "department_id": props.id,
             "files": files,
-            "path":  "Departments" + "/" + props.department + "/" + formattedPath
+            "path": "Departments" + "/" + props.department + "/" + formattedPath,
+            "owner": localStorage.getItem('username')
         }
-     
+
         axios.post(`${getBackendUrl()}` + 'api/files/', data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             console.log(response);
         }).catch(function (error) {
             console.log(error)
         }).finally(
-
+            value.setFilesDataSeed(Math.random())
         )
     }
 

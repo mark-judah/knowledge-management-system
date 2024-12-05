@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import newArticleIcon from "../assets/draft.svg"
 import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
@@ -6,28 +6,16 @@ import axios from "axios";
 import slugify from "react-slugify";
 import { getBackendUrl } from "../constants";
 import Empty from "../components/Empty";
+import { MyContext } from "../MyContextProvider";
 
 const Articles = () => {
-    const [articles, setArticles] = useState([]);
+    const location = useLocation();
+    const path = location.pathname.split('/');
+    const value=useContext(MyContext)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/articles/')
-            .then(function (response) {
-                setArticles(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-
     }, [])
-
-
-    const location = useLocation();
-    const path = location.pathname.split('/');
-
-
 
     return (
         <div className="min-h-screen">
@@ -61,9 +49,9 @@ const Articles = () => {
                 </div>
             </div>
 
-            {articles.length > 0 ? (
+            {value.articles.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 px-5">
-                    {articles.map((article, index) => (
+                    {value.articles.map((article, index) => (
                         article.article_type === 'General' ? (
                             <Link to={'/articles/' + slugify(article.title)} state={{ data: article.article_content }}>
                                 <a href="javascript:void(0)">
@@ -86,9 +74,10 @@ const Articles = () => {
                                         </div>
 
                                         <div class="flex flex-col p-4 text-sm">
-                                            <span class="text-slate-800 font-semibold">{article.department} Department</span>
+                                            <span class="text-slate-800 font-semibold">Department: {article.department}</span>
+                                            <span class="text-slate-800 font-semibold">Author: {article.owner}</span>
                                             <span class="text-slate-600">
-                                                January 10, 2024
+                                                {article.created_at}
                                             </span>
                                         </div>
                                     </div>

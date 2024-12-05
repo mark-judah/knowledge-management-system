@@ -31,6 +31,7 @@ const Login = () => {
             if (response.status == 200) {
                 value.setLoading(false)
                 localStorage.setItem("token", response.data.access);
+                localStorage.setItem("username", data['username']);
                 window.location.replace('/')
             }
         }).catch(function (error) {

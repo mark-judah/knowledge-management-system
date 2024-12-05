@@ -11,6 +11,10 @@ const AppContextProvider = (props) => {
     const [companyDataSeed, setCompanyDataSeed] = useState(1)
     const [departments, setDepartments] = useState([])
     const [departmentDataSeed, setDepartmentDataSeed] = useState(1)
+    const [folders, setFolders] = useState([])
+    const [foldersDataSeed, setFoldersDataSeed] = useState(1)
+    const [files, setFiles] = useState([])
+    const [filesDataSeed, setFilesDataSeed] = useState(1)
     const [users, setUsers] = useState([])
     const [userDataSeed, setUserDataSeed] = useState(1)
     const [articles, setArticles] = useState([])
@@ -18,7 +22,8 @@ const AppContextProvider = (props) => {
     const [faqs, setFaqs] = useState([])
     const [faqsDataSeed, setFaqsDataSeed] = useState(1)
     const location = useLocation();
-    console.log(location.pathname)
+
+
     //get company
     useEffect(() => {
         console.log("fetching company")
@@ -54,6 +59,44 @@ const AppContextProvider = (props) => {
             })
         }
     }, [departmentDataSeed])
+
+    //get folders
+    useEffect(() => {
+        console.log("fetching folders")
+        if (localStorage.getItem('token')) {
+            axios.get(`${getBackendUrl()}` + 'api/folders/', {
+                headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+            }).then(function (response) {
+                setFolders(response.data)
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    logout()
+                }
+            })
+        }
+    }, [foldersDataSeed])
+
+     //get files
+     useEffect(() => {
+        console.log("fetching files")
+        if (localStorage.getItem('token')) {
+            axios.get(`${getBackendUrl()}` + 'api/files/', {
+                headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+            }).then(function (response) {
+                setFiles(response.data)
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    logout()
+                }
+            })
+        }
+    }, [filesDataSeed])
 
     //get users
     useEffect(() => {
@@ -112,7 +155,7 @@ const AppContextProvider = (props) => {
         }
     }, [faqsDataSeed])
 
-    
+
     const logout = () => {
         localStorage.removeItem("token");
         window.location.replace('/login')
@@ -120,9 +163,13 @@ const AppContextProvider = (props) => {
 
     const value = {
         logout,
-        companyData, setCompanyData, companyData, setCompanyDataSeed, loading, setLoading,
-        departments, setDepartments, departmentDataSeed, setDepartmentDataSeed, users, setUsers,
-        userDataSeed, setUserDataSeed, articles, setArticles, articleDataSeed, setArticleDataSeed, 
+        companyData, setCompanyData, companyData, setCompanyDataSeed,
+        loading, setLoading,
+        departments, setDepartments, departmentDataSeed, setDepartmentDataSeed,
+        folders, setFolders, foldersDataSeed, setFoldersDataSeed,
+        files, setFiles, filesDataSeed, setFilesDataSeed,
+        users, setUsers, userDataSeed, setUserDataSeed,
+        articles, setArticles, articleDataSeed, setArticleDataSeed,
         faqs, setFaqs, faqsDataSeed, setFaqsDataSeed
     }
 
