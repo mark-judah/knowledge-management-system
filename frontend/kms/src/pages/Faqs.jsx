@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import openIcon from "../assets/plus.svg"
 import closeIcon from "../assets/minus.svg"
 import relatedArticleIcon from "../assets/related_article.svg"
@@ -6,19 +6,12 @@ import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import axios from "axios";
 import { getBackendUrl } from "../constants";
+import { MyContext } from "../MyContextProvider";
 
 const Faqs = () => {
-    const [faqs, setFaqs] = useState([])
+    const value=useContext(MyContext)
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/faqs/')
-            .then(function (response) {
-                setFaqs(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
     }, [])
     const location = useLocation();
     const path = location.pathname.split('/');
@@ -26,24 +19,24 @@ const Faqs = () => {
 
 
     const toggleAnswer = (id, toggleStatus) => {
-        const currentFaqsIndex = faqs.findIndex((faq) => faq.id === id);
+        const currentFaqsIndex = value.faqs.findIndex((faq) => faq.id === id);
         if (toggleStatus == true) {
-            const updatedFaq = { ...faqs[currentFaqsIndex], answerVisible: false };
-            const newFaqsArray = [...faqs];
+            const updatedFaq = { ...value.faqs[currentFaqsIndex], answerVisible: false };
+            const newFaqsArray = [...value.faqs];
             newFaqsArray[currentFaqsIndex] = updatedFaq;
-            setFaqs(newFaqsArray);
+            value.setFaqs(newFaqsArray);
         } else {
-            const updatedFaq = { ...faqs[currentFaqsIndex], answerVisible: true };
-            const newFaqsArray = [...faqs];
+            const updatedFaq = { ...value.faqs[currentFaqsIndex], answerVisible: true };
+            const newFaqsArray = [...value.faqs];
             newFaqsArray[currentFaqsIndex] = updatedFaq;
-            setFaqs(newFaqsArray);
+            value.setFaqs(newFaqsArray);
         }
     }
 
     const fetchArticle = () =>{
         axios.get(`${getBackendUrl()}` + 'api/articles/1')
             .then(function (response) {
-                setFaqs(response.data)
+                value.setFaqs(response.data)
                 console.log(response);
             })
             .catch(function (error) {
@@ -68,7 +61,7 @@ const Faqs = () => {
                 </div>
                 <BreadCrumb path={path} />
             </div>
-            {faqs.map((faq) => (
+            {value.faqs.map((faq) => (
                 <div className="flex justify-center">
                     <div className="relative flex flex-col  my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[45vh] sm:w-[80vh] lg:w-[90vh] xl:w-[100vh] 2xl:w-[110vh]">
                         <div className="flex justify-between items-center mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 space-x-5">

@@ -13,6 +13,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class CompanyListCreateView(APIView):
     permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         company = Company.objects.all()
         serializer = CompanySerializer(company, many=True)
@@ -25,9 +26,11 @@ class CompanyListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class CompanyUpdateView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
     def patch(self, request, *args, **kwargs):
         company = Company.objects.get(pk=1)
         serializer = CompanySerializer(company, data=request.data)
@@ -35,6 +38,7 @@ class CompanyUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_304_NOT_MODIFIED)
+
 
 class UserListView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -108,7 +112,19 @@ class ArticleListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = ArticleSerializerPost(data=request.data)
+        user = User.objects.get(username=request.data['owner'])
+        data = {
+            "title": request.data['title'],
+            "department": request.data['department'],
+            "article_type": request.data['article_type'],
+            "chapter": request.data['chapter'],
+            "duration": request.data['duration'],
+            "thumbnail": request.data['thumbnail'],
+            "tags": request.data['tags'],
+            "article_content": request.data['article_content'],
+            "owner": user.id,
+        }
+        serializer = ArticleSerializerPost(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -125,7 +141,14 @@ class FolderListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = FolderSerializerPost(data=request.data)
+        user = User.objects.get(username=request.data['owner'])
+        data = {
+            "title": request.data['title'],
+            "department": request.data['department'],
+            "path": request.data['path'],
+            "owner": user.id,
+        }
+        serializer = FolderSerializerPost(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -143,6 +166,8 @@ class FileListCreateView(APIView):
 
     def post(self, request, *args, **kwargs):
         files_list = request.data.getlist('files[]')
+        user = User.objects.get(username=request.data['owner'])
+
         print(files_list)
         response_data = []
         errors = []
@@ -154,7 +179,8 @@ class FileListCreateView(APIView):
                 "title": file.name,
                 "department": request.data['department_id'],
                 "file": file,
-                "path": request.data['path']
+                "path": request.data['path'],
+                "owner": user.id,
             }
             serializer = FileSerializer(data=file_data)
             if serializer.is_valid():
