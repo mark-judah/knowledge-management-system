@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import BreadCrumb from "../components/BreadCrumbs";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
 import newFolderIcon from "../assets/new_folder_white.svg"
 import editIcon from "../assets/edit_white.svg"
 import deleteIcon from "../assets/delete.svg"
+import LoadingAnimation from "../components/LoadingAnimation";
+import { MyContext } from "../MyContextProvider";
 import { getBackendUrl } from "../constants";
+
 
 const ManageInduction = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
-    const [fetchedArticles, setFetchedArticles] = useState([]);
+    const value = useContext(MyContext)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`${getBackendUrl()}` + 'api/articles/')
-            .then(function (response) {
-                setFetchedArticles(response.data)
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-
     }, [])
 
     return (
@@ -43,130 +36,191 @@ const ManageInduction = () => {
                     </div>
                     <BreadCrumb path={path} />
                 </div>
+            </div>
 
-                <div className="flex justify-end mx-10">
-                    <Link to="/article-editor">
-                        <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
-                            <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
-                            New Material
-                        </button></Link>
+            <div className="static flex justify-center items-center">
+                <LoadingAnimation />
+
+                <div className="p-5 flex flex-col justify-center w-fit">
+                    <div class="w-full flex justify-between items-center mb-3 mt-1">
+                        <div>
+                            <div class="w-fit  relative">
+                                <div class="relative">
+                                    <input
+                                        class="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
+                                        placeholder="Search for material..."
+                                    />
+                                    <button
+                                        class="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
+                                        type="button"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-8 h-8 text-slate-600">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end m-10">
+                            <Link to="/article-editor">
+                                <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
+                                    <img src={newFolderIcon} className="h-7 mx-1 fill-current text-white" alt="new article" />
+                                    New Material
+                                </button></Link>
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col w-full h-full overflow-scroll md:overflow-hidden text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
+                        <table class="w-full text-left table-auto min-w-max">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Title
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Department
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Author
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Article Type
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Chapter
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Duration
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Thumbnail
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Tags
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Action
+                                        </p>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {value.articles.map((article) => (
+                                    article.article_type == 'Induction' ? (
+                                        <tr class="even:bg-blue-gray-50/50">
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.title}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.department}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.owner}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.article_type}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.chapter}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.duration}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <img
+                                                    src={`${getBackendUrl()}` + article.thumbnail}
+                                                    alt="thumbnail"
+                                                    className="w-24 rounded-md md:rounded-lg object-contain"
+                                                />
+                                            </td>
+
+                                            <td class="p-4">
+                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    {article.tags}
+                                                </p>
+                                            </td>
+
+                                            <td class="p-4">
+                                                <div className="flex items-center space-x-3">
+                                                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                        Edit
+                                                    </p>
+
+                                                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                        Delete
+                                                    </p>
+                                                </div>
+                                            </td>
+
+
+                                        </tr>
+                                    ) : ('')
+                                ))
+                                }
+                            </tbody>
+                        </table>
+                        <div class="flex justify-between items-center px-4 py-3">
+                            <div class="text-sm text-slate-500">
+                                Showing <b>1-5</b> of 45
+                            </div>
+                            <div class="flex space-x-1">
+                                <button class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                                    Prev
+                                </button>
+                                <button class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-white bg-slate-800 border border-slate-800 rounded hover:bg-slate-600 hover:border-slate-600 transition duration-200 ease">
+                                    1
+                                </button>
+                                <button class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                                    2
+                                </button>
+                                <button class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                                    3
+                                </button>
+                                <button class="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
-            <div className="relative flex flex-col justify-center items-center w-full h-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border mt-10">
-                <table className="w-fit text-left table-auto min-w-max mb-10">
-                    <thead>
-                        <tr>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Name
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Department
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Article Type
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Chapter
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Duration
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Thumbnail
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Tags
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Date Created
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Date Modified
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-200 bg-slate-50">
-                                <p className="text-sm font-normal leading-none text-slate-500">
-                                    Actions
-                                </p>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {fetchedArticles.filter((article)=>article.article_type=='Induction').map((fetchedArticle) => (
-                            <tr className="hover:bg-slate-50 border-b border-slate-200">
-                                <td className="p-4 py-5">
-                                    <p className="block font-semibold text-sm text-slate-800">{fetchedArticle.title}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.department}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.article_type}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.chapter}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.duration}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <img className="w-24" src={`${getBackendUrl()}` + fetchedArticle.thumbnail} alt="card-image" />
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.tags}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.created_at}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <p className="text-sm text-slate-500">{fetchedArticle.updated_at}</p>
-                                </td>
-                                <td className="p-4 py-5">
-                                    <div className="p-2 flex justify-center items-center space-x-3">
-                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                            <div>
-                                                <p>Edit</p>
-                                            </div>
-                                            <div>
-                                                <img src={editIcon} className="h-5" />
-                                            </div>
-                                        </div>
-
-                                        <div className="flex justify-center items-center space-x-3 rounded-xl bg-black py-2 px-4 border border-transparent text-center text-sm text-white  ml-2">
-                                            <div>
-                                                <p>Delete</p>
-                                            </div>
-                                            <div>
-                                                <img src={deleteIcon} className="h-5" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
+            v
         </div>
     );
 }

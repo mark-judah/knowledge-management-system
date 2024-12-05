@@ -30,6 +30,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class ArticleSerializerGet(serializers.ModelSerializer):
     department = serializers.CharField(source='department.title')
+    owner = serializers.CharField(source='owner.username')
 
     class Meta:
         model = Article

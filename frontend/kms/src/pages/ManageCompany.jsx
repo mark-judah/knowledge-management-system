@@ -14,17 +14,8 @@ import NewUser from "../components/NewUser";
 const ManageCompany = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
-    const [companyName, setCompanyName] = useState('');
-    const [companyLogo, setCompanyLogo] = useState('');
     const [companyComponent, setCompanyComponent] = useState(true);
     const [usersComponent, setUsersComponent] = useState(false);
-    const [newUserComponent, setNewUserComponent] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [departments, setDepartments] = useState([])
-    const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors }, } = useForm();
-    const [tagline, setCompanyTagline] = useState('');
     const value = useContext(MyContext)
 
     useEffect(() => {

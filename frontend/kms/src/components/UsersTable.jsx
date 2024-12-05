@@ -95,15 +95,18 @@ const UsersTable = () => {
                                         </p>
                                     </td>
 
-                                    <td class="p-4 flex items-center space-x-3">
-                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                            Edit
-                                        </p>
+                                    <td class="p-4">
+                                        <div className="flex items-center space-x-3">
+                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                Edit
+                                            </p>
 
-                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                            Delete
-                                        </p>
+                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                Delete
+                                            </p>
+                                        </div>
                                     </td>
+
 
                                 </tr>
                             ))}

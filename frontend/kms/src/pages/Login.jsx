@@ -31,7 +31,7 @@ const Login = () => {
             if (response.status == 200) {
                 value.setLoading(false)
                 localStorage.setItem("token", response.data.access);
-                navigate('/')
+                window.location.replace('/')
             }
         }).catch(function (error) {
             value.setLoading(false)
