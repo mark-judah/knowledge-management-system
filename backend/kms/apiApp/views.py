@@ -40,7 +40,7 @@ class CompanyUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_304_NOT_MODIFIED)
 
 
-class UserListView(APIView):
+class UserListUpdateView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -48,6 +48,44 @@ class UserListView(APIView):
         user = User.objects.all()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        group_exists = Group.objects.filter(
+            name=request.data['department']).exists()
+        if group_exists:
+            group = Group.objects.get(name=request.data['department'])
+        else:
+            group = Group.objects.create(name=request.data['department'])
+        password = make_password(request.data['password'])
+        role_data = request.data['role']
+        user_status = request.data['status']
+        is_superuser = False
+        is_staff = False
+        is_active = False
+        if role_data == 'Staff':
+            is_staff = True
+        if role_data == 'Admin':
+            is_superuser = True
+        if user_status == 'True':
+            is_active = True
+        if user_status == 'False':
+            is_active = False
+        data = {
+            "username": request.data['username'],
+            "email": request.data['email'],
+            "password": password,
+            "is_staff": is_staff,
+            "is_superuser": is_superuser,
+            "is_active": is_active
+        }
+        user = User.objects.get(pk=request.data['id'])
+        serializer = UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            user.groups.clear()
+            user.groups.add(group)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_304_NOT_MODIFIED)
 
 
 class UserCreateView(APIView):
@@ -82,6 +120,23 @@ class UserCreateView(APIView):
             user.groups.add(group)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserActivateDeactivateDestroyView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.filter(pk=request.data['id']).update(
+            is_active=request.data['is_active'])
+        if (user):
+            return Response(user, status=status.HTTP_200_OK)
+        return Response(user, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        user = User.objects.get(pk=request.data['id'])
+        user.delete()
+        return Response(status=204)
 
 
 class DepartmentListCreateView(APIView):
