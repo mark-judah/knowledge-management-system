@@ -11,13 +11,16 @@ import Popup from 'reactjs-popup';
 import newFileIcon from "../assets/new_article.svg"
 import { MyContext } from "../MyContextProvider";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Swal from "sweetalert2";
 
 const ManageDepartments = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
     const [departments, setDepartments] = useState([]);
     const [newDepartment, setNewDepartment] = useState('');
+    const [updatedDepartment, setUpdatedDepartment] = useState('');
     const value = useContext(MyContext)
+    
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -41,12 +44,12 @@ const ManageDepartments = () => {
         // document.getElementById("popup-root").remove()
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (mode,id) => {
         closePopup()
         value.setLoading(true)
-        departments.map((dep) => {
+        if (mode === 'create') {
             let data = {
-                "title": dep
+                "departments": departments
             }
             axios.post(`${getBackendUrl()}` + 'api/departments/', data, {
                 headers: {
@@ -57,15 +60,99 @@ const ManageDepartments = () => {
                 console.log(response);
                 if (response.status == 201) {
                     value.setLoading(false)
+                    Swal.fire('Department(s) created successfully', '', 'success')
                     value.setDepartmentDataSeed(Math.random())
                 }
             }).catch(function (error) {
                 console.log(error)
                 value.setLoading(false)
-
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    value.logout()
+                }else{
+                    Swal.fire('An error occured, please try again later', '', 'error')
+                }
             })
-        })
+
+        } else {
+            let data={
+                'title':updatedDepartment,
+                'id':id
+            }
+            axios.patch(`${getBackendUrl()}` + 'api/departments/', data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            }).then((response) => {
+                console.log(response);
+                if (response.status == 200) {
+                    value.setLoading(false)
+                    Swal.fire('Department updated successfully', '', 'success')
+                    value.setDepartmentDataSeed(Math.random())
+                }
+            }).catch(function (error) {
+                console.log(error)
+                value.setLoading(false)
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    value.logout()
+                }else{
+                    Swal.fire('An error occured, please try again later', '', 'error')
+                }
+            })
+        }
         setDepartments('')
+    }
+
+    const deleteDepartment = (department_id) => {
+        Swal.fire({
+            title: 'Warning!',
+            text: 'The department and all its associated articles,folders and files will be deleted.',
+            icon: 'warning',
+            iconColor: '#000000',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'I understand, proceed',
+            denyButtonText: 'Cancel',
+            confirmButtonColor: '#000000',
+            denyButtonColor: '#000000',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${getBackendUrl()}` + 'api/departments/', {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    },
+                    data:{
+                        "id":department_id
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status == 204) {
+                        value.setLoading(false)
+                        Swal.fire('The department and all related data have been deleted', '', 'success')
+                        value.setDepartmentDataSeed(Math.random())
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                    value.setLoading(false)
+                    if (error.response.status == 401 && location.pathname != '/login') {
+                        console.log('logging out')
+                        value.logout()
+                    } else {
+                        Swal.fire('An error occured, please try again later', '', 'error')
+                    }
+                })
+            } else if (result.isDenied) {
+            }
+        })
     }
 
     return (
@@ -98,7 +185,7 @@ const ManageDepartments = () => {
                                 <div class="relative">
                                     <input
                                         class="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
-                                        placeholder="Search for user..."
+                                        placeholder="Search for department..."
                                     />
                                     <button
                                         class="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
@@ -160,7 +247,7 @@ const ManageDepartments = () => {
                                 <div className="flex justify-end items-center space-x-2 w-full mt-5">
                                     <button
                                         className="rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg"
-                                        type="button" onClick={() => { closePopup(); handleSubmit() }}>
+                                        type="button" onClick={() => { closePopup(); handleSubmit('create') }}>
                                         Submit
                                     </button>
                                 </div>
@@ -195,11 +282,37 @@ const ManageDepartments = () => {
 
                                         <td class="p-4">
                                             <div className="flex items-center space-x-3">
-                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                    Edit
-                                                </p>
+                                                <Popup trigger={
+                                                    <p class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                        Edit
+                                                    </p>
+                                                } modal>
+                                                    <div className="p-5">
+                                                        <div className="flex justify-between w-full mb-5">
+                                                            <div className="flex flex-col space-y-2">
+                                                                <p className="text-black font-bold text-xl">Edit Department</p>
+                                                                <p className="text-gray-500 text-sm"></p>
+                                                            </div>
 
-                                                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                            <div>
+                                                                <img src={closeIcon} onClick={() => document.getElementById("popup-root").remove()} className="h-5 mx-1 hover:cursor-pointer" alt="close modal" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div>
+                                                            <input onChange={(e) => setUpdatedDepartment(e.target.value)} type="text" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400" placeholder={department.title} />
+                                                        </div>
+
+                                                        <div className="flex justify-end items-center space-x-2 w-full mt-5">
+                                                            <button
+                                                                className="rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg"
+                                                                type="button" onClick={() => { closePopup(); handleSubmit('update',department.id) }}>
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </Popup>
+                                                <p onClick={() => deleteDepartment(department.id)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                                                     Delete
                                                 </p>
                                             </div>

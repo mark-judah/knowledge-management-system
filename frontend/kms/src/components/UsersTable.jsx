@@ -14,7 +14,6 @@ const UsersTable = () => {
     const location=useLocation()
 
     const deleteUser = (user_id) => {
-        console.log(user_id)
         Swal.fire({
             title: 'Warning!',
             text: 'The user and all their associated articles,folders and files will be deleted. To prevent data loss, deactivate the user instead.',

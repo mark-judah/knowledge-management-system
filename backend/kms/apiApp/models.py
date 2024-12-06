@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Company(models.Model):
-    title = models.CharField(max_length=180)
+    title = models.CharField(max_length=180,unique=True)
     tagline = models.CharField(max_length=180,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -14,7 +14,7 @@ class Company(models.Model):
     
 
 class Department(models.Model):
-    title = models.CharField(max_length=180)
+    title = models.CharField(max_length=180,unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -23,7 +23,7 @@ class Department(models.Model):
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=180)
+    title = models.CharField(max_length=180,unique=True)
     department = models.ForeignKey(
         Department,
         on_delete=models.CASCADE,
@@ -89,7 +89,7 @@ class File(models.Model):
 
 
 class Faq(models.Model):
-    question = models.CharField(max_length=180)
+    question = models.CharField(max_length=180,unique=True)
     answer = models.CharField(max_length=180)
     related_article = models.CharField(max_length=180, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
