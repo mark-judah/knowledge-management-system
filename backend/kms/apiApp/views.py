@@ -11,7 +11,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
 
 
-class CompanyListCreateView(APIView):
+class CompanyCreateListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -139,7 +139,7 @@ class UserActivateDeactivateDestroyView(APIView):
         return Response(status=204)
 
 
-class DepartmentListCreateView(APIView):
+class DepartmentCreateListUpdateDeleteView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -149,15 +149,45 @@ class DepartmentListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = DepartmentSerializer(data=request.data)
+        departments_list = request.data['departments']
+        response_data = []
+        errors = []
+        for department in departments_list:
+            department_data = {
+                "title": department,
+            }
+            serializer = DepartmentSerializer(data=department_data)
+            if serializer.is_valid():
+                serializer.save()
+                Group.objects.create(name=department)
+                response_data.append(serializer.data)
+            else:
+                errors.append(serializer.data)
+
+        if len(errors) > 0:
+            print(errors)
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(response_data, status=status.HTTP_201_CREATED)
+
+
+    def patch(self, request, *args, **kwargs):
+        department = Department.objects.get(pk=request.data['id'])
+        serializer = DepartmentSerializer(department,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            Group.objects.create(name=request.data['title'])
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, *args, **kwargs):
+        department = Department.objects.get(pk=request.data['id'])
+        Group.objects.filter(name=department.title).delete()
+        department.delete()
 
-class ArticleListCreateView(APIView):
+        return Response(status=204)
+
+
+class ArticleCreateListView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -186,7 +216,7 @@ class ArticleListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FolderListCreateView(APIView):
+class FolderCreateListView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -210,7 +240,7 @@ class FolderListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FileListCreateView(APIView):
+class FileCreateListView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 

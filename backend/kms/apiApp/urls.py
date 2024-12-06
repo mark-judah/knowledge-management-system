@@ -16,22 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apiApp.views import CompanyListCreateView, CompanyUpdateView,UserListUpdateView, UserCreateView,UserActivateDeactivateDestroyView, DepartmentListCreateView, ArticleListCreateView, FolderListCreateView, FileListCreateView, FaqCreateView
+from apiApp.views import CompanyCreateListView, CompanyUpdateView,UserListUpdateView, UserCreateView,UserActivateDeactivateDestroyView, DepartmentCreateListUpdateDeleteView, ArticleCreateListView, FolderCreateListView, FileCreateListView, FaqCreateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('company/', CompanyListCreateView.as_view(), name=''),
+    path('company/', CompanyCreateListView.as_view(), name=''),
     path('company/update/', CompanyUpdateView.as_view(), name=''),
     path('users/', UserListUpdateView.as_view(), name=''),
     path('user/', UserCreateView.as_view(), name=''),
     path('user-status/', UserActivateDeactivateDestroyView.as_view(), name=''),
     path('delete-user/', UserActivateDeactivateDestroyView.as_view(), name=''),
-    path('departments/', DepartmentListCreateView.as_view(), name=''),
-    path('departments/', DepartmentListCreateView.as_view(), name=''),
-    path('articles/', ArticleListCreateView.as_view(), name=''),
-    path('folders/', FolderListCreateView.as_view(), name=''),
-    path('files/', FileListCreateView.as_view(), name=''),
+    path('departments/', DepartmentCreateListUpdateDeleteView.as_view(), name=''),
+    path('articles/', ArticleCreateListView.as_view(), name=''),
+    path('folders/', FolderCreateListView.as_view(), name=''),
+    path('files/', FileCreateListView.as_view(), name=''),
     path('faqs/', FaqCreateView.as_view(), name='')
 ]
