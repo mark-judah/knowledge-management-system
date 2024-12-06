@@ -2,11 +2,126 @@ import React, { useContext } from "react";
 import { MyContext } from "../MyContextProvider";
 import newUserIcon from "../assets/user.svg"
 import Popup from 'reactjs-popup';
-import NewUser from "./NewUser";
+import CreateUpdateuser from "./CreateUpdateUser";
 import LoadingAnimation from "./LoadingAnimation";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { getBackendUrl } from "../constants";
+import { useLocation } from "react-router-dom";
 
 const UsersTable = () => {
     const value = useContext(MyContext)
+    const location=useLocation()
+
+    const deleteUser = (user_id) => {
+        console.log(user_id)
+        Swal.fire({
+            title: 'Warning!',
+            text: 'The user and all their associated articles,folders and files will be deleted. To prevent data loss, deactivate the user instead.',
+            icon: 'warning',
+            iconColor: '#000000',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'I understand, proceed',
+            denyButtonText: 'Cancel',
+            confirmButtonColor: '#000000',
+            denyButtonColor: '#000000',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${getBackendUrl()}` + 'api/delete-user/', {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    },
+                    data:{
+                        "id":user_id
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status == 204) {
+                        value.setLoading(false)
+                        Swal.fire('The user and all related data have been deleted', '', 'success')
+                        value.setUserDataSeed(Math.random())
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                    value.setLoading(false)
+                    if (error.response.status == 401 && location.pathname != '/login') {
+                        console.log('logging out')
+                        value.logout()
+                    } else {
+                        Swal.fire('An error occured, please try again later', '', 'error')
+                    }
+                })
+            } else if (result.isDenied) {
+            }
+        })
+    }
+
+    const userStatusToggle = (user_id, is_active) => {
+        Swal.fire({
+            title: 'Warning!',
+            text: 'The user will no longer have access to their account, all their associated articles, folders and files will still be available.',
+            icon: 'warning',
+            iconColor: '#000000',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'I understand, proceed',
+            denyButtonText: 'Cancel',
+            confirmButtonColor: '#000000',
+            denyButtonColor: '#000000',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const body = new FormData();
+                body.append('id', user_id);
+                if (is_active) {
+                    body.append('is_active', 'False');
+                } else {
+                    body.append('is_active', 'True');
+                }
+                axios.post(`${getBackendUrl()}` + 'api/user-status/', body, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status == 200) {
+                        value.setLoading(false)
+                        if (is_active) {
+                            Swal.fire('The user has been deactivated', '', 'success')
+                        } else {
+                            Swal.fire('The user has been activated', '', 'success')
+                        }
+                        value.setUserDataSeed(Math.random())
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                    value.setLoading(false)
+                    if (error.response.status == 401 && location.pathname != '/login') {
+                        console.log('logging out')
+                        value.logout()
+                    } else {
+                        Swal.fire('An error occured, please try again later', '', 'error')
+                    }
+                })
+            } else if (result.isDenied) {
+            }
+        })
+    }
+
     return (
         <div className="flex justify-center items-center">
             <div className="p-5 flex flex-col justify-center w-fit">
@@ -35,7 +150,7 @@ const UsersTable = () => {
                             New User
                         </button>
                     } modal nested>
-                        <NewUser />
+                        <CreateUpdateuser mode='create' />
                     </Popup>
                 </div>
                 <div
@@ -51,6 +166,11 @@ const UsersTable = () => {
                                 <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                                     <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                                         Email
+                                    </p>
+                                </th>
+                                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                        Status
                                     </p>
                                 </th>
                                 <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
@@ -85,6 +205,12 @@ const UsersTable = () => {
 
                                     <td class="p-4">
                                         <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            {user.is_active ? 'Active' : 'Inactive'}
+                                        </p>
+                                    </td>
+
+                                    <td class="p-4">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                                             {user.is_superuser ? 'Admin' : 'Staff'}
                                         </p>
                                     </td>
@@ -97,11 +223,20 @@ const UsersTable = () => {
 
                                     <td class="p-4">
                                         <div className="flex items-center space-x-3">
-                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                Edit
+                                            <Popup trigger={
+                                                <p class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                    Edit
+                                                </p>
+                                            } modal nested>
+                                                <CreateUpdateuser mode='update' id={user.id} username={user.username}
+                                                    email={user.email} role={user.is_superuser ? 'Admin' : 'Staff'}
+                                                    status={user.is_active ? 'Active' : 'Inactive'}
+                                                    department={user.groups.length > 0 ? user.groups[0] : 'None'} />
+                                            </Popup>
+                                            <p onClick={() => userStatusToggle(user.id, user.is_active)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                {user.is_active ? 'Deactivate' : 'Activate'}
                                             </p>
-
-                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                            <p onClick={() => deleteUser(user.id)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                                                 Delete
                                             </p>
                                         </div>

@@ -34,14 +34,14 @@ const Navbar = () => {
         const currentHour = today.getHours()
 
         if (currentHour < 12) {
-            return 'Good Morning'
+            return `Good Morning ${localStorage.getItem('username')}`
         } else if (currentHour < 18) {
-            return 'Good Afternoon'
+            return `Good Afternoon ${localStorage.getItem('username')}`
         } else {
-            return 'Good Evening'
+            return `Good Evening ${localStorage.getItem('username')}`
         }
     }
-
+    
 
     const welcomeText = `${Greeting()}, how can we help?`
     return (
@@ -85,63 +85,67 @@ const Navbar = () => {
                                     ''
                                 )}
                                 <div>
-                                    <p>{localStorage.getItem('username') }</p>
+                                    <p className="text-white">{localStorage.getItem('username')}</p>
                                 </div>
                                 <div className="z-10">
                                     <div onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="flex justify-center items-center rounded-full hover:cursor-pointer bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
                                     </div>
                                     <div onMouseLeave={toggleDropdown} className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
-
                                         <div className="mt-2">
-                                            <Link to="/manage-company" >
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={companyIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Company Settings</p>
+                                            {value.isAdmin? (
+                                                <div>
+                                                    <Link to="/manage-company" >
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={companyIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Company Settings</p>
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/manage-departments" >
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={departmentIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Manage Departments</p>
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/manage-articles" >
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={articlesIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Manage Articles</p>
+                                                        </div>
+                                                    </Link>
+                                                    <Link >
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={helpdeskIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Manage Helpdesk</p>
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/manage-induction" >
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={inductionIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Manage Induction</p>
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/manage-faqs" className="py-10">
+                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                                <img src={faqIcon} className="h-6" alt="company settings" />
+                                                            </div>
+                                                            <p>Manage FAQ's</p>
+                                                        </div>
+                                                    </Link>
                                                 </div>
-                                            </Link>
-                                            <Link to="/manage-departments" >
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={departmentIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Manage Departments</p>
-                                                </div>
-                                            </Link>
-                                            <Link to="/manage-articles" >
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={articlesIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Manage Articles</p>
-                                                </div>
-                                            </Link>
-                                            <Link >
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={helpdeskIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Manage Helpdesk</p>
-                                                </div>
-                                            </Link>
-                                            <Link to="/manage-induction" >
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={inductionIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Manage Induction</p>
-                                                </div>
-                                            </Link>
-                                            <Link to="/manage-faqs" className="py-10">
-                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                        <img src={faqIcon} className="h-6" alt="company settings" />
-                                                    </div>
-                                                    <p>Manage FAQ's</p>
-                                                </div>
-                                            </Link>
+                                            ) : ('')}
+
                                             <Link >
                                                 <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
                                                     <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">

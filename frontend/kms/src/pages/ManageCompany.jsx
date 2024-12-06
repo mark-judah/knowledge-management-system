@@ -3,13 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumbs";
 import companyIcon from "../assets/company_white.svg"
 import showUsersIcon from "../assets/users.svg"
-import axios from "axios";
-import { getBackendUrl } from "../constants";
-import { useForm } from "react-hook-form"
 import { MyContext } from "../MyContextProvider";
 import UpdateCompanyForm from "../components/UpdateCompanyForm";
 import UsersTable from "../components/UsersTable";
-import NewUser from "../components/NewUser";
 
 const ManageCompany = () => {
     const location = useLocation();

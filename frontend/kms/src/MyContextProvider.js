@@ -7,6 +7,7 @@ export const MyContext = createContext()
 
 const AppContextProvider = (props) => {
     const [loading, setLoading] = useState('');
+    const [isAdmin, setIsAdmin] = useState(true);
     const [companyData, setCompanyData] = useState([]);
     const [companyDataSeed, setCompanyDataSeed] = useState(1)
     const [departments, setDepartments] = useState([])
@@ -105,7 +106,7 @@ const AppContextProvider = (props) => {
             axios.get(`${getBackendUrl()}` + 'api/users/', {
                 headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
             }).then(function (response) {
-                setUsers(response.data)
+                setUsers(response.data)                
                 console.log(response);
             }).catch(function (error) {
                 console.log(error);
@@ -115,6 +116,7 @@ const AppContextProvider = (props) => {
                 }
             })
         }
+         
     }, [userDataSeed])
 
     //get articles
@@ -161,8 +163,9 @@ const AppContextProvider = (props) => {
         window.location.replace('/login')
     }
 
+
     const value = {
-        logout,
+        logout, isAdmin,
         companyData, setCompanyData, companyData, setCompanyDataSeed,
         loading, setLoading,
         departments, setDepartments, departmentDataSeed, setDepartmentDataSeed,

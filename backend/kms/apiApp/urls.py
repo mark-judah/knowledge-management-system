@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apiApp.views import CompanyListCreateView, CompanyUpdateView,UserListView, UserCreateView, DepartmentListCreateView, ArticleListCreateView, FolderListCreateView, FileListCreateView, FaqCreateView
+from apiApp.views import CompanyListCreateView, CompanyUpdateView,UserListUpdateView, UserCreateView,UserActivateDeactivateDestroyView, DepartmentListCreateView, ArticleListCreateView, FolderListCreateView, FileListCreateView, FaqCreateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -24,8 +24,10 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('company/', CompanyListCreateView.as_view(), name=''),
     path('company/update/', CompanyUpdateView.as_view(), name=''),
-    path('users/', UserListView.as_view(), name=''),
+    path('users/', UserListUpdateView.as_view(), name=''),
     path('user/', UserCreateView.as_view(), name=''),
+    path('user-status/', UserActivateDeactivateDestroyView.as_view(), name=''),
+    path('delete-user/', UserActivateDeactivateDestroyView.as_view(), name=''),
     path('departments/', DepartmentListCreateView.as_view(), name=''),
     path('departments/', DepartmentListCreateView.as_view(), name=''),
     path('articles/', ArticleListCreateView.as_view(), name=''),
