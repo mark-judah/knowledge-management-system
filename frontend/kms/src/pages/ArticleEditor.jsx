@@ -124,7 +124,11 @@ const ArticleEditor = () => {
                 console.log(response);
                 if (response.status == 200) {
                     value.setArticleDataSeed(Math.random())
-                    navigate('/manage-articles')
+                    if (location.state.type==='general') {
+                        navigate('/manage-articles')
+                    }else{
+                        navigate('/manage-induction')
+                    }
                 }
             }).catch(function (error) {
                 console.log(error)
@@ -200,7 +204,7 @@ const ArticleEditor = () => {
                             </label>
                             <input {...register("title", {
                                 required: true
-                            })} placeholder={location.state ? location.state.articleData.title : 'Article title'} className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                            })} placeholder={location.state ? location.state.articleData.title : 'Article title'} className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                             {errors.title?.type === "required" && (
                                 <small>Title is required</small>
                             )}
@@ -209,7 +213,7 @@ const ArticleEditor = () => {
                             </label>
                             <select {...register("department", {
                                 required: true
-                            })} className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                            })} className="mt-2 p-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                                 <option value="" selected disabled>{location.state ? location.state.articleData.department : 'Choose a department'}</option>
                                 {value.departments.map((department) => (
                                     <option value={department.id}>{department.title}</option>
@@ -224,7 +228,7 @@ const ArticleEditor = () => {
                             <select {...register("article_type", {
                                 required: true
                             })} id="type"
-                                className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                                className="mt-2 p-2  placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
                                 onChange={(e) => setArticleType(e.target.value)}>
 
                                 <option value="" selected disabled>{location.state ? location.state.articleData.article_type : 'Choose a type'}</option>
@@ -256,7 +260,7 @@ const ArticleEditor = () => {
                                     <small>Thumbnail is required</small>
                                 )}
                             </div>
-                            {articleType === "Induction" ? (
+                            {articleType === "Induction" || location.state?.type==='induction' ? (
                                 <div>
                                     <div>
                                         <label className="block mb-1 text-sm text-slate-600 mt-5">
@@ -264,7 +268,7 @@ const ArticleEditor = () => {
                                         </label>
                                         <input {...register("chapter", {
                                             required: true
-                                        })} placeholder={location.state ? location.state.articleData.chapter : 'Chapter'} className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                        })} placeholder={location.state ? location.state.articleData.chapter : 'Chapter'} className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                                         {errors.chapter?.type === "required" && (
                                             <small>Chapter is required</small>
                                         )}
@@ -276,7 +280,7 @@ const ArticleEditor = () => {
                                         </label>
                                         <input {...register("duration", {
                                             required: true
-                                        })} placeholder="Article duration" className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                                        })} placeholder={location.state ? location.state.articleData.duration : 'Duration'} className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                                         {errors.duration?.type === "required" && (
                                             <small>Duration is required</small>
                                         )}
@@ -290,7 +294,7 @@ const ArticleEditor = () => {
                                 Tags
                             </label>
                             <div className="relative mt-2">
-                                <input onChange={(e) => setTag(e.target.value)} type="text" className="text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
+                                <input onChange={(e) => setTag(e.target.value)} type="text" className="text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
                                     placeholder={location.state ? location.state.articleData.tags : 'Enter a tag'} />
                                 <button onClick={newTag} className="absolute right-1 top-2 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
                                     Add

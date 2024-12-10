@@ -15,7 +15,7 @@ const Induction = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
     const countArticles = (department) => {
-        const newList = value.articles.filter((article) => article.department == department && article.article_type === 'Induction');
+        const newList = value.articles.filter((article) => article.department == department && article.article_type === 'Induction' && article.draft==false);
         return newList.length
     }
 
@@ -58,13 +58,18 @@ const Induction = () => {
                             </div>
 
                             <div>
+                            {countArticles(department.title) > 0 ? (
                                 <Link to={slugify(department.title)} state={{ data: value.articles }}>
                                     <button class="flex justify-center items-center bg-black text-white  rounded-2xl py-1 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <span className="text-xs sm:text-base">View Material</span>
                                         <img src={viewMaterialButton} className="h-4 sm:h-7 ml-3" alt="account settings" />
                                     </button>
                                 </Link>
+                                ) : (
+                                    <p>No Induction Material</p>
+                                )}
                             </div>
+                            
                         </div>
                     )}
                 </div>

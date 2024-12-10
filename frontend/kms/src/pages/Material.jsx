@@ -35,16 +35,7 @@ const Material = () => {
                 </div>
                 <BreadCrumb path={path} />
             </div>
-            <div className="flex justify-end mx-10 mt-10">
-                <Link to="/article-editor">
-                    <button className="w-fit flex justify-center items-center rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none" type="button">
-                        <img src={newArticleIcon} className="h-7 mx-1" alt="new article" />
-                        New Material
-                    </button>
-                </Link>
-            </div>
-
-
+           
             <div className="flex justify-center items-center p-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {data.map((item, index) => (
