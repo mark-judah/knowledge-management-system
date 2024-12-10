@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
 import { getBackendUrl } from "../constants";
+import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 const UpdateCompanyForm = () => {
     const value = useContext(MyContext)
+    const location =useLocation()
     const { register, handleSubmit, formState: { errors }, } = useForm();
 
     const onSubmit = async (data) => {
@@ -14,19 +17,47 @@ const UpdateCompanyForm = () => {
             "title": data['companyName'],
             "tagline": data['companyTagline']
         }
-        axios.patch(`${getBackendUrl()}` + 'api/company/update/', form_data, {
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorization" : `Bearer ${localStorage.getItem('token')}`
-            }
-        }).then((response) => {
-            if (response.status == 200) {
+        if (value.companyData.length >0) {
+            axios.patch(`${getBackendUrl()}` + 'api/company/update/', form_data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization" : `Bearer ${localStorage.getItem('token')}`
+                }
+            }).then((response) => {
+                if (response.status == 200) {
+                    value.setLoading(false)
+                    value.setCompanyDataSeed(Math.random())
+                }
+            }).catch(function (error) {
                 value.setLoading(false)
-                value.setCompanyDataSeed(Math.random())
-            }
-        }).catch(function (error) {
-            value.setLoading(false)
-        })
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    value.logout()
+                } else {
+                    Swal.fire('An error occured, please try again later', '', 'error')
+                }
+            })
+        }else{
+            axios.post(`${getBackendUrl()}` + 'api/company/', form_data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization" : `Bearer ${localStorage.getItem('token')}`
+                }
+            }).then((response) => {
+                if (response.status == 201) {
+                    value.setLoading(false)
+                    value.setCompanyDataSeed(Math.random())
+                }
+            }).catch(function (error) {
+                value.setLoading(false)
+                if (error.response.status == 401 && location.pathname != '/login') {
+                    console.log('logging out')
+                    value.logout()
+                } else {
+                    Swal.fire('An error occured, please try again later', '', 'error')
+                }
+            })
+        }
     }
 
     return (

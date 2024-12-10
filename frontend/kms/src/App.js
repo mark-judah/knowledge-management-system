@@ -18,6 +18,7 @@ import ManageArticles from './pages/ManageArticles';
 import ManageInduction from './pages/ManageInduction';
 import ManageFaqs from './pages/ManageFaqs';
 import ManageCompany from './pages/ManageCompany';
+import ManageCollaborationRequests from './pages/ManageCollaborationRequests';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/manage-articles" element={<ManageArticles />} />
         <Route path="/manage-induction" element={<ManageInduction />} />
         <Route path="/manage-faqs" element={<ManageFaqs />} />
+        <Route path="/manage-collaboration-requests" element={<ManageCollaborationRequests />} />
 
 
       </Routes>

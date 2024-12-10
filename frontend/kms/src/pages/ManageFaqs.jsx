@@ -11,6 +11,7 @@ import slugify from "react-slugify";
 import Popup from 'reactjs-popup';
 import { MyContext } from "../MyContextProvider";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Swal from "sweetalert2";
 
 
 const ManageFaqs = () => {
@@ -36,12 +37,25 @@ const ManageFaqs = () => {
         }
         axios.post(`${getBackendUrl()}` + 'api/faqs/', data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             console.log(response);
+            if (response.status == 201) {
+                value.setLoading(false)
+                Swal.fire('Faq created successfully', '', 'success')
+                value.setFaqsDataSeed(Math.random())
+            }
         }).catch(function (error) {
             console.log(error)
+            value.setLoading(false)
+            if (error.response.status == 401 && location.pathname != '/login') {
+                console.log('logging out')
+                value.logout()
+            } else {
+                Swal.fire('An error occured, please try again later', '', 'error')
+            }
         })
         // setSeed(Math.random())
     }
@@ -163,7 +177,7 @@ const ManageFaqs = () => {
                                     </th>
                                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                                         <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                                            Action
+                                            Actions
                                         </p>
                                     </th>
                                 </tr>

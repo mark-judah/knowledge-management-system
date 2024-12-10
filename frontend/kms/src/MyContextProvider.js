@@ -22,12 +22,14 @@ const AppContextProvider = (props) => {
     const [articleDataSeed, setArticleDataSeed] = useState(1)
     const [faqs, setFaqs] = useState([])
     const [faqsDataSeed, setFaqsDataSeed] = useState(1)
+    const [collaborations, setCollaborations] = useState([])
+    const [collaborationsDataSeed, setCollaborationsDataSeed] = useState(1)
     const location = useLocation();
 
 
     //get company
     useEffect(() => {
-        console.log("fetching company")
+        console.log("fetching companyData")
         axios.get(`${getBackendUrl()}` + 'api/company/', {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         }).then(function (response) {
@@ -157,6 +159,22 @@ const AppContextProvider = (props) => {
         }
     }, [faqsDataSeed])
 
+    //get collaborations
+    useEffect(() => {
+        console.log("fetching collaborations")
+        axios.get(`${getBackendUrl()}` + 'api/collaborations/', {
+            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
+        }).then(function (response) {
+            setCollaborations(response.data)
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+            if (error.response.status == 401 && location.pathname != '/login') {
+                console.log('logging out')
+                logout()
+            }
+        })
+    }, [collaborationsDataSeed])
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -173,7 +191,8 @@ const AppContextProvider = (props) => {
         files, setFiles, filesDataSeed, setFilesDataSeed,
         users, setUsers, userDataSeed, setUserDataSeed,
         articles, setArticles, articleDataSeed, setArticleDataSeed,
-        faqs, setFaqs, faqsDataSeed, setFaqsDataSeed
+        faqs, setFaqs, faqsDataSeed, setFaqsDataSeed,
+        collaborations, setCollaborations, collaborationsDataSeed, setCollaborationsDataSeed
     }
 
     return (
