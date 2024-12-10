@@ -1,24 +1,194 @@
 import React, { useContext, useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumbs";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import newFolderIcon from "../assets/new_folder_white.svg"
 import editIcon from "../assets/edit_white.svg"
 import deleteIcon from "../assets/delete.svg"
 import { MyContext } from "../MyContextProvider";
 import LoadingAnimation from "../components/LoadingAnimation";
 import Popup from 'reactjs-popup';
-import { getBackendUrl } from "../constants";
+import { getBackendUrl, getFrontendUrl } from "../constants";
+import Swal from "sweetalert2";
+import axios from "axios";
+import publishedIcon from "../assets/checkmark.svg"
+import draftIcon from "../assets/cancel.svg"
 
 const ManageArticles = () => {
     const location = useLocation();
     const path = location.pathname.split('/');
     const value = useContext(MyContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
         window.scrollTo(0, 0)
-
     }, [])
 
+    const getEditStatus = (article) => {
+        let editText = 'Edit'
+        value.collaborations.map((collaboration) => {
+            if (collaboration.sender === localStorage.getItem('username') && article.id == collaboration.article) {
+                if (collaboration.approved) {
+                    editText = 'Edit(Collaboration approved)'
+                } else {
+                    editText = 'Edit(Pending Approval)'
+                }
+            } else {
+                editText = 'Edit'
+            }
+        })
+        return editText
+    }
+
+    const editArticle = (article, editText) => {
+        console.log(editText)
+        if (article.owner === localStorage.getItem('username')) {
+            navigate('/article-editor', { state: { articleData: article, collaboration: true } })
+        } else {
+            if (editText === 'Edit(Collaboration approved)') {
+                navigate('/article-editor', { state: { articleData: article, collaboration: true } })
+            }
+            if (editText === 'Edit(Pending Approval)') {
+                Swal.fire('Your request has already been sent. Please wait for the author to approve collaboration.', '', 'info')
+
+            }
+            if (editText === 'Edit') {
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'This article was written by another author, you need collaboration rights to proceed.',
+                    icon: 'warning',
+                    iconColor: '#000000',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Request collaboration rights',
+                    denyButtonText: 'Cancel',
+                    confirmButtonColor: '#000000',
+                    denyButtonColor: '#000000',
+                    customClass: {
+                        actions: 'my-actions',
+                        cancelButton: 'order-1 right-gap',
+                        confirmButton: 'order-2',
+                        denyButton: 'order-3',
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let data = {
+                            "message": `You have a new collaboration request on your article titled "${article.title}".`,
+                            "recipient": article.owner,
+                            "sender": localStorage.getItem('username'),
+                            "article": article.id
+                        }
+                        axios.post(`${getBackendUrl()}` + 'api/collaborations/', data, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                            }
+                        }).then((response) => {
+                            if (response.status == 201) {
+                                value.setLoading(false)
+                                value.setCollaborationsDataSeed(Math.random())
+                                Swal.fire('Your request has been sent succesfully', '', 'success')
+                            }
+                        }).catch(function (error) {
+                            value.setLoading(false)
+                            if (error.response.status == 401 && location.pathname != '/login') {
+                                console.log('logging out')
+                                value.logout()
+                            } else {
+                                Swal.fire('An error occured, please try again later', '', 'error')
+                            }
+                        })
+                    }
+                })
+            }
+
+        }
+    }
+
+    const publishStatusToggle = (article) => {
+        let data = {
+            'id':article.id,
+            'draft':article.draft
+        }
+        const message=()=>{
+            if (article.draft) {
+                return 'The article has been published successfully'
+            }else{
+                return 'The article has been drafted successfully'
+            }
+        }
+        axios.patch(`${getBackendUrl()}` + 'api/article-publish-toggle/', data, {
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then((response) => {
+            console.log(response);
+            if (response.status == 200) {
+                value.setLoading(false)
+                Swal.fire(message(), '', 'success')
+                value.setArticleDataSeed(Math.random())
+            }
+        }).catch(function (error) {
+            console.log(error)
+            value.setLoading(false)
+            if (error.response.status == 401 && location.pathname != '/login') {
+                console.log('logging out')
+                value.logout()
+            } else {
+                Swal.fire('An error occured, please try again later', '', 'error')
+            }
+        })
+    }
+
+    const deleteArticle = (article_id) => {
+        Swal.fire({
+            title: 'Warning!',
+            text: 'The article will be permanently deleted.',
+            icon: 'warning',
+            iconColor: '#000000',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'I understand, proceed',
+            denyButtonText: 'Cancel',
+            confirmButtonColor: '#000000',
+            denyButtonColor: '#000000',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${getBackendUrl()}` + 'api/articles/', {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    },
+                    data:{
+                        "id":article_id
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status == 204) {
+                        value.setLoading(false)
+                        Swal.fire('The article has been deleted successfully', '', 'success')
+                        value.setArticleDataSeed(Math.random())
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                    value.setLoading(false)
+                    if (error.response.status == 401 && location.pathname != '/login') {
+                        console.log('logging out')
+                        value.logout()
+                    } else {
+                        Swal.fire('An error occured, please try again later', '', 'error')
+                    }
+                })
+            } else if (result.isDenied) {
+            }
+        })
+    }
     return (
         <div className="min-h-screen">
             <div className="flex flex-col">
@@ -111,7 +281,12 @@ const ManageArticles = () => {
                                     </th>
                                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                                         <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                                            Action
+                                            Published
+                                        </p>
+                                    </th>
+                                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                            Actions
                                         </p>
                                     </th>
                                 </tr>
@@ -160,14 +335,24 @@ const ManageArticles = () => {
                                             </td>
 
                                             <td class="p-4">
+                                                {article.draft ? <img src={draftIcon} className="h-7 mx-1" /> : <img src={publishedIcon} className="h-7 mx-1" />}
+                                            </td>
+
+                                            <td class="p-4">
                                                 <div className="flex items-center space-x-3">
-                                                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                        Edit
+                                                    <p onClick={() => editArticle(article, getEditStatus(article))} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                        {getEditStatus(article)}
                                                     </p>
 
-                                                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                        Delete
+                                                    <p onClick={() => publishStatusToggle(article)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                        {article.draft ? 'Publish' : 'Draft'}
                                                     </p>
+                                                    {article.owner === localStorage.getItem('username') ? (
+                                                        <p onClick={()=>deleteArticle(article.id)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                            Delete
+                                                        </p>
+                                                    ) : ('')}
+
                                                 </div>
                                             </td>
 

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from apiApp.models import Company, Department, Article, Faq, Folder, File
-from apiApp.serializers import CompanySerializer, FolderSerializerGet, FolderSerializerPost, UserSerializer, DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPost, FaqSerializer, FileSerializer
+from apiApp.models import Company, Department, Article, Faq, Folder, File, Collaboration
+from apiApp.serializers import CompanySerializer, FolderSerializerGet, FolderSerializerPost, UserSerializer, DepartmentSerializer, ArticleSerializerGet, ArticleSerializerPostPatch, FaqSerializer, FileSerializer, CollaborationSerializer, CollaborationSerializerGet
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -170,10 +170,9 @@ class DepartmentCreateListUpdateDeleteView(APIView):
         else:
             return Response(response_data, status=status.HTTP_201_CREATED)
 
-
     def patch(self, request, *args, **kwargs):
         department = Department.objects.get(pk=request.data['id'])
-        serializer = DepartmentSerializer(department,data=request.data)
+        serializer = DepartmentSerializer(department, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -187,7 +186,7 @@ class DepartmentCreateListUpdateDeleteView(APIView):
         return Response(status=204)
 
 
-class ArticleCreateListView(APIView):
+class ArticleCreateListUpdateDeleteView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -208,14 +207,49 @@ class ArticleCreateListView(APIView):
             "tags": request.data['tags'],
             "article_content": request.data['article_content'],
             "owner": user.id,
+            "draft": request.data['draft'],
         }
-        serializer = ArticleSerializerPost(data=data)
+        serializer = ArticleSerializerPostPatch(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, *args, **kwargs):
+        article = Article.objects.get(pk=request.data['id'])
+        user = User.objects.get(username=request.data['owner'])
+        data = {
+            "title": request.data['title'],
+            "department": request.data['department'],
+            "article_type": request.data['article_type'],
+            "chapter": request.data['chapter'],
+            "duration": request.data['duration'],
+            "thumbnail": request.data['thumbnail'],
+            "tags": request.data['tags'],
+            "article_content": request.data['article_content'],
+            "owner": user.id,
+            "draft": request.data['draft'],
 
+        }
+        serializer = ArticleSerializerPostPatch(article, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs): 
+        article = Article.objects.get(pk=request.data['id'])
+        article.delete()
+        return Response(status=204)
+
+class ArticlePublishToggleView(APIView):
+    def patch(self, request, *args, **kwargs):
+        article = Article.objects.filter(pk=request.data['id']).update(
+            draft=not request.data['draft'])
+        if (article):
+            return Response('success', status=status.HTTP_200_OK)
+        return Response('failed', status=status.HTTP_400_BAD_REQUEST)
+    
 class FolderCreateListView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -295,3 +329,54 @@ class FaqCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CollaborationCreateUpdateDestroyView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        collaborations = Collaboration.objects.all()
+        serializer = CollaborationSerializerGet(collaborations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        recipient = User.objects.get(username=request.data['recipient'])
+        sender = User.objects.get(username=request.data['sender'])
+
+        data = {
+            "message": request.data['message'],
+            "recipient": recipient.id,
+            "sender": sender.id,
+            "department": sender.groups.all()[0].name,
+            "article": request.data['article'],
+        }
+        
+        serializer = CollaborationSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, *args, **kwargs):
+        collaboration = Collaboration.objects.filter(pk=request.data['id']).update(
+            seen=not request.data['seen'])
+        if (collaboration):
+            return Response(collaboration, status=status.HTTP_200_OK)
+        return Response(collaboration, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs): 
+        collaboration = Collaboration.objects.get(pk=request.data['id'])
+        collaboration.delete()
+        return Response(status=204)
+
+class AddCollaboratorView(APIView):
+    def patch(self, request, *args, **kwargs):
+        article = Article.objects.filter(pk=request.data['article']).update(
+            collaborators=request.data['name'])
+        collaboration = Collaboration.objects.filter(pk=request.data['id']).update(
+            approved=not request.data['approved'],seen=not request.data['seen'])
+        print(collaboration)
+        if (article and collaboration):
+            return Response('success', status=status.HTTP_200_OK)
+        return Response('failed', status=status.HTTP_400_BAD_REQUEST)

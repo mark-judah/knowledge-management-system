@@ -52,7 +52,7 @@ const Articles = () => {
             {value.articles.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 px-5">
                     {value.articles.map((article, index) => (
-                        article.article_type === 'General' ? (
+                        article.article_type === 'General' && article.draft==false? (
                             <Link to={'/articles/' + slugify(article.title)} state={{ data: article.article_content }}>
                                 <a href="javascript:void(0)">
                                     <div class="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-[40vh]  md:w-[45vh] xl:w-[55vh] ">

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apiApp.views import CompanyCreateListView, CompanyUpdateView,UserListUpdateView, UserCreateView,UserActivateDeactivateDestroyView, DepartmentCreateListUpdateDeleteView, ArticleCreateListView, FolderCreateListView, FileCreateListView, FaqCreateView
+from apiApp.views import CompanyCreateListView, CompanyUpdateView, UserListUpdateView, UserCreateView, UserActivateDeactivateDestroyView, DepartmentCreateListUpdateDeleteView, ArticleCreateListUpdateDeleteView,ArticlePublishToggleView, FolderCreateListView, FileCreateListView, FaqCreateView, CollaborationCreateUpdateDestroyView, AddCollaboratorView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -29,8 +29,12 @@ urlpatterns = [
     path('user-status/', UserActivateDeactivateDestroyView.as_view(), name=''),
     path('delete-user/', UserActivateDeactivateDestroyView.as_view(), name=''),
     path('departments/', DepartmentCreateListUpdateDeleteView.as_view(), name=''),
-    path('articles/', ArticleCreateListView.as_view(), name=''),
+    path('articles/', ArticleCreateListUpdateDeleteView.as_view(), name=''),
+    path('article-publish-toggle/', ArticlePublishToggleView.as_view(), name=''),
     path('folders/', FolderCreateListView.as_view(), name=''),
     path('files/', FileCreateListView.as_view(), name=''),
-    path('faqs/', FaqCreateView.as_view(), name='')
+    path('faqs/', FaqCreateView.as_view(), name=''),
+    path('collaborations/', CollaborationCreateUpdateDestroyView.as_view(), name=''),
+    path('add-collaborator/', AddCollaboratorView.as_view(), name='')
+
 ]

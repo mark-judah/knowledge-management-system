@@ -10,6 +10,7 @@ import articlesIcon from "../assets/articles.svg"
 import helpdeskIcon from "../assets/helpdesk.svg"
 import faqIcon from "../assets/faq.svg"
 import inductionIcon from "../assets/induction.svg"
+import collaborateIcon from "../assets/collaborate.svg"
 import { MyContext } from "../MyContextProvider";
 
 const Navbar = () => {
@@ -41,7 +42,7 @@ const Navbar = () => {
             return `Good Evening ${localStorage.getItem('username')}`
         }
     }
-    
+
 
     const welcomeText = `${Greeting()}, how can we help?`
     return (
@@ -87,13 +88,19 @@ const Navbar = () => {
                                 <div>
                                     <p className="text-white">{localStorage.getItem('username')}</p>
                                 </div>
-                                <div className="z-10">
+                                <div className="z-10 relative">
                                     <div onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="flex justify-center items-center rounded-full hover:cursor-pointer bg-white py-2 px-2.5 border border-transparent text-center text-sm  transition-all shadow-sm w-fit" type="button">
                                         <img src={settingsIcon} className="h-7 mx-1" alt="account settings" />
+                                        {value.collaborations.filter((notification) => notification.recipient === localStorage.getItem('username') && !notification.seen).length > 0 ? (
+                                            <span class="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-500 py-1 px-1 text-xs font-medium leading-none text-white content-['']">
+                                                {value.collaborations.filter((notification) => notification.recipient === localStorage.getItem('username')).length}
+                                            </span>
+                                        ) : ('')}
+
                                     </div>
                                     <div onMouseLeave={toggleDropdown} className={menuOpen ? "sm:fixed absolute right-5 mt-10 z-10 sm:min-w-[180px]  rounded-lg border border-slate-200 bg-white p-3 mr-5" : "hidden"}>
                                         <div className="mt-2">
-                                            {value.isAdmin? (
+                                            {value.isAdmin ? (
                                                 <div>
                                                     <Link to="/manage-company" >
                                                         <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
@@ -109,14 +116,6 @@ const Navbar = () => {
                                                                 <img src={departmentIcon} className="h-6" alt="company settings" />
                                                             </div>
                                                             <p>Manage Departments</p>
-                                                        </div>
-                                                    </Link>
-                                                    <Link to="/manage-articles" >
-                                                        <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
-                                                            <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
-                                                                <img src={articlesIcon} className="h-6" alt="company settings" />
-                                                            </div>
-                                                            <p>Manage Articles</p>
                                                         </div>
                                                     </Link>
                                                     <Link >
@@ -146,6 +145,29 @@ const Navbar = () => {
                                                 </div>
                                             ) : ('')}
 
+                                            <Link to="/manage-articles" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={articlesIcon} className="h-6" alt="company settings" />
+                                                    </div>
+                                                    <p>Manage Articles</p>
+                                                </div>
+                                            </Link>
+                                           
+                                            <Link to="/manage-collaboration-requests" >
+                                                <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
+                                                    <div className="relative flex items-center justify-center rounded-lg bg-slate-300 p-1">
+                                                        <img src={collaborateIcon} className="h-6" alt="company settings" />
+                                                        {value.collaborations.filter((notification) => notification.recipient === localStorage.getItem('username') && !notification.seen).length > 0 ? (
+                                                            <span class="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-500 py-1 px-1 text-xs font-medium leading-none text-white content-['']">
+                                                                {value.collaborations.filter((notification) => notification.recipient === localStorage.getItem('username')).length}
+                                                            </span>
+                                                        ) : ('')}
+                                                    </div>
+                                                    <p>Manage Collaboration</p>
+                                                </div>
+                                            </Link>
+
                                             <Link >
                                                 <div className="flex justify-start items-center space-x-2 py-1 hover:cursor-pointer hover:font-bold" >
                                                     <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
@@ -154,6 +176,7 @@ const Navbar = () => {
                                                     <p>View Profile</p>
                                                 </div>
                                             </Link>
+
                                             <div onClick={value.logout} className="flex justify-start items-center space-x-2 hover:cursor-pointer hover:font-bold py-2">
                                                 <div className="flex items-center justify-center rounded-lg bg-slate-300 p-1">
                                                     <img src={logoutIcon} className="h-6" alt="company settings" />

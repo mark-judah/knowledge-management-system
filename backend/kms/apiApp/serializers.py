@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apiApp.models import Company, Department, Article, Faq, Folder, File
+from apiApp.models import Company, Department, Article, Faq, Folder, File,Collaboration
 from django.contrib.auth.models import User
 
 
@@ -37,7 +37,7 @@ class ArticleSerializerGet(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ArticleSerializerPost(serializers.ModelSerializer):
+class ArticleSerializerPostPatch(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
@@ -65,4 +65,17 @@ class FileSerializer(serializers.ModelSerializer):
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faq
+        fields = '__all__'
+
+class CollaborationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collaboration
+        fields = '__all__'
+
+class CollaborationSerializerGet(serializers.ModelSerializer):
+    sender = serializers.CharField(source='sender.username')
+    recipient = serializers.CharField(source='recipient.username')
+
+    class Meta:
+        model = Collaboration
         fields = '__all__'
