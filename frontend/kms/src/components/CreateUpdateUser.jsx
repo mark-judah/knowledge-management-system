@@ -97,7 +97,7 @@ const CreateUpdateuser = (props) => {
                     </label>
                     <input {...register("username", {
                         required: true
-                    })} type="text" placeholder={props.mode === 'create' ? 'Username' : props.username} className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                    })} type="text" placeholder={props.mode === 'create' ? 'Username' : props.username} className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                     {errors.username?.type === "required" && (
                         <small>Username is required</small>
                     )}
@@ -107,7 +107,7 @@ const CreateUpdateuser = (props) => {
                     </label>
                     <input {...register("email", {
                         required: true
-                    })} type="email" placeholder={props.mode === 'create' ? 'Email' : props.email} className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                    })} type="email" placeholder={props.mode === 'create' ? 'Email' : props.email} className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                     {errors.email?.type === "required" && (
                         <small>Email is required</small>
                     )}
@@ -117,7 +117,7 @@ const CreateUpdateuser = (props) => {
                     </label>
                     <input {...register("password", {
                         required: true
-                    })} type="password" placeholder="Password" className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                    })} type="password" placeholder="Password" className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                     {errors.password?.type === "required" && (
                         <small>Password is required</small>
                     )}
@@ -132,7 +132,7 @@ const CreateUpdateuser = (props) => {
                             return password === value || "Passwords should match!";
 
                         }
-                    })} type="password" placeholder="Confirm Password" className="mt-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
+                    })} type="password" placeholder="Confirm Password" className="mt-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2" />
                     {errors.confirm_password?.type === "required" && (
                         <small>Confirm password is required</small>
                     )}
@@ -143,7 +143,7 @@ const CreateUpdateuser = (props) => {
 
                     <select {...register("role", {
                         required: true
-                    })} id="role" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                    })} id="role" className="mt-2 p-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                         <option value="" selected disabled>{props.mode === 'create' ? 'Role' : props.role}</option>
                         <option value="Staff">Staff</option>
                         <option value="Admin">Admin</option>
@@ -158,7 +158,7 @@ const CreateUpdateuser = (props) => {
 
                     <select {...register("department", {
                         required: true
-                    })} id="departments" className="mt-2 p-2 text-black placeholder-gray-600 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
+                    })} id="departments" className="mt-2 p-2 text-black placeholder-gray-400 w-full px-4 py-2.5 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white  focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400">
                         <option value="" selected disabled>{props.mode === 'create' ? 'Department' : props.department}</option>
 
                         {value.departments.map((department) => (

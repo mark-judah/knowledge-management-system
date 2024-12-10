@@ -42,10 +42,10 @@ const ManageArticles = () => {
     const editArticle = (article, editText) => {
         console.log(editText)
         if (article.owner === localStorage.getItem('username')) {
-            navigate('/article-editor', { state: { articleData: article, collaboration: true } })
+            navigate('/article-editor', { state: { articleData: article, collaboration: true, type: 'general' } })
         } else {
             if (editText === 'Edit(Collaboration approved)') {
-                navigate('/article-editor', { state: { articleData: article, collaboration: true } })
+                navigate('/article-editor', { state: { articleData: article, collaboration: true, type: 'general' } })
             }
             if (editText === 'Edit(Pending Approval)') {
                 Swal.fire('Your request has already been sent. Please wait for the author to approve collaboration.', '', 'info')
@@ -106,13 +106,13 @@ const ManageArticles = () => {
 
     const publishStatusToggle = (article) => {
         let data = {
-            'id':article.id,
-            'draft':article.draft
+            'id': article.id,
+            'draft': article.draft
         }
-        const message=()=>{
+        const message = () => {
             if (article.draft) {
                 return 'The article has been published successfully'
-            }else{
+            } else {
                 return 'The article has been drafted successfully'
             }
         }
@@ -165,8 +165,8 @@ const ManageArticles = () => {
                         'Content-Type': 'multipart/form-data',
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     },
-                    data:{
-                        "id":article_id
+                    data: {
+                        "id": article_id
                     }
                 }).then((response) => {
                     console.log(response);
@@ -189,6 +189,8 @@ const ManageArticles = () => {
             }
         })
     }
+
+
     return (
         <div className="min-h-screen">
             <div className="flex flex-col">
@@ -344,13 +346,16 @@ const ManageArticles = () => {
                                                         {getEditStatus(article)}
                                                     </p>
 
-                                                    <p onClick={() => publishStatusToggle(article)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                        {article.draft ? 'Publish' : 'Draft'}
-                                                    </p>
                                                     {article.owner === localStorage.getItem('username') ? (
-                                                        <p onClick={()=>deleteArticle(article.id)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                            Delete
-                                                        </p>
+                                                        <>
+                                                            <p onClick={() => publishStatusToggle(article)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                                {article.draft ? 'Publish' : 'Draft'}
+                                                            </p>
+                                                            <p onClick={() => deleteArticle(article.id)} class="hover:cursor-pointer block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                                Delete
+                                                            </p>
+                                                        </>
+
                                                     ) : ('')}
 
                                                 </div>
